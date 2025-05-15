@@ -40,10 +40,9 @@ export interface TripDataAll {
   toll_gate: string;
   transaction_id: number;
   transaction_post_date: string; // Format: YYYY-MM-DD
-  trip_date: string;             // Format: YYYY-MM-DD
-  trip_time: string;             // Format: HH:MM:SS AM/PM
+  trip_date: string; // Format: YYYY-MM-DD
+  trip_time: string; // Format: HH:MM:SS AM/PM
 }
-
 
 const FileUploader: React.FC<FileUploaderProps> = ({ onFileProcessed }) => {
   const [isDragging, setIsDragging] = useState(false);
