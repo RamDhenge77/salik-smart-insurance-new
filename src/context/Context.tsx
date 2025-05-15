@@ -48,6 +48,8 @@ interface CarContextType {
   setSpeedDistance: (speedDistance: any) => void;
   tripDataAll: TripDataAll[];
   setTripDataAll: (data: TripDataAll[]) => void;
+  speedData: any;
+  setSpeedData: (data: any) => void;
 }
 
 // Create the context with a default (empty) value
@@ -77,6 +79,7 @@ export const CarContextProvider: React.FC<CarProviderProps> = ({
   const [peakHours, setPeakHours] = useState<any>(null);
   const [speepDistance, setSpeedDistance] = useState<any>(null);
   const [tripDataAll, setTripDataAll] = useState<TripDataAll[]>([]);
+  const [speedData, setSpeedData] = useState<any>(null);
 
   useEffect(() => {
     if (tripData.length > 0) {
@@ -88,6 +91,7 @@ export const CarContextProvider: React.FC<CarProviderProps> = ({
       setPeakHours(JSON.parse(localStorage.getItem("peak_hours")));
       setSpeedDistance(JSON.parse(localStorage.getItem("speed_and_dstances")));
       setTripDataAll(JSON.parse(localStorage.getItem("tripDataAll")));
+      setSpeedData(JSON.parse(localStorage.getItem("speed")));
     }
   }, [tripData]);
 
@@ -211,6 +215,8 @@ export const CarContextProvider: React.FC<CarProviderProps> = ({
         setSpeedDistance,
         tripDataAll,
         setTripDataAll,
+        speedData,
+        setSpeedData,
       }}
     >
       {children}
