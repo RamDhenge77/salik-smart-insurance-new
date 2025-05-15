@@ -68,10 +68,16 @@ const EcoInsights: React.FC<EcoInsightsProps> = ({ totalTrips = 0 }) => {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const { analysis } = useCarContext();
   
-  const totalAmountSum = analysis.reduce((acc, trip) => {
-    const salikCost = Number.isFinite(trip.amount) ? Number(trip.amount) : 0;
-    return acc + salikCost;
-  }, 0);
+  // const totalAmountSum = analysis.reduce((acc, trip) => {
+  //   const salikCost = Number.isFinite(trip.amount) ? Number(trip.amount) : 0;
+  //   return acc + salikCost;
+  // }, 0);
+  const totalAmountSum = Array.isArray(analysis)
+  ? analysis.reduce((acc, trip) => {
+      const salikCost = Number.isFinite(trip.amount) ? Number(trip.amount) : 0;
+      return acc + salikCost;
+    }, 0)
+  : 0;
 
   
   // Constants - updated with the correct values from user specifications
@@ -82,10 +88,10 @@ const EcoInsights: React.FC<EcoInsightsProps> = ({ totalTrips = 0 }) => {
   const carbonValue = 0.05; // AED per kg of CO2 saved
   
   // Calculated values
-  const totalCO2Saved = analysis[analysis.length - 1].co2_saved.toFixed(2);
-  const netSaving = (analysis[analysis.length - 1].total_savings - totalAmountSum).toFixed(2);
-  const moneySaved = (analysis[analysis.length - 1].value_of_fuel_saved).toFixed(2);
-  const timeSaved = ((analysis[analysis.length - 1].time_saved_) / 60).toFixed(1); // in hours
+  const totalCO2Saved = analysis && analysis[analysis.length - 1].co2_saved.toFixed(2);
+  const netSaving =analysis && (analysis[analysis.length - 1].total_savings - totalAmountSum).toFixed(2);
+  const moneySaved =analysis && (analysis[analysis.length - 1].value_of_fuel_saved).toFixed(2);
+  const timeSaved =analysis && ((analysis[analysis.length - 1].time_saved_) / 60).toFixed(1); // in hours
   
   // Calculate Net ROI
   const riskSafetySavings = 0.5 * totalTrips;

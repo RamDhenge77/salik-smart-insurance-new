@@ -160,18 +160,30 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFileProcessed }) => {
           Object.entries(row).forEach(([key, value]) => {
             const normalizedKey = normalizeKey(key);
 
-            // If sheet is 'speed' and column is 'duration', keep original value
-            if (
-              normalizedSheetName === "speed" &&
-              normalizedKey === "duration"
-            ) {
-              obj[normalizedKey] = value;
-            } else if (isExcelTime(value)) {
-              obj[normalizedKey] = excelTimeToString(value);
-            } else if (isExcelDate(value)) {
-              obj[normalizedKey] = excelDateToString(value);
+            if (normalizedSheetName === "speed") {
+              if (normalizedKey === "duration") {
+                obj[normalizedKey] = value; // keep as-is
+              } else if (normalizedKey === "avg_speed") {
+                obj[normalizedKey] =
+                  typeof value === "number"
+                    ? value
+                    : parseFloat(String(value)) || 0;
+              } else if (isExcelTime(value)) {
+                obj[normalizedKey] = excelTimeToString(value);
+              } else if (isExcelDate(value)) {
+                obj[normalizedKey] = excelDateToString(value);
+              } else {
+                obj[normalizedKey] = value;
+              }
             } else {
-              obj[normalizedKey] = value;
+              // For non-Speed sheets
+              if (isExcelTime(value)) {
+                obj[normalizedKey] = excelTimeToString(value);
+              } else if (isExcelDate(value)) {
+                obj[normalizedKey] = excelDateToString(value);
+              } else {
+                obj[normalizedKey] = value;
+              }
             }
           });
           return obj;
