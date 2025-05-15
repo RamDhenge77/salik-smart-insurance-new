@@ -180,7 +180,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFileProcessed }) => {
           // Save tripData structured format
           const tripData: TripData[] = json.map((row, i) => {
             const rawDate = row["Trip Date"];
-            const rawTime = row["Time"];
+            const rawTime = row["Trip Time"];
 
             const formattedDate = isExcelDate(rawDate)
               ? excelDateToString(rawDate)
@@ -270,56 +270,92 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFileProcessed }) => {
   };
 
   const parseCSVWithPapa = (file: File): Promise<TripData[]> => {
-    return new Promise((resolve, reject) => {
-      Papa.parse(file, {
-        header: true,
-        skipEmptyLines: true,
-        dynamicTyping: true,
-        complete: (results) => {
-          try {
-            const tripData: TripData[] = [];
-            const rows = results.data as Record<string, any>[];
+  return new Promise((resolve, reject) => {
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      dynamicTyping: true,
+      complete: (results) => {
+        try {
+          const tripData: TripData[] = [];
+          const normalizedData: Record<string, any>[] = [];
+          const rows = results.data as Record<string, any>[];
 
-            rows.forEach((row, index) => {
-              if (
-                Object.values(row).every(
-                  (val) => val === null || val === undefined || val === ""
-                )
-              ) {
-                return;
-              }
+          const normalizeKey = (key: string) =>
+            key
+              .toLowerCase()
+              .replace(/\([^)]*\)/g, "") // remove text in parentheses
+              .replace(/\s+/g, "_")
+              .replace(/[^\w]/g, "") // remove non-alphanumeric chars
+              .trim();
 
-              const dateValue = row["Trip Date"] || null;
-              const timeValue = row["Time"] || generateRandomTime();
-              const gateValue = row["Toll Gate"] || "Unknown Gate";
-              const directionValue = row["Direction"] || "Unknown";
-              const amountValue = row["Amount"] || 4.0;
+          const formatDate = (input: string): string => {
+            const date = new Date(input);
+            if (isNaN(date.getTime())) return input;
+            return date.toISOString().split("T")[0];
+          };
 
-              tripData.push({
-                id: index + 1,
-                date: formatDate(String(dateValue)),
-                time: String(timeValue).trim(),
-                tollGate: String(gateValue).trim(),
-                direction: String(directionValue).trim(),
-                amount:
-                  parseFloat(String(amountValue).replace(/[^\d.-]/g, "")) ||
-                  4.0,
-              });
+          const generateRandomTime = (): string => {
+            const hours = Math.floor(Math.random() * 12) + 1;
+            const minutes = Math.floor(Math.random() * 60);
+            const seconds = Math.floor(Math.random() * 60);
+            const ampm = Math.random() > 0.5 ? "AM" : "PM";
+            return `${hours.toString().padStart(2, "0")}:${minutes
+              .toString()
+              .padStart(2, "0")}:${seconds.toString().padStart(2, "0")} ${ampm}`;
+          };
+
+          rows.forEach((row, index) => {
+            if (
+              Object.values(row).every(
+                (val) => val === null || val === undefined || val === ""
+              )
+            ) {
+              return;
+            }
+
+            // Push normalized version of row
+            const normRow: Record<string, any> = {};
+            Object.entries(row).forEach(([key, val]) => {
+              normRow[normalizeKey(key)] = val;
             });
+            normalizedData.push(normRow);
 
-            resolve(tripData);
-          } catch (err) {
-            console.error("Error processing CSV data:", err);
-            reject(err);
-          }
-        },
-        error: (err) => {
-          console.error("Papa Parse error:", err);
+            const dateValue = row["Trip Date"] || row["Date"] || "";
+            const timeValue = row["Trip Time"] || row["Time"] || generateRandomTime();
+            const gateValue = row["Toll Gate"] || "Unknown Gate";
+            const directionValue = row["Direction"] || "Unknown";
+            const amountValue = row["Amount"] || 4.0;
+
+            tripData.push({
+              id: index + 1,
+              date: formatDate(String(dateValue)),
+              time: String(timeValue).trim(),
+              tollGate: String(gateValue).trim(),
+              direction: String(directionValue).trim(),
+              amount:
+                parseFloat(String(amountValue).replace(/[^\d.-]/g, "")) || 4.0,
+            });
+          });
+
+          // Save to localStorage
+          localStorage.setItem("tripData", JSON.stringify(tripData));
+          localStorage.setItem("tripDataAll", JSON.stringify(normalizedData));
+
+          resolve(tripData);
+        } catch (err) {
+          console.error("Error processing CSV data:", err);
           reject(err);
-        },
-      });
+        }
+      },
+      error: (err) => {
+        console.error("Papa Parse error:", err);
+        reject(err);
+      },
     });
-  };
+  });
+};
+
 
   const formatDate = (dateStr: string): string => {
     if (typeof dateStr !== "string") {
