@@ -19,7 +19,7 @@ interface DashboardStatCardsProps {
 const DashboardStatCards: React.FC<DashboardStatCardsProps> = ({
   // tripData,
 }) => {
-  const { tripData } = useCarContext();
+  const { tripData, tripDataAll } = useCarContext();
   console.log("tripData", tripData);
   
   const totalTrips = tripData.length;
@@ -34,7 +34,7 @@ const DashboardStatCards: React.FC<DashboardStatCardsProps> = ({
     totalTrips > 0 ? ((tripsInPeakHours / totalTrips) * 100).toFixed(0) : 0;
   const [totalKilometers, setTotalKilometers] = React.useState("");
   const [valuation, setValuation] = React.useState("");
-  const totalSalikCost = tripData.reduce((acc, trip) => {
+  const totalSalikCost = tripDataAll.reduce((acc, trip) => {
     const salikCost = Number.isFinite(trip.amount) ? Number(trip.amount) : 0;
     return acc + salikCost;
   }, 0);
