@@ -159,7 +159,14 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFileProcessed }) => {
           const obj: Record<string, any> = {};
           Object.entries(row).forEach(([key, value]) => {
             const normalizedKey = normalizeKey(key);
-            if (isExcelTime(value)) {
+
+            // If sheet is 'speed' and column is 'duration', keep original value
+            if (
+              normalizedSheetName === "speed" &&
+              normalizedKey === "duration"
+            ) {
+              obj[normalizedKey] = value;
+            } else if (isExcelTime(value)) {
               obj[normalizedKey] = excelTimeToString(value);
             } else if (isExcelDate(value)) {
               obj[normalizedKey] = excelDateToString(value);
@@ -179,7 +186,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFileProcessed }) => {
           // Save tripData structured format
           const tripData: TripData[] = json.map((row, i) => {
             const rawDate = row["Trip Date"];
-            const rawTime = row["Time"];
+            const rawTime = row["Trip Time"];
 
             const formattedDate = isExcelDate(rawDate)
               ? excelDateToString(rawDate)
@@ -277,7 +284,34 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFileProcessed }) => {
         complete: (results) => {
           try {
             const tripData: TripData[] = [];
+            const normalizedData: Record<string, any>[] = [];
             const rows = results.data as Record<string, any>[];
+
+            const normalizeKey = (key: string) =>
+              key
+                .toLowerCase()
+                .replace(/\([^)]*\)/g, "") // remove text in parentheses
+                .replace(/\s+/g, "_")
+                .replace(/[^\w]/g, "") // remove non-alphanumeric chars
+                .trim();
+
+            const formatDate = (input: string): string => {
+              const date = new Date(input);
+              if (isNaN(date.getTime())) return input;
+              return date.toISOString().split("T")[0];
+            };
+
+            const generateRandomTime = (): string => {
+              const hours = Math.floor(Math.random() * 12) + 1;
+              const minutes = Math.floor(Math.random() * 60);
+              const seconds = Math.floor(Math.random() * 60);
+              const ampm = Math.random() > 0.5 ? "AM" : "PM";
+              return `${hours.toString().padStart(2, "0")}:${minutes
+                .toString()
+                .padStart(2, "0")}:${seconds
+                .toString()
+                .padStart(2, "0")} ${ampm}`;
+            };
 
             rows.forEach((row, index) => {
               if (
@@ -288,8 +322,16 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFileProcessed }) => {
                 return;
               }
 
-              const dateValue = row["Trip Date"] || null;
-              const timeValue = row["Time"] || generateRandomTime();
+              // Push normalized version of row
+              const normRow: Record<string, any> = {};
+              Object.entries(row).forEach(([key, val]) => {
+                normRow[normalizeKey(key)] = val;
+              });
+              normalizedData.push(normRow);
+
+              const dateValue = row["Trip Date"] || row["Date"] || "";
+              const timeValue =
+                row["Trip Time"] || row["Time"] || generateRandomTime();
               const gateValue = row["Toll Gate"] || "Unknown Gate";
               const directionValue = row["Direction"] || "Unknown";
               const amountValue = row["Amount"] || 4.0;
@@ -305,6 +347,10 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFileProcessed }) => {
                   4.0,
               });
             });
+
+            // Save to localStorage
+            localStorage.setItem("tripData", JSON.stringify(tripData));
+            localStorage.setItem("tripDataAll", JSON.stringify(normalizedData));
 
             resolve(tripData);
           } catch (err) {

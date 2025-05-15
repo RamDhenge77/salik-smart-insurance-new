@@ -390,7 +390,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
           nightTrips.length / tripDataAll.length >
           thresholds.nightDriving.high / 100
             ? thresholds.nightDriving.adjustment.high
-            : nightTrips.length / analysis.length >
+            : nightTrips.length / tripDataAll.length >
               thresholds.nightDriving.medium / 100
             ? thresholds.nightDriving.adjustment.medium
             : thresholds.nightDriving.adjustment.low,

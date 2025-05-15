@@ -32,6 +32,7 @@ import TripSpeedTable from "./TripSpeedTable";
 import InsuranceAdjustment from "./InsuranceAdjustment";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import { RiskThresholds } from "./RiskFactorConfig";
+import { useCarContext } from "@/context/Context";
 
 interface DrivingAnalyticsProps {
   tripData: TripData[];
@@ -368,6 +369,8 @@ const DrivingAnalytics: React.FC<DrivingAnalyticsProps> = ({
   );
 
   const riskThresholds = propRiskThresholds || localRiskThresholds;
+
+  const { tripDataAll, speedData } = useCarContext();
 
   return (
     <Tabs defaultValue="analytics" key={`tabs-${uploadKey}`}>
@@ -724,7 +727,7 @@ const DrivingAnalytics: React.FC<DrivingAnalyticsProps> = ({
         </TabsContent>
 
         <TabsContent value="speed">
-          <TripSpeedTable tripData={tripData} key={`speed-${uploadKey}`} />
+          <TripSpeedTable tripData={speedData} key={`speed-${uploadKey}`} />
         </TabsContent>
 
         <TabsContent value="insurance" className="mt-6">
