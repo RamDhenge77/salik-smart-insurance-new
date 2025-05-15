@@ -11,6 +11,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { useCarContext } from "@/context/Context";
 
 interface EcoInsightsProps {
   totalTrips: number;
@@ -52,7 +53,9 @@ const getEquivalentInsights = (
           : Math.floor(value / eq.ratio);
       return quantity > 0
         ? {
-            text: `${quantity} ${eq.label}${eq.label === "Starbucks Coffee" && quantity > 1 ? "s" : ""}`,
+            text: `${quantity} ${eq.label}${
+              eq.label === "Starbucks Coffee" && quantity > 1 ? "s" : ""
+            }`,
             emoji: eq.emoji,
           }
         : null;
@@ -63,19 +66,27 @@ const getEquivalentInsights = (
 const EcoInsights: React.FC<EcoInsightsProps> = ({ totalTrips = 0 }) => {
   // Track which cards are being hovered
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const { analysis } = useCarContext();
+  
+  const totalAmountSum = analysis.reduce((acc, trip) => {
+    const salikCost = Number.isFinite(trip.amount) ? Number(trip.amount) : 0;
+    return acc + salikCost;
+  }, 0);
 
+  
   // Constants - updated with the correct values from user specifications
   const avgCO2SavedPerTrip = 0.21; // in kg, due to congestion avoidance via Salik
   const avgMoneySavedPerTrip = 2.0; // AED estimated due to fuel/time
   const avgTimeSavedPerTrip = 6; // minutes saved per trip
   const valuePerHour = 50; // AED per hour value of time
   const carbonValue = 0.05; // AED per kg of CO2 saved
-
+  
   // Calculated values
-  const totalCO2Saved = (totalTrips * avgCO2SavedPerTrip).toFixed(1);
-  const moneySaved = (totalTrips * avgMoneySavedPerTrip).toFixed(0);
-  const timeSaved = ((totalTrips * avgTimeSavedPerTrip) / 60).toFixed(1); // in hours
-
+  const totalCO2Saved = analysis[analysis.length - 1].co2_saved.toFixed(2);
+  const netSaving = (analysis[analysis.length - 1].total_savings - totalAmountSum).toFixed(2);
+  const moneySaved = (analysis[analysis.length - 1].value_of_fuel_saved).toFixed(2);
+  const timeSaved = ((analysis[analysis.length - 1].time_saved_) / 60).toFixed(1); // in hours
+  
   // Calculate Net ROI
   const riskSafetySavings = 0.5 * totalTrips;
   const netROI = (
@@ -167,7 +178,7 @@ const EcoInsights: React.FC<EcoInsightsProps> = ({ totalTrips = 0 }) => {
         </svg>
       ),
       label: "Net Saving",
-      value: `${netROI - totalSalikCost}`,
+      value: `${netSaving}`,
       iconBgClass: "bg-blue-100",
       equivalents: roiEquivalents,
       type: "roi",
