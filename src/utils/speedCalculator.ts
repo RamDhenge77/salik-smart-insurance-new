@@ -241,6 +241,17 @@ export const calculateAverageSpeed = (results: SpeedCalculationResult[]): number
   return results.reduce((sum, result) => sum + result.speedKmh, 0) / results.length;
 };
 
+export const calculateAverageSpeed2 = (results: SpeedCalculationResult[]): number => {
+  if (!results || results.length === 0) return 0;
+
+  const total = results.reduce((sum, result) => {
+    const speed = Number(result.avg_speed);
+    return sum + (isNaN(speed) ? 0 : speed);
+  }, 0);
+
+  return total / results.length;
+};
+
 export { formatTripDate } from './timeUtils';
 
 

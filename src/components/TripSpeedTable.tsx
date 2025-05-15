@@ -14,6 +14,7 @@ import {
   analyzeTripSpeeds,
   SpeedCalculationResult,
   calculateAverageSpeed,
+  calculateAverageSpeed2,
 } from "@/utils/speedCalculator";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -170,19 +171,19 @@ const TripSpeedTable: React.FC<TripSpeedTableProps> = ({ tripData }) => {
   }, [speedResults, sortField, sortDirection, speedFilter]);
 
   const statistics = React.useMemo(() => {
-    if (sortedAndFilteredResults.length === 0)
+    if (speedAnalysisData.length === 0)
       return { avgSpeed: 0, maxSpeed: 0, violations: 0 };
 
-    const avgSpeed = calculateAverageSpeed(sortedAndFilteredResults);
+    const avgSpeed = calculateAverageSpeed2(speedAnalysisData);
     const maxSpeed = Math.max(
-      ...sortedAndFilteredResults.map((r) => r.speedKmh)
+      ...speedAnalysisData.map((r) => Number(r.avg_speed) || 0)
     );
-    const violations = sortedAndFilteredResults.filter(
-      (r) => !r.withinLimit
+    const violations = speedAnalysisData.filter(
+      (r) => r.status === "Yes"
     ).length;
 
     return { avgSpeed, maxSpeed, violations };
-  }, [sortedAndFilteredResults]);
+  }, [speedAnalysisData]);
 
   const toggleSort = (field: SortField) => {
     if (sortField === field) {
