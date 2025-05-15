@@ -27,6 +27,7 @@ const LandingLayout = () => {
     localStorage.removeItem("tripData");
     localStorage.removeItem("driverProfile");
     localStorage.removeItem("riskFactors");
+    localStorage.clear();
   }, []);
 
   // Attempt to restore data from localStorage if available

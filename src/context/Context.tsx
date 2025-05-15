@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { TripData } from "@/components/FileUploader";
 import { toast } from "@/hooks/use-toast";
 import axios from "axios";
@@ -30,6 +30,16 @@ interface CarContextType {
   handleCarFinancingBack: () => void;
   handleCarFinancingNext: () => void;
   followUp: () => Promise<void>;
+  analysis: any;
+  setAnalysis: (analysis: any) => void;
+  timeDistance: any;
+  setTimeDistance: (timeDistance: any) => void;
+  highwayUrban: any;
+  setHighwayUrban: (highwayUrban: any) => void;
+  peakHours: any;
+  setPeakHours: (peakHours: any) => void;
+  speepDistance: any;
+  setSpeedDistance: (speedDistance: any) => void;
 }
 
 // Create the context with a default (empty) value
@@ -53,6 +63,21 @@ export const CarContextProvider: React.FC<CarProviderProps> = ({
   const [carLeasingSteps, setCarLeasingSteps] = useState<number>(1);
   const [carLeasingId, setCarLeasingId] = useState<string>("");
   const [carFinanceSteps, setCarFinanceSteps] = useState<number>(1);
+  const [analysis, setAnalysis] = useState<any>(null);
+  const [timeDistance, setTimeDistance] = useState<any>(null);
+  const [highwayUrban, setHighwayUrban] = useState<any>(null);
+  const [peakHours, setPeakHours] = useState<any>(null);
+  const [speepDistance, setSpeedDistance] = useState<any>(null);
+
+  useEffect(()=>{
+    if (tripData.length > 0) {
+      setAnalysis(JSON.parse(localStorage.getItem("analysis")));
+      setTimeDistance(JSON.parse(localStorage.getItem("time_and_distance_saved")));
+      setHighwayUrban(JSON.parse(localStorage.getItem("highwayurban")));
+      setPeakHours(JSON.parse(localStorage.getItem("peak_hours")));
+      setSpeedDistance(JSON.parse(localStorage.getItem("speed_and_dstances")));
+    }
+  },[tripData])
 
   const handleCarLeasingBack = () => {
     setCarLeasingSteps((prev) => prev - 1);
@@ -162,6 +187,16 @@ export const CarContextProvider: React.FC<CarProviderProps> = ({
         handleCarFinancingBack,
         handleCarFinancingNext,
         followUp,
+        analysis,
+        setAnalysis,
+        timeDistance,
+        setTimeDistance,
+        highwayUrban,
+        setHighwayUrban,
+        peakHours,
+        setPeakHours,
+        speepDistance,
+        setSpeedDistance,
       }}
     >
       {children}

@@ -1,12 +1,21 @@
-
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { TripData } from "./FileUploader";
 import TripDetailsDialog from "./TripDetailsDialog";
 import { useToast } from "@/hooks/use-toast";
 import { RiskThresholds } from "./RiskFactorConfig";
-import { analyzeTripSpeeds, SpeedCalculationResult } from "@/utils/speedCalculator";
+import {
+  analyzeTripSpeeds,
+  SpeedCalculationResult,
+} from "@/utils/speedCalculator";
+import { useCarContext } from "@/context/Context";
 
 interface InsuranceAdjustmentProps {
   tripData: TripData[];
@@ -25,31 +34,39 @@ interface RiskFactor {
   };
 }
 
-const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({ tripData, riskThresholds }) => {
+const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
+  tripData,
+  riskThresholds,
+}) => {
   const [selectedTrips, setSelectedTrips] = useState<TripData[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("");
-  const [showBreakdown, setShowBreakdown] = useState<{ label: string; value: string | number }[]>([]);
-  const [speedResults, setSpeedResults] = useState<SpeedCalculationResult[]>([]);
+  const [showBreakdown, setShowBreakdown] = useState<
+    { label: string; value: string | number }[]
+  >([]);
+  const [speedResults, setSpeedResults] = useState<SpeedCalculationResult[]>(
+    []
+  );
   const { toast } = useToast();
-  
+  const { analysis } = useCarContext();
+
   // Calculate speed results when trip data changes
   useEffect(() => {
     const getSpeedResults = async () => {
       // console.log("Calculating speed results for insurance adjustment from", tripData.length, "trips");
-      if (tripData.length === 0) return;
-      
+      if (analysis.length === 0) return;
+
       try {
-        const results = await analyzeTripSpeeds(tripData);
+        const results = await analyzeTripSpeeds(analysis);
         setSpeedResults(results);
         // console.log("Speed results set for insurance adjustment:", results.length);
       } catch (error) {
         console.error("Error analyzing trip speeds:", error);
       }
     };
-    
+
     getSpeedResults();
-  }, [tripData]);
+  }, [analysis]);
 
   // Use risk thresholds from props, ensuring they're deeply cloned to avoid reference issues
   const currentThresholds = React.useMemo(() => {
@@ -68,7 +85,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({ tripData, ris
 
   // Calculate risk factors based on trip data and thresholds
   const riskFactors = React.useMemo((): RiskFactor[] => {
-    if (tripData.length === 0) {
+    if (analysis.length === 0) {
       return [];
     }
 
@@ -85,7 +102,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({ tripData, ris
           medium: 1.0,
           low: 0,
           veryLow: -1.5,
-        }
+        },
       },
       peakHourUsage: {
         high: 70,
@@ -94,7 +111,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({ tripData, ris
           high: 2.0,
           medium: 1.0,
           low: 0,
-        }
+        },
       },
       nightDriving: {
         high: 40,
@@ -103,7 +120,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({ tripData, ris
           high: 1.5,
           medium: 0.5,
           low: 0,
-        }
+        },
       },
       speedBehavior: {
         adjustment: 2.5,
@@ -115,7 +132,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({ tripData, ris
         adjustment: {
           balanced: -1.5,
           unbalanced: 0.5,
-        }
+        },
       },
       distanceTraveled: {
         high: 1500,
@@ -124,76 +141,142 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({ tripData, ris
           high: 2.0,
           medium: 1.0,
           low: 0,
-        }
+        },
       },
       overallDrivingStyle: {
         adjustment: -2.0,
-      }
+      },
     };
 
     // Calculate unique days from trip data
-    const uniqueDays = new Set(tripData.map(trip => trip.date)).size;
-    
+    const uniqueDays = new Set(analysis.map((trip) => trip.trip_date)).size;
+
     // Identify peak hour trips (6-10 AM and 4-8 PM)
-    const peakHours = tripData.filter(trip => {
-      const hour = parseInt(trip.time.split(':')[0]);
+    // const peakHours = analysis?.filter(trip => {
+    //   const hour = parseInt(trip.TripTime.split(':')[0]);
+    //   return (hour >= 6 && hour < 10) || (hour >= 16 && hour < 20);
+    // });
+    const peakHours = analysis?.filter((trip) => {
+      const rawTime = trip.trip_time;
+      let hour = -1;
+
+      if (typeof rawTime === "number") {
+        // Excel stores time as a fraction of a day (e.g., 0.5 = 12:00 PM)
+        const totalSeconds = Math.round(rawTime * 24 * 60 * 60);
+        hour = Math.floor(totalSeconds / 3600);
+      } else if (typeof rawTime === "string") {
+        // Handle AM/PM format like "09:51:34 PM"
+        const isPM = rawTime.toUpperCase().includes("PM");
+        const timeWithoutPeriod = rawTime.replace(/(AM|PM)/i, "").trim();
+        const parts = timeWithoutPeriod.split(":");
+
+        hour = parseInt(parts[0], 10);
+        if (isPM && hour !== 12) hour += 12;
+        if (!isPM && hour === 12) hour = 0;
+      }
+
       return (hour >= 6 && hour < 10) || (hour >= 16 && hour < 20);
     });
-    
+
     // Identify night trips (midnight to 6 AM and 8 PM to midnight)
-    const nightTrips = tripData.filter(trip => {
-      const hour = parseInt(trip.time.split(':')[0]);
-      return (hour >= 0 && hour < 6) || (hour >= 20 && hour < 24);
+    // const nightTrips = tripData.filter((trip) => {
+    //   const hour = parseInt(trip.time.split(":")[0]);
+    //   return (hour >= 0 && hour < 6) || (hour >= 20 && hour < 24);
+    // });
+    const nightTrips = analysis?.filter((trip) => {
+      const rawTime = trip.trip_time;
+      let hour = -1;
+
+      if (typeof rawTime === "number") {
+        // Excel stores time as a fraction of a day (0.0 to 1.0)
+        const totalSeconds = Math.round(rawTime * 24 * 60 * 60);
+        hour = Math.floor(totalSeconds / 3600);
+      } else if (typeof rawTime === "string") {
+        // Handle string time like "11:45:00 PM"
+        const isPM = rawTime.toUpperCase().includes("PM");
+        const timeWithoutPeriod = rawTime.replace(/(AM|PM)/i, "").trim();
+        const parts = timeWithoutPeriod.split(":");
+
+        hour = parseInt(parts[0], 10);
+        if (isPM && hour !== 12) hour += 12;
+        if (!isPM && hour === 12) hour = 0;
+      }
+
+      return (hour >= 0 && hour < 6) || (hour >= 23 && hour < 24); // 11 PM–6 AM
     });
-    
+
+    // console.log("Night trips:", nightTrips);
+
     // Identify weekend trips
-    const weekendTrips = tripData.filter(trip => {
-      const date = new Date(trip.date);
-      const day = date.getDay();
-      return day === 0 || day === 6; // Sunday (0) or Saturday (6)
+    // const weekendTrips = tripData.filter((trip) => {
+    //   const date = new Date(trip.trip_date);
+    //   const day = date.getDay();
+    //   return day === 0 || day === 6; // Sunday (0) or Saturday (6)
+    // });
+    const weekendTrips = analysis.filter((trip) => {
+      return trip["weekend/weekday"]?.toLowerCase() === "weekend";
     });
-    
+
     // Identify weekday trips
-    const weekdayTrips = tripData.filter(trip => {
-      const date = new Date(trip.date);
-      const day = date.getDay();
-      return day !== 0 && day !== 6; // Not Sunday or Saturday
+    // const weekdayTrips = tripData.filter((trip) => {
+    //   const date = new Date(trip.trip_date);
+    //   const day = date.getDay();
+    //   return day !== 0 && day !== 6; // Not Sunday or Saturday
+    // });
+    const weekdayTrips = analysis.filter((trip) => {
+      return trip["weekend/weekday"]?.toLowerCase() === "weekday";
     });
 
     // Identify urban and highway trips based on toll gates
-    const urbanTrips = tripData.filter(trip => 
-      trip.tollGate.includes("Business Bay") || trip.tollGate.includes("Al Safa") || trip.tollGate.includes("Al Mamzar")
+    const urbanTrips = analysis.filter(
+      (trip) =>
+        trip.toll_gate.includes("Business Bay") ||
+        trip.toll_gate.includes("Al Garhoud") ||
+        trip.toll_gate.includes("Al Maktoum") ||
+        trip.toll_gate.includes("Airport Tunnel")
     );
 
-    const highwayTrips = tripData.filter(trip => 
-      trip.tollGate.includes("Al Garhoud") || trip.tollGate.includes("Al Maktoum") || trip.tollGate.includes("Jebel Ali")
+    const highwayTrips = analysis.filter(
+      (trip) =>
+        trip.toll_gate.includes("Al Barsha") ||
+        trip.toll_gate.includes("Al Safa North") ||
+        trip.toll_gate.includes("Jebel Ali") ||
+        trip.toll_gate.includes("Al Mamzar South") ||
+        trip.toll_gate.includes("Al Mamzar North") ||
+        trip.toll_gate.includes("Al Safa South")
     );
-    
+
     // Check if weekend/weekday usage is balanced (around 30% weekends)
-    const isBalanced = Math.abs(weekendTrips.length / tripData.length - 0.3) < 0.1;
-    
+    const isBalanced =
+      Math.abs(weekendTrips.length / analysis.length - 0.3) < 0.1;
+
     // Analyze speed data
-    const speedViolations = speedResults.filter(result => !result.withinLimit);
-    
+    const speedViolations = speedResults.filter(
+      (result) => !result.withinLimit
+    );
+
     // Calculate average and max speed
-    const avgSpeed = speedResults.length > 0 
-      ? speedResults.reduce((sum, r) => sum + r.speedKmh, 0) / speedResults.length 
-      : 0;
-      
-    const maxSpeed = speedResults.length > 0
-      ? Math.max(...speedResults.map(r => r.speedKmh))
-      : 0;
-    
+    const avgSpeed =
+      speedResults.length > 0
+        ? speedResults.reduce((sum, r) => sum + r.speedKmh, 0) /
+          speedResults.length
+        : 0;
+
+    const maxSpeed =
+      speedResults.length > 0
+        ? Math.max(...speedResults.map((r) => r.speedKmh))
+        : 0;
+
     // Log calculation details for debugging
     // console.log(`Insurance risk calculation - Trips: ${tripData.length}, Unique days: ${uniqueDays}`);
     // console.log(`Peak hours: ${peakHours.length}, Night: ${nightTrips.length}, Weekends: ${weekendTrips.length}`);
     // console.log(`Speed violations: ${speedViolations.length}, Average speed: ${avgSpeed.toFixed(1)}, Max speed: ${maxSpeed.toFixed(1)}`);
-    
+
     // Determine speed risk based on actual speed violations data
     let speedRisk: "Very Low" | "Low" | "Medium" | "High" | "Very High";
     let speedAdjustment: number;
     let speedObservation: string;
-    
+
     if (speedResults.length === 0) {
       speedRisk = "Low";
       speedAdjustment = 0;
@@ -222,60 +305,99 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({ tripData, ris
 
     // Calculate estimated distance based on number of trips
     // Using a more conservative estimation of 3-5 km per trip on average
-    const estimatedMinDistance = (tripData.length * 3).toFixed(0);
-    const estimatedMaxDistance = (tripData.length * 5).toFixed(0);
+    const estimatedMinDistance = (analysis.length * 3).toFixed(0);
+    const estimatedMaxDistance = (analysis.length * 5).toFixed(0);
     const distanceObservation = `Estimated ${estimatedMinDistance}-${estimatedMaxDistance} km`;
-    
+
     // Calculate urban vs highway percentage
-    const urbanPercentage = Math.round((urbanTrips.length / tripData.length) * 100);
-    const highwayPercentage = Math.round((highwayTrips.length / tripData.length) * 100);
-    
+    const urbanPercentage = Math.round(
+      (urbanTrips.length / analysis.length) * 100
+    );
+    const highwayPercentage = Math.round(
+      (highwayTrips.length / analysis.length) * 100
+    );
+
     // Create risk factors array with all calculated values
     return [
       {
         parameter: "Driving Frequency",
-        observation: `${tripData.length} trips across ${uniqueDays} days`,
-        risk: tripData.length > thresholds.drivingFrequency.veryHigh ? "Very High" 
-          : tripData.length > thresholds.drivingFrequency.high ? "High" 
-          : tripData.length > thresholds.drivingFrequency.medium ? "Medium" 
-          : tripData.length > thresholds.drivingFrequency.low ? "Low" : "Very Low",
-        adjustment: tripData.length > thresholds.drivingFrequency.veryHigh ? thresholds.drivingFrequency.adjustment.veryHigh
-          : tripData.length > thresholds.drivingFrequency.high ? thresholds.drivingFrequency.adjustment.high
-          : tripData.length > thresholds.drivingFrequency.medium ? thresholds.drivingFrequency.adjustment.medium
-          : tripData.length > thresholds.drivingFrequency.low ? thresholds.drivingFrequency.adjustment.low
-          : thresholds.drivingFrequency.adjustment.veryLow,
+        observation: `${analysis.length} trips across ${uniqueDays} days`,
+        risk:
+          analysis.length > thresholds.drivingFrequency.veryHigh
+            ? "Very High"
+            : analysis.length > thresholds.drivingFrequency.high
+            ? "High"
+            : analysis.length > thresholds.drivingFrequency.medium
+            ? "Medium"
+            : analysis.length > thresholds.drivingFrequency.low
+            ? "Low"
+            : "Very Low",
+        adjustment:
+          analysis.length > thresholds.drivingFrequency.veryHigh
+            ? thresholds.drivingFrequency.adjustment.veryHigh
+            : analysis.length > thresholds.drivingFrequency.high
+            ? thresholds.drivingFrequency.adjustment.high
+            : analysis.length > thresholds.drivingFrequency.medium
+            ? thresholds.drivingFrequency.adjustment.medium
+            : analysis.length > thresholds.drivingFrequency.low
+            ? thresholds.drivingFrequency.adjustment.low
+            : thresholds.drivingFrequency.adjustment.veryLow,
         drillDownData: {
           title: "All Trips",
-          trips: tripData
-        }
+          trips: analysis,
+        },
       },
       {
         parameter: "Peak Hour Usage",
-        observation: `${peakHours.length} trips in peak hours (${Math.round(peakHours.length / tripData.length * 100)}%)`,
-        risk: peakHours.length / tripData.length > thresholds.peakHourUsage.high / 100 ? "High" 
-          : peakHours.length / tripData.length > thresholds.peakHourUsage.medium / 100 ? "Medium" 
-          : "Low",
-        adjustment: peakHours.length / tripData.length > thresholds.peakHourUsage.high / 100 ? thresholds.peakHourUsage.adjustment.high
-          : peakHours.length / tripData.length > thresholds.peakHourUsage.medium / 100 ? thresholds.peakHourUsage.adjustment.medium
-          : thresholds.peakHourUsage.adjustment.low,
+        observation: `${peakHours.length} trips in peak hours (${Math.round(
+          (peakHours.length / analysis.length) * 100
+        )}%)`,
+        risk:
+          peakHours.length / analysis.length >
+          thresholds.peakHourUsage.high / 100
+            ? "High"
+            : peakHours.length / analysis.length >
+              thresholds.peakHourUsage.medium / 100
+            ? "Medium"
+            : "Low",
+        adjustment:
+          peakHours.length / analysis.length >
+          thresholds.peakHourUsage.high / 100
+            ? thresholds.peakHourUsage.adjustment.high
+            : peakHours.length / analysis.length >
+              thresholds.peakHourUsage.medium / 100
+            ? thresholds.peakHourUsage.adjustment.medium
+            : thresholds.peakHourUsage.adjustment.low,
         drillDownData: {
           title: "Peak Hour Trips",
-          trips: peakHours
-        }
+          trips: peakHours,
+        },
       },
       {
         parameter: "Night Driving",
-        observation: `${nightTrips.length} trips at night (${Math.round(nightTrips.length / tripData.length * 100)}%)`,
-        risk: nightTrips.length / tripData.length > thresholds.nightDriving.high / 100 ? "High" 
-          : nightTrips.length / tripData.length > thresholds.nightDriving.medium / 100 ? "Medium" 
-          : "Low",
-        adjustment: nightTrips.length / tripData.length > thresholds.nightDriving.high / 100 ? thresholds.nightDriving.adjustment.high
-          : nightTrips.length / tripData.length > thresholds.nightDriving.medium / 100 ? thresholds.nightDriving.adjustment.medium
-          : thresholds.nightDriving.adjustment.low,
+        observation: `${nightTrips.length} trips at night (${Math.round(
+          (nightTrips.length / analysis.length) * 100
+        )}%)`,
+        risk:
+          nightTrips.length / analysis.length >
+          thresholds.nightDriving.high / 100
+            ? "High"
+            : nightTrips.length / analysis.length >
+              thresholds.nightDriving.medium / 100
+            ? "Medium"
+            : "Low",
+        adjustment:
+          nightTrips.length / analysis.length >
+          thresholds.nightDriving.high / 100
+            ? thresholds.nightDriving.adjustment.high
+            : nightTrips.length / analysis.length >
+              thresholds.nightDriving.medium / 100
+            ? thresholds.nightDriving.adjustment.medium
+            : thresholds.nightDriving.adjustment.low,
         drillDownData: {
           title: "Night Trips",
-          trips: nightTrips
-        }
+          trips: nightTrips,
+        },
       },
       {
         parameter: "Speed Behavior",
@@ -287,121 +409,242 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({ tripData, ris
           breakdowns: [
             { label: "Average Speed", value: `${avgSpeed.toFixed(1)} km/h` },
             { label: "Max Speed", value: `${maxSpeed.toFixed(1)} km/h` },
-            { label: "Speed Limit Violations", value: speedViolations.length }
-          ]
-        }
+            { label: "Speed Limit Violations", value: speedViolations.length },
+          ],
+        },
       },
       {
         parameter: "Route Risk",
         observation: `${urbanPercentage}% urban, ${highwayPercentage}% highway routes`,
-        risk: urbanTrips.length > highwayTrips.length * 2 ? "High" : urbanTrips.length > highwayTrips.length ? "Medium" : "Low",
-        adjustment: urbanTrips.length > highwayTrips.length * 2 ? thresholds.routeRisk.adjustment 
-          : urbanTrips.length > highwayTrips.length ? thresholds.routeRisk.adjustment / 2 : 0,
+        risk:
+          urbanTrips.length > highwayTrips.length * 2
+            ? "High"
+            : urbanTrips.length > highwayTrips.length
+            ? "Medium"
+            : "Low",
+        adjustment:
+          urbanTrips.length > highwayTrips.length * 2
+            ? thresholds.routeRisk.adjustment
+            : urbanTrips.length > highwayTrips.length
+            ? thresholds.routeRisk.adjustment / 2
+            : 0,
         drillDownData: {
           title: "Route Distribution",
           breakdowns: [
-            { label: "Urban Routes", value: `${urbanTrips.length} trips (${urbanPercentage}%)` },
-            { label: "Highway Routes", value: `${highwayTrips.length} trips (${highwayPercentage}%)` }
-          ]
-        }
+            {
+              label: "Urban Routes",
+              value: `${urbanTrips.length} trips (${urbanPercentage}%)`,
+            },
+            {
+              label: "Highway Routes",
+              value: `${highwayTrips.length} trips (${highwayPercentage}%)`,
+            },
+          ],
+        },
       },
       {
         parameter: "Weekday/Weekend Mix",
-        observation: isBalanced 
-          ? "Balanced usage pattern" 
-          : weekendTrips.length > weekdayTrips.length 
-            ? "Predominantly weekend driver" 
-            : "Predominantly weekday driver",
+        observation: isBalanced
+          ? "Balanced usage pattern"
+          : weekendTrips.length > weekdayTrips.length
+          ? "Predominantly weekend driver"
+          : "Predominantly weekday driver",
         risk: isBalanced ? "Low" : "Medium",
-        adjustment: isBalanced ? thresholds.weekdayWeekendMix.adjustment.balanced : thresholds.weekdayWeekendMix.adjustment.unbalanced,
+        adjustment: isBalanced
+          ? thresholds.weekdayWeekendMix.adjustment.balanced
+          : thresholds.weekdayWeekendMix.adjustment.unbalanced,
         drillDownData: {
           title: "Day Distribution",
           breakdowns: [
-            { label: "Weekday Trips", value: `${weekdayTrips.length} (${Math.round(weekdayTrips.length / tripData.length * 100)}%)` },
-            { label: "Weekend Trips", value: `${weekendTrips.length} (${Math.round(weekendTrips.length / tripData.length * 100)}%)` }
-          ]
-        }
+            {
+              label: "Weekday Trips",
+              value: `${weekdayTrips.length} (${Math.round(
+                (weekdayTrips.length / analysis.length) * 100
+              )}%)`,
+            },
+            {
+              label: "Weekend Trips",
+              value: `${weekendTrips.length} (${Math.round(
+                (weekendTrips.length / analysis.length) * 100
+              )}%)`,
+            },
+          ],
+        },
       },
       {
         parameter: "Distance Traveled",
         observation: distanceObservation,
-        risk: parseInt(estimatedMaxDistance) > thresholds.distanceTraveled.high ? "High" 
-          : parseInt(estimatedMaxDistance) > thresholds.distanceTraveled.medium ? "Medium" 
-          : "Low",
-        adjustment: parseInt(estimatedMaxDistance) > thresholds.distanceTraveled.high ? thresholds.distanceTraveled.adjustment.high
-          : parseInt(estimatedMaxDistance) > thresholds.distanceTraveled.medium ? thresholds.distanceTraveled.adjustment.medium
-          : thresholds.distanceTraveled.adjustment.low,
+        risk:
+          parseInt(estimatedMaxDistance) > thresholds.distanceTraveled.high
+            ? "High"
+            : parseInt(estimatedMaxDistance) >
+              thresholds.distanceTraveled.medium
+            ? "Medium"
+            : "Low",
+        adjustment:
+          parseInt(estimatedMaxDistance) > thresholds.distanceTraveled.high
+            ? thresholds.distanceTraveled.adjustment.high
+            : parseInt(estimatedMaxDistance) >
+              thresholds.distanceTraveled.medium
+            ? thresholds.distanceTraveled.adjustment.medium
+            : thresholds.distanceTraveled.adjustment.low,
         drillDownData: {
           title: "Distance Analysis",
           breakdowns: [
-            { label: "Total Trips", value: tripData.length },
-            { label: "Estimated Min Distance", value: `${estimatedMinDistance} km` },
-            { label: "Estimated Max Distance", value: `${estimatedMaxDistance} km` }
-          ]
-        }
+            { label: "Total Trips", value: analysis.length },
+            {
+              label: "Estimated Min Distance",
+              value: `${estimatedMinDistance} km`,
+            },
+            {
+              label: "Estimated Max Distance",
+              value: `${estimatedMaxDistance} km`,
+            },
+          ],
+        },
       },
       {
         parameter: "Overall Driving Style",
-        observation: speedViolations.length > 0 ? 
-          "Some risky driving patterns detected" : 
-          "Predictable, consistent patterns",
-        risk: speedViolations.length > 3 ? "High" : speedViolations.length > 0 ? "Medium" : "Low",
-        adjustment: speedViolations.length > 3 ? 0 : speedViolations.length > 0 ? thresholds.overallDrivingStyle.adjustment / 2 : thresholds.overallDrivingStyle.adjustment,
+        observation:
+          speedViolations.length > 0
+            ? "Some risky driving patterns detected"
+            : "Predictable, consistent patterns",
+        risk:
+          speedViolations.length > 3
+            ? "High"
+            : speedViolations.length > 0
+            ? "Medium"
+            : "Low",
+        adjustment:
+          speedViolations.length > 3
+            ? 0
+            : speedViolations.length > 0
+            ? thresholds.overallDrivingStyle.adjustment / 2
+            : thresholds.overallDrivingStyle.adjustment,
         drillDownData: {
           title: "Driving Pattern Analysis",
           breakdowns: [
-            { label: "Pattern Consistency", value: speedViolations.length > 3 ? "Low" : speedViolations.length > 0 ? "Medium" : "High" },
-            { label: "Risk Profile", value: speedViolations.length > 3 ? "High Risk" : speedViolations.length > 0 ? "Medium Risk" : "Low Risk" },
-            { label: "Behavior Score", value: speedViolations.length > 3 ? "6.0/10" : speedViolations.length > 0 ? "7.5/10" : "9.0/10" }
-          ]
-        }
-      }
+            {
+              label: "Pattern Consistency",
+              value:
+                speedViolations.length > 3
+                  ? "Low"
+                  : speedViolations.length > 0
+                  ? "Medium"
+                  : "High",
+            },
+            {
+              label: "Risk Profile",
+              value:
+                speedViolations.length > 3
+                  ? "High Risk"
+                  : speedViolations.length > 0
+                  ? "Medium Risk"
+                  : "Low Risk",
+            },
+            {
+              label: "Behavior Score",
+              value:
+                speedViolations.length > 3
+                  ? "6.0/10"
+                  : speedViolations.length > 0
+                  ? "7.5/10"
+                  : "9.0/10",
+            },
+          ],
+        },
+      },
     ];
-  }, [tripData, currentThresholds, speedResults]);
+  }, [analysis, currentThresholds, speedResults]);
 
   // Calculate total adjustment based on risk factors
   const totalAdjustment = React.useMemo(() => {
     if (riskFactors.length === 0) return 0;
-    
+
     // Sum all adjustments and cap the total to ensure it stays within +/- 8% range
-    const rawSum = riskFactors.reduce((sum, factor) => sum + factor.adjustment, 0);
+    const rawSum = riskFactors.reduce(
+      (sum, factor) => sum + factor.adjustment,
+      0
+    );
     // Cap to +/- 8% range
     return Math.max(-8, Math.min(8, Math.round(rawSum * 10) / 10));
   }, [riskFactors]);
 
   // Determine driver profile based on trip patterns
   const driverProfile = React.useMemo(() => {
-    if (tripData.length === 0) return "No Data Available";
-    
-    const nightTrips = tripData.filter(trip => {
-      const hour = parseInt(trip.time.split(':')[0]);
-      return (hour >= 0 && hour < 6) || (hour >= 20 && hour < 24);
+    if (analysis.length === 0) return "No Data Available";
+
+    const nightTrips = analysis?.filter((trip) => {
+      const rawTime = trip.trip_time;
+      let hour = -1;
+
+      if (typeof rawTime === "number") {
+        // Excel stores time as a fraction of a day (0.0 to 1.0)
+        const totalSeconds = Math.round(rawTime * 24 * 60 * 60);
+        hour = Math.floor(totalSeconds / 3600);
+      } else if (typeof rawTime === "string") {
+        // Handle string time like "11:45:00 PM"
+        const isPM = rawTime.toUpperCase().includes("PM");
+        const timeWithoutPeriod = rawTime.replace(/(AM|PM)/i, "").trim();
+        const parts = timeWithoutPeriod.split(":");
+
+        hour = parseInt(parts[0], 10);
+        if (isPM && hour !== 12) hour += 12;
+        if (!isPM && hour === 12) hour = 0;
+      }
+
+      return (hour >= 0 && hour < 6) || (hour >= 23 && hour < 24); // 11 PM–6 AM
     });
-    
-    const peakHours = tripData.filter(trip => {
-      const hour = parseInt(trip.time.split(':')[0]);
+
+    const peakHours = analysis?.filter((trip) => {
+      const rawTime = trip.trip_time;
+      let hour = -1;
+
+      if (typeof rawTime === "number") {
+        // Excel stores time as a fraction of a day (e.g., 0.5 = 12:00 PM)
+        const totalSeconds = Math.round(rawTime * 24 * 60 * 60);
+        hour = Math.floor(totalSeconds / 3600);
+      } else if (typeof rawTime === "string") {
+        // Handle AM/PM format like "09:51:34 PM"
+        const isPM = rawTime.toUpperCase().includes("PM");
+        const timeWithoutPeriod = rawTime.replace(/(AM|PM)/i, "").trim();
+        const parts = timeWithoutPeriod.split(":");
+
+        hour = parseInt(parts[0], 10);
+        if (isPM && hour !== 12) hour += 12;
+        if (!isPM && hour === 12) hour = 0;
+      }
+
       return (hour >= 6 && hour < 10) || (hour >= 16 && hour < 20);
     });
-    
-    const urbanTrips = tripData.filter(trip => 
-      trip.tollGate.includes("Business Bay") || trip.tollGate.includes("Al Safa") || trip.tollGate.includes("Al Mamzar")
+
+    const urbanTrips = analysis.filter(
+      (trip) =>
+        trip.toll_gate.includes("Business Bay") ||
+        trip.toll_gate.includes("Al Garhoud") ||
+        trip.toll_gate.includes("Al Maktoum") ||
+        trip.toll_gate.includes("Airport Tunnel")
     );
-    
-    const highwayTrips = tripData.filter(trip => 
-      trip.tollGate.includes("Al Garhoud") || trip.tollGate.includes("Al Maktoum") || trip.tollGate.includes("Jebel Ali")
+
+    const highwayTrips = analysis.filter(
+      (trip) =>
+        trip.toll_gate.includes("Al Barsha") ||
+        trip.toll_gate.includes("Al Safa North") ||
+        trip.toll_gate.includes("Jebel Ali") ||
+        trip.toll_gate.includes("Al Mamzar South") ||
+        trip.toll_gate.includes("Al Mamzar North") ||
+        trip.toll_gate.includes("Al Safa South")
     );
-    
-    const weekendTrips = tripData.filter(trip => {
-      const date = new Date(trip.date);
-      const day = date.getDay();
-      return day === 0 || day === 6;
+
+    const weekendTrips = analysis.filter((trip) => {
+      return trip["weekend/weekday"]?.toLowerCase() === "weekend";
     });
-    
-    const uniqueDays = new Set(tripData.map(trip => trip.date)).size;
-    const tripsPerDay = tripData.length / (uniqueDays || 1);
-    
+
+    const uniqueDays = new Set(analysis.map((trip) => trip.trip_date)).size;
+    const tripsPerDay = analysis.length / (uniqueDays || 1);
+
     let profile = "";
-    
+
     if (urbanTrips.length > highwayTrips.length * 1.5) {
       profile += "Urban ";
     } else if (highwayTrips.length > urbanTrips.length * 1.5) {
@@ -409,21 +652,21 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({ tripData, ris
     } else {
       profile += "Mixed-Route ";
     }
-    
-    if (nightTrips.length > tripData.length * 0.3) {
+
+    if (nightTrips.length > analysis.length * 0.3) {
       profile += "Night ";
-    } else if (peakHours.length > tripData.length * 0.5) {
+    } else if (peakHours.length > analysis.length * 0.5) {
       profile += "Rush-Hour ";
-    } else if (weekendTrips.length > tripData.length * 0.5) {
+    } else if (weekendTrips.length > analysis.length * 0.5) {
       profile += "Weekend ";
     }
-    
+
     if (tripsPerDay > 2.5) {
       profile += "Frequent ";
     } else if (tripsPerDay < 1) {
       profile += "Occasional ";
     }
-    
+
     if (totalAdjustment < -5) {
       profile += "Safe ";
     } else if (totalAdjustment > 5) {
@@ -433,21 +676,27 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({ tripData, ris
     } else {
       profile += "Cautious ";
     }
-    
+
     profile += "Driver";
-    
+
     return profile.trim();
-  }, [tripData, totalAdjustment]);
+  }, [analysis, totalAdjustment]);
 
   // Color functions for risk and adjustment display
   const getRiskColor = (risk: string): string => {
-    switch(risk) {
-      case "Very Low": return "text-green-600";
-      case "Low": return "text-green-500";
-      case "Medium": return "text-yellow-500";
-      case "High": return "text-orange-500";
-      case "Very High": return "text-red-500";
-      default: return "text-gray-500";
+    switch (risk) {
+      case "Very Low":
+        return "text-green-600";
+      case "Low":
+        return "text-green-500";
+      case "Medium":
+        return "text-yellow-500";
+      case "High":
+        return "text-orange-500";
+      case "Very High":
+        return "text-red-500";
+      default:
+        return "text-gray-500";
     }
   };
 
@@ -463,7 +712,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({ tripData, ris
     if (factor.drillDownData) {
       setDialogTitle(factor.drillDownData.title);
       setDialogOpen(true);
-      
+
       if (factor.drillDownData.trips) {
         setSelectedTrips(factor.drillDownData.trips);
         setShowBreakdown([]);
@@ -475,18 +724,24 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({ tripData, ris
         setShowBreakdown([]);
         toast({
           title: "No data available",
-          description: "There is no detailed information to display for this category.",
+          description:
+            "There is no detailed information to display for this category.",
           variant: "destructive",
         });
       }
     }
   };
 
-  if (tripData.length === 0) {
+  if (analysis.length === 0) {
     return (
       <div className="text-center py-20">
-        <h3 className="text-xl font-semibold text-gray-700">No Trip Data Available</h3>
-        <p className="text-gray-500 mt-2">Please upload Salik toll data to see your insurance adjustment analysis.</p>
+        <h3 className="text-xl font-semibold text-gray-700">
+          No Trip Data Available
+        </h3>
+        <p className="text-gray-500 mt-2">
+          Please upload Salik toll data to see your insurance adjustment
+          analysis.
+        </p>
       </div>
     );
   }
@@ -513,8 +768,11 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({ tripData, ris
                 <div
                   className="absolute w-6 h-6 bg-white rounded-full shadow-md border-2 border-salik-primary transform -translate-y-1/4"
                   style={{
-                    left: `${Math.max(0, Math.min(100, 50 - totalAdjustment * (100/16)))}%`,
-                    transition: "left 1s ease-out"
+                    left: `${Math.max(
+                      0,
+                      Math.min(100, 50 - totalAdjustment * (100 / 16))
+                    )}%`,
+                    transition: "left 1s ease-out",
                   }}
                 />
               </div>
@@ -527,8 +785,10 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({ tripData, ris
 
             <div className="mt-8 flex flex-col md:flex-row items-center justify-center gap-8">
               <div className="text-center">
-                <h3 className="text-gray-500 text-sm font-medium">Your Premium Adjustment</h3>
-                <div 
+                <h3 className="text-gray-500 text-sm font-medium">
+                  Your Premium Adjustment
+                </h3>
+                <div
                   className={`text-5xl font-bold mt-2 ${
                     totalAdjustment <= 0 ? "text-green-600" : "text-red-500"
                   }`}
@@ -537,9 +797,11 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({ tripData, ris
                   {totalAdjustment.toFixed(1)}%
                 </div>
               </div>
-              
+
               <div className="text-center">
-                <h3 className="text-gray-500 text-sm font-medium">Driver Profile</h3>
+                <h3 className="text-gray-500 text-sm font-medium">
+                  Driver Profile
+                </h3>
                 <div className="text-2xl font-semibold mt-2 text-salik-primary">
                   {driverProfile}
                 </div>
@@ -551,18 +813,15 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({ tripData, ris
         <Card>
           <CardHeader>
             <CardTitle>Estimated Loading/Discounting</CardTitle>
-            <CardDescription>
-              Based on average UAE premium
-            </CardDescription>
+            <CardDescription>Based on average UAE premium</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="text-center py-6">
               <div className="text-gray-500 text-sm mb-2">Annual Savings</div>
               <div className="text-4xl font-bold text-salik-primary mb-4">
-                {totalAdjustment <= 0 
-                  ? `AED ${Math.abs((totalAdjustment / 100) * 2500).toFixed(0)}` 
-                  : "No Savings"
-                }
+                {totalAdjustment <= 0
+                  ? `AED ${Math.abs((totalAdjustment / 100) * 2500).toFixed(0)}`
+                  : "No Savings"}
               </div>
               <div className="text-xs text-gray-400">
                 Based on average annual premium of AED 2,500
@@ -592,25 +851,47 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({ tripData, ris
               </thead>
               <tbody>
                 {riskFactors.map((factor, index) => (
-                  <tr 
-                    key={index} 
-                    className={`border-b hover:bg-gray-50 ${factor.drillDownData ? "cursor-pointer" : ""}`}
-                    onClick={() => factor.drillDownData && handleRiskFactorClick(factor)}
+                  <tr
+                    key={index}
+                    className={`border-b hover:bg-gray-50 ${
+                      factor.drillDownData ? "cursor-pointer" : ""
+                    }`}
+                    onClick={() =>
+                      factor.drillDownData && handleRiskFactorClick(factor)
+                    }
                   >
                     <td className="py-3 font-medium">{factor.parameter}</td>
-                    <td className={`py-3 ${factor.drillDownData ? "text-[#1EAEDB] hover:text-[#0FA0CE]" : "text-gray-600"}`}>
+                    <td
+                      className={`py-3 ${
+                        factor.drillDownData
+                          ? "text-[#1EAEDB] hover:text-[#0FA0CE]"
+                          : "text-gray-600"
+                      }`}
+                    >
                       {factor.observation}
                     </td>
-                    <td className={`py-3 ${getRiskColor(factor.risk)}`}>{factor.risk}</td>
-                    <td className={`py-3 text-right font-medium ${getAdjustmentColor(factor.adjustment)}`}>
+                    <td className={`py-3 ${getRiskColor(factor.risk)}`}>
+                      {factor.risk}
+                    </td>
+                    <td
+                      className={`py-3 text-right font-medium ${getAdjustmentColor(
+                        factor.adjustment
+                      )}`}
+                    >
                       {factor.adjustment > 0 ? "+" : ""}
                       {factor.adjustment.toFixed(1)}%
                     </td>
                   </tr>
                 ))}
                 <tr className="bg-gray-50 font-semibold">
-                  <td colSpan={3} className="py-3 text-right">Final Adjustment:</td>
-                  <td className={`py-3 text-right ${getAdjustmentColor(totalAdjustment)}`}>
+                  <td colSpan={3} className="py-3 text-right">
+                    Final Adjustment:
+                  </td>
+                  <td
+                    className={`py-3 text-right ${getAdjustmentColor(
+                      totalAdjustment
+                    )}`}
+                  >
                     {totalAdjustment > 0 ? "+" : ""}
                     {totalAdjustment.toFixed(1)}%
                   </td>

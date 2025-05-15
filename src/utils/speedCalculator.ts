@@ -22,6 +22,7 @@ export interface SpeedCalculationResult {
 
 export const analyzeTripSpeeds = async (trips: TripData[]): Promise<SpeedCalculationResult[]> => {
   const results: SpeedCalculationResult[] = [];
+  console.log("Starting speed analysis...",trips);
   
   if (!trips || trips.length < 2) {
     console.log("Not enough trip data to analyze speeds");
@@ -32,7 +33,7 @@ export const analyzeTripSpeeds = async (trips: TripData[]): Promise<SpeedCalcula
   
   // Create a deep copy of trips and ensure all properties exist
   const validTrips = trips.filter(trip => 
-    trip && trip.date && trip.time && trip.tollGate
+    trip && trip.trip_date && trip.trip_time && trip.toll_gate
   );
   
   if (validTrips.length < 2) {
@@ -72,10 +73,10 @@ export const analyzeTripSpeeds = async (trips: TripData[]): Promise<SpeedCalcula
   // Group trips by date to easily find consecutive trips on the same day
   const tripsByDate: Record<string, TripData[]> = {};
   sortedTrips.forEach(trip => {
-    if (!tripsByDate[trip.date]) {
-      tripsByDate[trip.date] = [];
+    if (!tripsByDate[trip.trip_date]) {
+      tripsByDate[trip.trip_date] = [];
     }
-    tripsByDate[trip.date].push(trip);
+    tripsByDate[trip.trip_date].push(trip);
   });
 
   // Process each date separately
@@ -91,17 +92,17 @@ export const analyzeTripSpeeds = async (trips: TripData[]): Promise<SpeedCalcula
       const trip2 = dateTrips[i + 1];
 
       // Skip if same toll gate
-      if (trip1.tollGate === trip2.tollGate) {
+      if (trip1.toll_gate === trip2.toll_gate) {
         continue;
       }
 
       try {
-        console.log(`Calculating distance between ${trip1.tollGate} and ${trip2.tollGate}`);
-        const distance = await getDistanceBetweenGates(trip1.tollGate, trip2.tollGate);
+        console.log(`Calculating distance between ${trip1.toll_gate} and ${trip2.toll_gate}`);
+        const distance = await getDistanceBetweenGates(trip1.toll_gate, trip2.toll_gate);
         
         if (distance) {
           console.log(`Distance: ${distance.distanceKm.toFixed(2)} km, Speed limit: ${distance.speedLimitKmh} km/h`);
-          const timeHours = formatTimeToHours(trip1.time, trip2.time);
+          const timeHours = formatTimeToHours(trip1.trip_time, trip2.trip_time);
           console.log(`Time difference: ${(timeHours * 60).toFixed(1)} minutes`);
           
           // Skip if time difference is too small (less than 2 minutes) - unrealistic for different gates
@@ -134,8 +135,8 @@ export const analyzeTripSpeeds = async (trips: TripData[]): Promise<SpeedCalcula
               date: formatTripDate(trip1.date),
               startTime: trip1.time,
               endTime: trip2.time,
-              fromGate: trip1.tollGate,
-              toGate: trip2.tollGate,
+              fromGate: trip1.toll_gate,
+              toGate: trip2.toll_gate,
               distanceKm: distance.distanceKm,
               timeHours,
               speedKmh,
@@ -161,7 +162,7 @@ export const analyzeTripSpeeds = async (trips: TripData[]): Promise<SpeedCalcula
         const trip2 = dateTrips[j];
         
         // Skip if same toll gate
-        if (trip1.tollGate === trip2.tollGate) {
+        if (trip1.toll_gate === trip2.toll_gate) {
           continue;
         }
 
@@ -175,7 +176,7 @@ export const analyzeTripSpeeds = async (trips: TripData[]): Promise<SpeedCalcula
           }
           
           // Get the distance between these gates
-          const distance = await getDistanceBetweenGates(trip1.tollGate, trip2.tollGate);
+          const distance = await getDistanceBetweenGates(trip1.toll_gate, trip2.toll_gate);
           
           if (distance) {
             // Calculate speed
@@ -187,8 +188,8 @@ export const analyzeTripSpeeds = async (trips: TripData[]): Promise<SpeedCalcula
               
               // Check that we don't already have an entry for this route and time
               const isDuplicate = results.some(r => 
-                r.fromGate === trip1.tollGate && 
-                r.toGate === trip2.tollGate && 
+                r.fromGate === trip1.toll_gate && 
+                r.toGate === trip2.toll_gate && 
                 r.startTime === trip1.time
               );
               
@@ -197,8 +198,8 @@ export const analyzeTripSpeeds = async (trips: TripData[]): Promise<SpeedCalcula
                   date: formatTripDate(trip1.date),
                   startTime: trip1.time,
                   endTime: trip2.time,
-                  fromGate: trip1.tollGate,
-                  toGate: trip2.tollGate,
+                  fromGate: trip1.toll_gate,
+                  toGate: trip2.toll_gate,
                   distanceKm: distance.distanceKm,
                   timeHours,
                   speedKmh,

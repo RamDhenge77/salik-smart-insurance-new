@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Dialog,
@@ -34,12 +33,19 @@ const TripDetailsDialog: React.FC<TripDetailsDialogProps> = ({
   breakdowns,
 }) => {
   const { toast } = useToast();
+  // console.log("TripDetailsDialog trips:", trips);
+  // console.log("TripDetailsDialog breakdowns:", breakdowns);
 
   React.useEffect(() => {
-    if (open && trips.length === 0 && (!breakdowns || breakdowns.length === 0)) {
+    if (
+      open &&
+      trips.length === 0 &&
+      (!breakdowns || breakdowns.length === 0)
+    ) {
       toast({
         title: "No data available",
-        description: "There is no detailed information to display for this category.",
+        description:
+          "There is no detailed information to display for this category.",
         variant: "destructive",
       });
     }
@@ -51,15 +57,14 @@ const TripDetailsDialog: React.FC<TripDetailsDialogProps> = ({
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>
-            {trips.length > 0 ? 
-              `Showing ${trips.length} trips for this category` : 
-              (breakdowns && breakdowns.length > 0) ? 
-                "Detailed breakdown analysis" : 
-                "No data available for this category"
-            }
+            {trips.length > 0
+              ? `Showing ${trips.length} trips for this category`
+              : breakdowns && breakdowns.length > 0
+              ? "Detailed breakdown analysis"
+              : "No data available for this category"}
           </DialogDescription>
         </DialogHeader>
-        
+
         {trips.length > 0 ? (
           <Table>
             <TableHeader>
@@ -72,13 +77,17 @@ const TripDetailsDialog: React.FC<TripDetailsDialogProps> = ({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {trips.map((trip) => (
+              {trips?.map((trip) => (
                 <TableRow key={trip.id}>
-                  <TableCell>{trip.date}</TableCell>
-                  <TableCell>{trip.time}</TableCell>
-                  <TableCell>{trip.tollGate}</TableCell>
+                  <TableCell>{trip.trip_date}</TableCell>
+                  <TableCell>{trip.trip_time}</TableCell>
+                  <TableCell>{trip.toll_gate}</TableCell>
                   <TableCell>{trip.direction}</TableCell>
-                  <TableCell className="text-right">{trip.amount.toFixed(2)}</TableCell>
+                  <TableCell className="text-right">
+                    {trip.amount != null
+                      ? Number(trip.amount).toFixed(2)
+                      : "--"}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

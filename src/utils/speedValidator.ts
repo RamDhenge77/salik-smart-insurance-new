@@ -20,31 +20,31 @@ export function isRealisticSpeed(speed: number, distance: number, timeHours: num
   const minRealisticSpeed = distance < 2 ? 15 : MIN_REALISTIC_SPEED;
   
   if (speed < minRealisticSpeed) {
-    console.log(`Filtering out unrealistically low speed: ${speed.toFixed(1)} km/h`);
+    // console.log(`Filtering out unrealistically low speed: ${speed.toFixed(1)} km/h`);
     return false;
   }
   
   if (speed > MAX_REALISTIC_SPEED) {
-    console.log(`Filtering out unrealistically high speed: ${speed.toFixed(1)} km/h`);
+    // console.log(`Filtering out unrealistically high speed: ${speed.toFixed(1)} km/h`);
     return false;
   }
   
   // Special case for very short distances
   // Allow higher speeds for very short distances if the time is also very short
   if (distance < 2 && speed > 120 && timeHours < 0.1) {
-    console.log(`Allowing high speed ${speed.toFixed(1)} km/h for short distance ${distance.toFixed(1)}km due to short time`);
+    // console.log(`Allowing high speed ${speed.toFixed(1)} km/h for short distance ${distance.toFixed(1)}km due to short time`);
     return true;
   }
   
   // For highways (longer distances), enforce higher minimum speeds
   if (distance > 10 && speed < 40) {
-    console.log(`Filtering out unrealistically low highway speed: ${speed.toFixed(1)} km/h over ${distance.toFixed(1)}km`);
+    // console.log(`Filtering out unrealistically low highway speed: ${speed.toFixed(1)} km/h over ${distance.toFixed(1)}km`);
     return false;
   }
   
   // For very short time differences, be skeptical about longer distances
   if (timeHours < MIN_REALISTIC_TIME && distance > 3) {
-    console.log(`Filtering out unrealistic travel time: ${(timeHours * 60).toFixed(1)} minutes for ${distance.toFixed(1)}km`);
+    // console.log(`Filtering out unrealistic travel time: ${(timeHours * 60).toFixed(1)} minutes for ${distance.toFixed(1)}km`);
     return false;
   }
   
@@ -56,12 +56,12 @@ export function isRealisticSpeed(speed: number, distance: number, timeHours: num
     const expectedMaxTime = distance / 40;  
     
     if (timeHours < expectedMinTime * 0.9) { // 10% buffer for faster speeds
-      console.log(`Filtering out unrealistically fast time: ${(timeHours * 60).toFixed(1)} minutes for ${distance.toFixed(1)}km`);
+      // console.log(`Filtering out unrealistically fast time: ${(timeHours * 60).toFixed(1)} minutes for ${distance.toFixed(1)}km`);
       return false;
     }
     
     if (timeHours > expectedMaxTime * 1.4) { // 40% buffer for slower speeds (traffic)
-      console.log(`Filtering out unrealistically slow time: ${(timeHours * 60).toFixed(1)} minutes for ${distance.toFixed(1)}km`);
+      // console.log(`Filtering out unrealistically slow time: ${(timeHours * 60).toFixed(1)} minutes for ${distance.toFixed(1)}km`);
       return false;
     }
   }
