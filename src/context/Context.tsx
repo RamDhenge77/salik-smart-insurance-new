@@ -1,5 +1,11 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
-import { TripData } from "@/components/FileUploader";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
+import { TripData, TripDataAll } from "@/components/FileUploader";
 import { toast } from "@/hooks/use-toast";
 import axios from "axios";
 
@@ -40,6 +46,8 @@ interface CarContextType {
   setPeakHours: (peakHours: any) => void;
   speepDistance: any;
   setSpeedDistance: (speedDistance: any) => void;
+  tripDataAll: TripDataAll[];
+  setTripDataAll: (data: TripDataAll[]) => void;
 }
 
 // Create the context with a default (empty) value
@@ -68,16 +76,20 @@ export const CarContextProvider: React.FC<CarProviderProps> = ({
   const [highwayUrban, setHighwayUrban] = useState<any>(null);
   const [peakHours, setPeakHours] = useState<any>(null);
   const [speepDistance, setSpeedDistance] = useState<any>(null);
+  const [tripDataAll, setTripDataAll] = useState<TripDataAll[]>([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (tripData.length > 0) {
       setAnalysis(JSON.parse(localStorage.getItem("analysis")));
-      setTimeDistance(JSON.parse(localStorage.getItem("time_and_distance_saved")));
+      setTimeDistance(
+        JSON.parse(localStorage.getItem("time_and_distance_saved"))
+      );
       setHighwayUrban(JSON.parse(localStorage.getItem("highwayurban")));
       setPeakHours(JSON.parse(localStorage.getItem("peak_hours")));
       setSpeedDistance(JSON.parse(localStorage.getItem("speed_and_dstances")));
+      setTripDataAll(JSON.parse(localStorage.getItem("tripDataAll")));
     }
-  },[tripData])
+  }, [tripData]);
 
   const handleCarLeasingBack = () => {
     setCarLeasingSteps((prev) => prev - 1);
@@ -128,7 +140,7 @@ export const CarContextProvider: React.FC<CarProviderProps> = ({
 
   const followUp = async () => {
     const apiKey = import.meta.env.VITE_INSURANCE_API_KEY;
-    
+
     if (!apiKey) {
       console.error("API key is missing.");
       toast({
@@ -197,6 +209,8 @@ export const CarContextProvider: React.FC<CarProviderProps> = ({
         setPeakHours,
         speepDistance,
         setSpeedDistance,
+        tripDataAll,
+        setTripDataAll,
       }}
     >
       {children}

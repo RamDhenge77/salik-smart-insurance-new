@@ -30,6 +30,21 @@ export interface TripData {
   amount: number;
 }
 
+export interface TripDataAll {
+  amount: number;
+  direction: string;
+  journey: string;
+  plate: number;
+  tag_number: number;
+  time_taken_: string;
+  toll_gate: string;
+  transaction_id: number;
+  transaction_post_date: string; // Format: YYYY-MM-DD
+  trip_date: string;             // Format: YYYY-MM-DD
+  trip_time: string;             // Format: HH:MM:SS AM/PM
+}
+
+
 const FileUploader: React.FC<FileUploaderProps> = ({ onFileProcessed }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -106,7 +121,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFileProcessed }) => {
         const utc_days = Math.floor(serial - 25569);
         const utc_value = utc_days * 86400;
         const date_info = new Date(utc_value * 1000);
-        return date_info.toISOString().split("T")[0]; // YYYY-MM-DD
+        return date_info.toISOString().split("T")[0];
       };
 
       const excelTimeToString = (serial: number): string => {
@@ -125,8 +140,9 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFileProcessed }) => {
       const normalizeKey = (key: string) =>
         key
           .toLowerCase()
-          .replace(/\s*\(.*?\)\s*/g, "") // remove text inside parentheses
-          .replace(/\s+/g, "_") // replace spaces with underscores
+          .replace(/\([^)]*\)/g, "") // remove text in parentheses
+          .replace(/\s+/g, "_")
+          .replace(/[^\w]/g, "") // remove non-alphanumeric chars
           .trim();
 
       workbook.SheetNames.forEach((sheetName, index) => {
@@ -135,22 +151,36 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFileProcessed }) => {
           .toLowerCase()
           .replace(/\s+/g, "_");
 
-        // Only keep tripData (first sheet) and analysis
-        const isTripSheet = index === 0;
-        const isAnalysisSheet = normalizedSheetName === "analysis";
-        if (!isTripSheet && !isAnalysisSheet) return;
-
-        const sheetKey = isTripSheet ? "tripData" : normalizedSheetName;
-
         const json = XLSX.utils.sheet_to_json<Record<string, any>>(worksheet, {
           defval: "",
         });
 
-        if (isTripSheet) {
-          // Keep tripData as originally formatted
+        // Save all sheets in normalized form
+        const normalizedData = json.map((row) => {
+          const obj: Record<string, any> = {};
+          Object.entries(row).forEach(([key, value]) => {
+            const normalizedKey = normalizeKey(key);
+            if (isExcelTime(value)) {
+              obj[normalizedKey] = excelTimeToString(value);
+            } else if (isExcelDate(value)) {
+              obj[normalizedKey] = excelDateToString(value);
+            } else {
+              obj[normalizedKey] = value;
+            }
+          });
+          return obj;
+        });
+
+        localStorage.setItem(
+          normalizedSheetName,
+          JSON.stringify(normalizedData)
+        );
+
+        if (index === 0) {
+          // Save tripData structured format
           const tripData: TripData[] = json.map((row, i) => {
             const rawDate = row["Trip Date"];
-            const rawTime = row["Trip Time"];
+            const rawTime = row["Time"];
 
             const formattedDate = isExcelDate(rawDate)
               ? excelDateToString(rawDate)
@@ -172,25 +202,9 @@ const FileUploader: React.FC<FileUploaderProps> = ({ onFileProcessed }) => {
             };
           });
 
-          localStorage.setItem(sheetKey, JSON.stringify(tripData));
+          localStorage.setItem("tripData", JSON.stringify(tripData));
+          localStorage.setItem("tripDataAll", JSON.stringify(normalizedData));
           primaryTripData = tripData;
-        } else if (isAnalysisSheet) {
-          const parsed = json.map((row) => {
-            const obj: Record<string, any> = {};
-            Object.entries(row).forEach(([key, value]) => {
-              const normalizedKey = normalizeKey(key);
-              if (isExcelTime(value)) {
-                obj[normalizedKey] = excelTimeToString(value);
-              } else if (isExcelDate(value)) {
-                obj[normalizedKey] = excelDateToString(value);
-              } else {
-                obj[normalizedKey] = value;
-              }
-            });
-            return obj;
-          });
-
-          localStorage.setItem(sheetKey, JSON.stringify(parsed));
         }
       });
 

@@ -48,16 +48,16 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
     []
   );
   const { toast } = useToast();
-  const { analysis } = useCarContext();
+  const { analysis, tripDataAll } = useCarContext();
 
   // Calculate speed results when trip data changes
   useEffect(() => {
     const getSpeedResults = async () => {
       // console.log("Calculating speed results for insurance adjustment from", tripData.length, "trips");
-      if (analysis.length === 0) return;
+      if (tripDataAll.length === 0) return;
 
       try {
-        const results = await analyzeTripSpeeds(analysis);
+        const results = await analyzeTripSpeeds(tripDataAll);
         setSpeedResults(results);
         // console.log("Speed results set for insurance adjustment:", results.length);
       } catch (error) {
@@ -66,7 +66,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
     };
 
     getSpeedResults();
-  }, [analysis]);
+  }, [tripDataAll]);
 
   // Use risk thresholds from props, ensuring they're deeply cloned to avoid reference issues
   const currentThresholds = React.useMemo(() => {
@@ -85,7 +85,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
 
   // Calculate risk factors based on trip data and thresholds
   const riskFactors = React.useMemo((): RiskFactor[] => {
-    if (analysis.length === 0) {
+    if (tripDataAll.length === 0) {
       return [];
     }
 
@@ -149,14 +149,14 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
     };
 
     // Calculate unique days from trip data
-    const uniqueDays = new Set(analysis.map((trip) => trip.trip_date)).size;
+    const uniqueDays = new Set(tripDataAll.map((trip) => trip.trip_date)).size;
 
     // Identify peak hour trips (6-10 AM and 4-8 PM)
     // const peakHours = analysis?.filter(trip => {
     //   const hour = parseInt(trip.TripTime.split(':')[0]);
     //   return (hour >= 6 && hour < 10) || (hour >= 16 && hour < 20);
     // });
-    const peakHours = analysis?.filter((trip) => {
+    const peakHours = tripDataAll?.filter((trip) => {
       const rawTime = trip.trip_time;
       let hour = -1;
 
@@ -183,7 +183,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
     //   const hour = parseInt(trip.time.split(":")[0]);
     //   return (hour >= 0 && hour < 6) || (hour >= 20 && hour < 24);
     // });
-    const nightTrips = analysis?.filter((trip) => {
+    const nightTrips = tripDataAll?.filter((trip) => {
       const rawTime = trip.trip_time;
       let hour = -1;
 
@@ -208,27 +208,27 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
     // console.log("Night trips:", nightTrips);
 
     // Identify weekend trips
-    // const weekendTrips = tripData.filter((trip) => {
-    //   const date = new Date(trip.trip_date);
-    //   const day = date.getDay();
-    //   return day === 0 || day === 6; // Sunday (0) or Saturday (6)
-    // });
-    const weekendTrips = analysis.filter((trip) => {
-      return trip["weekend/weekday"]?.toLowerCase() === "weekend";
+    const weekendTrips = tripDataAll.filter((trip) => {
+      const date = new Date(trip.trip_date);
+      const day = date.getDay();
+      return day === 0 || day === 6; // Sunday (0) or Saturday (6)
     });
+    // const weekendTrips = analysis.filter((trip) => {
+    //   return trip["weekend/weekday"]?.toLowerCase() === "weekend";
+    // });
 
     // Identify weekday trips
-    // const weekdayTrips = tripData.filter((trip) => {
-    //   const date = new Date(trip.trip_date);
-    //   const day = date.getDay();
-    //   return day !== 0 && day !== 6; // Not Sunday or Saturday
-    // });
-    const weekdayTrips = analysis.filter((trip) => {
-      return trip["weekend/weekday"]?.toLowerCase() === "weekday";
+    const weekdayTrips = tripDataAll.filter((trip) => {
+      const date = new Date(trip.trip_date);
+      const day = date.getDay();
+      return day !== 0 && day !== 6; // Not Sunday or Saturday
     });
+    // const weekdayTrips = analysis.filter((trip) => {
+    //   return trip["weekend/weekday"]?.toLowerCase() === "weekday";
+    // });
 
     // Identify urban and highway trips based on toll gates
-    const urbanTrips = analysis.filter(
+    const urbanTrips = tripDataAll.filter(
       (trip) =>
         trip.toll_gate.includes("Business Bay") ||
         trip.toll_gate.includes("Al Garhoud") ||
@@ -236,7 +236,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
         trip.toll_gate.includes("Airport Tunnel")
     );
 
-    const highwayTrips = analysis.filter(
+    const highwayTrips = tripDataAll.filter(
       (trip) =>
         trip.toll_gate.includes("Al Barsha") ||
         trip.toll_gate.includes("Al Safa North") ||
@@ -248,7 +248,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
 
     // Check if weekend/weekday usage is balanced (around 30% weekends)
     const isBalanced =
-      Math.abs(weekendTrips.length / analysis.length - 0.3) < 0.1;
+      Math.abs(weekendTrips.length / tripDataAll.length - 0.3) < 0.1;
 
     // Analyze speed data
     const speedViolations = speedResults.filter(
@@ -305,66 +305,66 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
 
     // Calculate estimated distance based on number of trips
     // Using a more conservative estimation of 3-5 km per trip on average
-    const estimatedMinDistance = (analysis.length * 3).toFixed(0);
-    const estimatedMaxDistance = (analysis.length * 5).toFixed(0);
+    const estimatedMinDistance = (tripDataAll.length * 3).toFixed(0);
+    const estimatedMaxDistance = (tripDataAll.length * 5).toFixed(0);
     const distanceObservation = `Estimated ${estimatedMinDistance}-${estimatedMaxDistance} km`;
 
     // Calculate urban vs highway percentage
     const urbanPercentage = Math.round(
-      (urbanTrips.length / analysis.length) * 100
+      (urbanTrips.length / tripDataAll.length) * 100
     );
     const highwayPercentage = Math.round(
-      (highwayTrips.length / analysis.length) * 100
+      (highwayTrips.length / tripDataAll.length) * 100
     );
 
     // Create risk factors array with all calculated values
     return [
       {
         parameter: "Driving Frequency",
-        observation: `${analysis.length} trips across ${uniqueDays} days`,
+        observation: `${tripDataAll.length} trips across ${uniqueDays} days`,
         risk:
-          analysis.length > thresholds.drivingFrequency.veryHigh
+          tripDataAll.length > thresholds.drivingFrequency.veryHigh
             ? "Very High"
-            : analysis.length > thresholds.drivingFrequency.high
+            : tripDataAll.length > thresholds.drivingFrequency.high
             ? "High"
-            : analysis.length > thresholds.drivingFrequency.medium
+            : tripDataAll.length > thresholds.drivingFrequency.medium
             ? "Medium"
-            : analysis.length > thresholds.drivingFrequency.low
+            : tripDataAll.length > thresholds.drivingFrequency.low
             ? "Low"
             : "Very Low",
         adjustment:
-          analysis.length > thresholds.drivingFrequency.veryHigh
+          tripDataAll.length > thresholds.drivingFrequency.veryHigh
             ? thresholds.drivingFrequency.adjustment.veryHigh
-            : analysis.length > thresholds.drivingFrequency.high
+            : tripDataAll.length > thresholds.drivingFrequency.high
             ? thresholds.drivingFrequency.adjustment.high
-            : analysis.length > thresholds.drivingFrequency.medium
+            : tripDataAll.length > thresholds.drivingFrequency.medium
             ? thresholds.drivingFrequency.adjustment.medium
-            : analysis.length > thresholds.drivingFrequency.low
+            : tripDataAll.length > thresholds.drivingFrequency.low
             ? thresholds.drivingFrequency.adjustment.low
             : thresholds.drivingFrequency.adjustment.veryLow,
         drillDownData: {
           title: "All Trips",
-          trips: analysis,
+          trips: tripDataAll,
         },
       },
       {
         parameter: "Peak Hour Usage",
         observation: `${peakHours.length} trips in peak hours (${Math.round(
-          (peakHours.length / analysis.length) * 100
+          (peakHours.length / tripDataAll.length) * 100
         )}%)`,
         risk:
-          peakHours.length / analysis.length >
+          peakHours.length / tripDataAll.length >
           thresholds.peakHourUsage.high / 100
             ? "High"
-            : peakHours.length / analysis.length >
+            : peakHours.length / tripDataAll.length >
               thresholds.peakHourUsage.medium / 100
             ? "Medium"
             : "Low",
         adjustment:
-          peakHours.length / analysis.length >
+          peakHours.length / tripDataAll.length >
           thresholds.peakHourUsage.high / 100
             ? thresholds.peakHourUsage.adjustment.high
-            : peakHours.length / analysis.length >
+            : peakHours.length / tripDataAll.length >
               thresholds.peakHourUsage.medium / 100
             ? thresholds.peakHourUsage.adjustment.medium
             : thresholds.peakHourUsage.adjustment.low,
@@ -376,18 +376,18 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
       {
         parameter: "Night Driving",
         observation: `${nightTrips.length} trips at night (${Math.round(
-          (nightTrips.length / analysis.length) * 100
+          (nightTrips.length / tripDataAll.length) * 100
         )}%)`,
         risk:
-          nightTrips.length / analysis.length >
+          nightTrips.length / tripDataAll.length >
           thresholds.nightDriving.high / 100
             ? "High"
-            : nightTrips.length / analysis.length >
+            : nightTrips.length / tripDataAll.length >
               thresholds.nightDriving.medium / 100
             ? "Medium"
             : "Low",
         adjustment:
-          nightTrips.length / analysis.length >
+          nightTrips.length / tripDataAll.length >
           thresholds.nightDriving.high / 100
             ? thresholds.nightDriving.adjustment.high
             : nightTrips.length / analysis.length >
@@ -459,13 +459,13 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
             {
               label: "Weekday Trips",
               value: `${weekdayTrips.length} (${Math.round(
-                (weekdayTrips.length / analysis.length) * 100
+                (weekdayTrips.length / tripDataAll.length) * 100
               )}%)`,
             },
             {
               label: "Weekend Trips",
               value: `${weekendTrips.length} (${Math.round(
-                (weekendTrips.length / analysis.length) * 100
+                (weekendTrips.length / tripDataAll.length) * 100
               )}%)`,
             },
           ],
@@ -491,7 +491,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
         drillDownData: {
           title: "Distance Analysis",
           breakdowns: [
-            { label: "Total Trips", value: analysis.length },
+            { label: "Total Trips", value: tripDataAll.length },
             {
               label: "Estimated Min Distance",
               value: `${estimatedMinDistance} km`,
@@ -555,7 +555,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
         },
       },
     ];
-  }, [analysis, currentThresholds, speedResults]);
+  }, [tripDataAll, currentThresholds, speedResults]);
 
   // Calculate total adjustment based on risk factors
   const totalAdjustment = React.useMemo(() => {
@@ -572,9 +572,9 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
 
   // Determine driver profile based on trip patterns
   const driverProfile = React.useMemo(() => {
-    if (analysis.length === 0) return "No Data Available";
+    if (tripDataAll.length === 0) return "No Data Available";
 
-    const nightTrips = analysis?.filter((trip) => {
+    const nightTrips = tripDataAll?.filter((trip) => {
       const rawTime = trip.trip_time;
       let hour = -1;
 
@@ -596,7 +596,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
       return (hour >= 0 && hour < 6) || (hour >= 23 && hour < 24); // 11 PM–6 AM
     });
 
-    const peakHours = analysis?.filter((trip) => {
+    const peakHours = tripDataAll?.filter((trip) => {
       const rawTime = trip.trip_time;
       let hour = -1;
 
@@ -618,7 +618,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
       return (hour >= 6 && hour < 10) || (hour >= 16 && hour < 20);
     });
 
-    const urbanTrips = analysis.filter(
+    const urbanTrips = tripDataAll.filter(
       (trip) =>
         trip.toll_gate.includes("Business Bay") ||
         trip.toll_gate.includes("Al Garhoud") ||
@@ -626,7 +626,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
         trip.toll_gate.includes("Airport Tunnel")
     );
 
-    const highwayTrips = analysis.filter(
+    const highwayTrips = tripDataAll.filter(
       (trip) =>
         trip.toll_gate.includes("Al Barsha") ||
         trip.toll_gate.includes("Al Safa North") ||
@@ -636,12 +636,17 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
         trip.toll_gate.includes("Al Safa South")
     );
 
-    const weekendTrips = analysis.filter((trip) => {
-      return trip["weekend/weekday"]?.toLowerCase() === "weekend";
+    const weekendTrips = tripDataAll.filter((trip) => {
+      const date = new Date(trip.trip_date);
+      const day = date.getDay();
+      return day === 0 || day === 6; // Sunday (0) or Saturday (6)
     });
+    // const weekendTrips = analysis.filter((trip) => {
+    //   return trip["weekend/weekday"]?.toLowerCase() === "weekend";
+    // });
 
-    const uniqueDays = new Set(analysis.map((trip) => trip.trip_date)).size;
-    const tripsPerDay = analysis.length / (uniqueDays || 1);
+    const uniqueDays = new Set(tripDataAll.map((trip) => trip.trip_date)).size;
+    const tripsPerDay = tripDataAll.length / (uniqueDays || 1);
 
     let profile = "";
 
@@ -653,11 +658,11 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
       profile += "Mixed-Route ";
     }
 
-    if (nightTrips.length > analysis.length * 0.3) {
+    if (nightTrips.length > tripDataAll.length * 0.3) {
       profile += "Night ";
-    } else if (peakHours.length > analysis.length * 0.5) {
+    } else if (peakHours.length > tripDataAll.length * 0.5) {
       profile += "Rush-Hour ";
-    } else if (weekendTrips.length > analysis.length * 0.5) {
+    } else if (weekendTrips.length > tripDataAll.length * 0.5) {
       profile += "Weekend ";
     }
 
@@ -680,7 +685,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
     profile += "Driver";
 
     return profile.trim();
-  }, [analysis, totalAdjustment]);
+  }, [tripDataAll, totalAdjustment]);
 
   // Color functions for risk and adjustment display
   const getRiskColor = (risk: string): string => {
@@ -732,7 +737,7 @@ const InsuranceAdjustment: React.FC<InsuranceAdjustmentProps> = ({
     }
   };
 
-  if (analysis.length === 0) {
+  if (tripDataAll.length === 0) {
     return (
       <div className="text-center py-20">
         <h3 className="text-xl font-semibold text-gray-700">
