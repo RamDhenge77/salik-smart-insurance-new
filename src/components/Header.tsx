@@ -33,9 +33,9 @@ const Header: React.FC = () => {
             />
           </div> */}
           <div className="relative">
-            <h1 className="text-[#2596be] font-bold text-xl">Salik Mabrook</h1>
+            <h1 className="text-[#2596be] font-bold text-xl">Salik Go</h1>
             <p className="text-gray-500 text-sm">Your Mobility Assistant</p>
-            <img src="/lovable-uploads/logo.png" className="h-6 absolute top-[-.1rem] right-[-1.3rem]" alt="" />
+            <img src="/lovable-uploads/logo.png" className="h-6 absolute top-[-.1rem] left-[5.2rem]" alt="" />
           </div>
         </Link>
 
