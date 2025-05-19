@@ -39,12 +39,12 @@ const HireDriver = () => {
            onClick={() => handleServiceSelect('Garage Pick up / Drop')}
          />
  
-         <ServiceCard
+         {/* <ServiceCard
            title="RTA Vehicle Inspection"
            description="Fixed fare of AED 69"
            icon={<ClipboardList size={42} className="text-black" />}
            onClick={() => handleServiceSelect('RTA Vehicle Inspection')}
-         />
+         /> */}
  
          <div className="mt-8">
            <h3 className="text-xl font-bold mb-4">Did you know you can use DriveAround for?</h3>
