@@ -67,32 +67,38 @@ const EcoInsights: React.FC<EcoInsightsProps> = ({ totalTrips = 0 }) => {
   // Track which cards are being hovered
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const { analysis } = useCarContext();
-  
+
   // const totalAmountSum = analysis.reduce((acc, trip) => {
   //   const salikCost = Number.isFinite(trip.amount) ? Number(trip.amount) : 0;
   //   return acc + salikCost;
   // }, 0);
   const totalAmountSum = Array.isArray(analysis)
-  ? analysis.reduce((acc, trip) => {
-      const salikCost = Number.isFinite(trip.amount) ? Number(trip.amount) : 0;
-      return acc + salikCost;
-    }, 0)
-  : 0;
+    ? analysis.reduce((acc, trip) => {
+        const salikCost = Number.isFinite(trip.amount)
+          ? Number(trip.amount)
+          : 0;
+        return acc + salikCost;
+      }, 0)
+    : 0;
 
-  
   // Constants - updated with the correct values from user specifications
   const avgCO2SavedPerTrip = 0.21; // in kg, due to congestion avoidance via Salik
   const avgMoneySavedPerTrip = 2.0; // AED estimated due to fuel/time
   const avgTimeSavedPerTrip = 6; // minutes saved per trip
   const valuePerHour = 50; // AED per hour value of time
   const carbonValue = 0.05; // AED per kg of CO2 saved
-  
+
   // Calculated values
-  const totalCO2Saved = analysis && analysis[analysis.length - 1].co2_saved.toFixed(2);
-  const netSaving =analysis && (analysis[analysis.length - 1].total_savings - totalAmountSum).toFixed(2);
-  const moneySaved =analysis && (analysis[analysis.length - 1].value_of_fuel_saved).toFixed(2);
-  const timeSaved =analysis && ((analysis[analysis.length - 1].time_saved_) / 60).toFixed(1); // in hours
-  
+  const totalCO2Saved =
+    analysis && analysis[analysis.length - 1].co2_saved.toFixed(2);
+  const netSaving =
+    analysis &&
+    (analysis[analysis.length - 1].total_savings - totalAmountSum).toFixed(2);
+  const moneySaved =
+    analysis && analysis[analysis.length - 1].value_of_fuel_saved.toFixed(2);
+  const timeSaved =
+    analysis && (analysis[analysis.length - 1].time_saved_ / 60).toFixed(1); // in hours
+
   // Calculate Net ROI
   const riskSafetySavings = 0.5 * totalTrips;
   const netROI = (
@@ -247,12 +253,16 @@ const EcoInsights: React.FC<EcoInsightsProps> = ({ totalTrips = 0 }) => {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
         {insights.map((insight, idx) => (
           <HoverCard key={idx} open={hoveredCard === insight.type}>
             <HoverCardTrigger asChild>
               <Card
-                className="flex flex-col items-center justify-center py-6 px-2 rounded-xl border-gray-200 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                className="flex flex-col items-center justify-center py-6 px-2 hover:shadow-lg transition-all duration-300 cursor-pointer rounded-[1rem]  border-4 border-b-2 border-l-0 !border-white"
+                style={{
+                  boxShadow:
+                    "0px 10px 12px 5px rgba(0, 0, 0, 0.1)",
+                }}
                 onMouseEnter={() => setHoveredCard(insight.type)}
                 onMouseLeave={() => setHoveredCard(null)}
               >

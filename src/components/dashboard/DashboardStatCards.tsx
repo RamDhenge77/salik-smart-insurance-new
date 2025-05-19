@@ -16,12 +16,14 @@ interface DashboardStatCardsProps {
   tripData: TripData[];
 }
 
-const DashboardStatCards: React.FC<DashboardStatCardsProps> = ({
-  // tripData,
-}) => {
+const DashboardStatCards: React.FC<DashboardStatCardsProps> = (
+  {
+    // tripData,
+  }
+) => {
   const { tripData, tripDataAll } = useCarContext();
   console.log("tripData", tripData);
-  
+
   const totalTrips = tripData.length;
   const uniqueDays = new Set(tripData.map((trip) => trip.date)).size;
   const averageTripsPerDay =
@@ -127,7 +129,13 @@ const DashboardStatCards: React.FC<DashboardStatCardsProps> = ({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="hover:shadow-lg transition-all duration-300">
+        <Card
+          className="border-none transition-all duration-300 rounded-[1rem]"
+          style={{
+            boxShadow:
+              "inset 0px 2px 3px 2px white, 0px 17px 14px 0px rgba(0, 0, 0, 0.1)",
+          }}
+        >
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="mr-4 p-2 bg-blue-100 rounded-full">
@@ -145,7 +153,13 @@ const DashboardStatCards: React.FC<DashboardStatCardsProps> = ({
 
         <HoverCard openDelay={0}>
           <HoverCardTrigger>
-            <Card className="hover:shadow-lg transition-all duration-300 h-full cursor-pointer">
+            <Card
+              className="border-none transition-all duration-300  rounded-[1rem] h-full"
+              style={{
+                boxShadow:
+                  "inset 0px 2px 3px 2px white, 0px 17px 14px 0px rgba(0, 0, 0, 0.1)",
+              }}
+            >
               <CardContent className="p-6">
                 <div className="flex items-center">
                   <div className="mr-4 p-2 bg-amber-100 rounded-full">
@@ -169,14 +183,20 @@ const DashboardStatCards: React.FC<DashboardStatCardsProps> = ({
                 <CalendarDays className="h-5 w-5" />
               </div>
               <div className="text-sm text-gray-600 mt-1 font-medium w-full flex flex-col gap-4 bg-[#ffff] p-3 rounded-md">
-                <span>From Date: {format(minDate,'dd MMM, yyyy')}</span>
-                <span>To Date: {format(maxDate,'dd MMM, yyyy')}</span>
+                <span>From Date: {format(minDate, "dd MMM, yyyy")}</span>
+                <span>To Date: {format(maxDate, "dd MMM, yyyy")}</span>
               </div>
             </div>
           </HoverCardContent>
         </HoverCard>
 
-        <Card className="hover:shadow-lg transition-all duration-300">
+        <Card
+          className="border-none transition-all duration-300  rounded-[1rem]"
+          style={{
+            boxShadow:
+              "inset 0px 2px 3px 2px white, 0px 17px 14px 0px rgba(0, 0, 0, 0.1)",
+          }}
+        >
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="mr-4 p-2 bg-green-100 rounded-full">
@@ -194,7 +214,13 @@ const DashboardStatCards: React.FC<DashboardStatCardsProps> = ({
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg transition-all duration-300">
+        <Card
+          className="border-none transition-all duration-300  rounded-[1rem]"
+          style={{
+            boxShadow:
+              "inset 0px 2px 3px 2px white, 0px 17px 14px 0px rgba(0, 0, 0, 0.1)",
+          }}
+        >
           <CardContent className="p-6">
             <div className="flex items-center">
               <div className="mr-4 p-2 bg-teal-100 rounded-full">
@@ -217,7 +243,13 @@ const DashboardStatCards: React.FC<DashboardStatCardsProps> = ({
         </Card>
       </div>
       <div className="flex items-center justify-end">
-        <div className="w-[592px] h-[324px] rounded-[18px] overflow-hidden relative border">
+        <div
+          className="w-[592px] h-[324px] overflow-hidden relative border-none transition-all duration-300  rounded-[1rem]"
+          style={{
+            boxShadow:
+              "inset 0px 2px 3px 2px white, 0px 17px 14px 0px rgba(0, 0, 0, 0.2)",
+          }}
+        >
           <img
             src="/lovable-uploads/lexus-2.webp"
             alt=""
