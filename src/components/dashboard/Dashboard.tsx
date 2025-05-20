@@ -10,9 +10,11 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 
 import ChatWithAgent from "../ChatWithAgent";
 import { useCarContext } from "@/context/Context";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard: React.FC = () => {
   const { tripData, uploadKey } = useCarContext();
+  const navigate = useNavigate();
 
   const [riskThresholds] = useLocalStorage<RiskThresholds>("riskThresholds", {
     drivingFrequency: {
@@ -71,6 +73,10 @@ const Dashboard: React.FC = () => {
       adjustment: -10,
     },
   });
+
+  useEffect(() => {
+    navigate("/dashboard");
+  }, []);
   return (
     <>
       <div className="space-y-8 animate-fade-in relative" key={uploadKey}>

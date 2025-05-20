@@ -50,6 +50,8 @@ interface CarContextType {
   setTripDataAll: (data: TripDataAll[]) => void;
   speedData: any;
   setSpeedData: (data: any) => void;
+  collapsed: boolean;
+  setCollapsed: (collapsed: boolean) => void;
 }
 
 // Create the context with a default (empty) value
@@ -80,6 +82,7 @@ export const CarContextProvider: React.FC<CarProviderProps> = ({
   const [speepDistance, setSpeedDistance] = useState<any>(null);
   const [tripDataAll, setTripDataAll] = useState<TripDataAll[]>([]);
   const [speedData, setSpeedData] = useState<any>(null);
+  const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
     if (tripData.length > 0) {
@@ -217,6 +220,8 @@ export const CarContextProvider: React.FC<CarProviderProps> = ({
         setTripDataAll,
         speedData,
         setSpeedData,
+        collapsed,
+        setCollapsed,
       }}
     >
       {children}

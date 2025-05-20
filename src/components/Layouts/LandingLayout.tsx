@@ -8,15 +8,25 @@ import { RiskThresholds } from "../RiskFactorConfig";
 import LandingPage from "../dashboard/LandingPage";
 import DashboardLayout from "./DashboardLayout";
 import { useCarContext } from "@/context/Context";
+import Sidebar from "../Sidebar";
+import SidebarItem from "../Sidebar/SidebarItem";
+import {
+  LayoutDashboard,
+  Shield,
+  CarFront,
+  CalendarCheck2,
+  CircleUserRound,
+  CarTaxiFront,
+  Handshake,
+} from "lucide-react";
 
 const LandingLayout = () => {
-  // const [tripData, setTripData] = useState<TripData[]>([]);
+  
   const {
-    tripData,
     setTripData,
-    handleFileProcessed,
     showContent,
     setShowContent,
+    collapsed,
   } = useCarContext();
   // const [showContent, setShowContent] = useState(false);
   const [uploadKey, setUploadKey] = useState(Date.now());
@@ -35,7 +45,7 @@ const LandingLayout = () => {
     try {
       const savedData = localStorage.getItem("tripData");
       // console.log("Saved data from localStorage:", savedData);
-      
+
       if (savedData) {
         const parsed = JSON.parse(savedData);
         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -54,32 +64,49 @@ const LandingLayout = () => {
   }, []);
 
   const navigate = useNavigate();
-  useEffect(()=>{
-    if(showContent){
+  useEffect(() => {
+    if (showContent) {
       navigate("/dashboard");
-    }
-    else{
+    } else {
       navigate("/");
     }
-  },[showContent])
+  }, [showContent]);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-
+    <div className="min-h-screen flex w-full">
+      <div>
+        {showContent && (
+          <Sidebar>
+            <SidebarItem
+              icon={LayoutDashboard}
+              label="Dashboard"
+              path={"/dashboard"}
+            />
+            <SidebarItem icon={Shield} label="Insurance" path="/insurance" />
+            <SidebarItem icon={CarFront} label="Buy/Sell" path="/buy-sell" />
+            <SidebarItem icon={CalendarCheck2} label="Renew Registration" path="/registration" />
+            <SidebarItem icon={CarFront} label="Maintenance" path="/maintenance" />
+            <SidebarItem icon={CircleUserRound} label="Hire a Driver" path="/hire-driver" />
+            <SidebarItem icon={CarTaxiFront} label="Car Leasing" path="/car-leasing" />
+            <SidebarItem icon={Handshake} label="Car Financing" path="/car-financing" />
+          </Sidebar>
+        )}
+      </div>
       <div
-        className={`container relative mx-auto px-4 py-8 ${
-          !showContent ? "min-h-[85vh] flex items-center justify-center" : ""
+        className={`min-h-screen flex flex-col w-full ${
+          showContent ? (collapsed ? "ml-[3rem]" : "ml-[15rem]") : ""
         }`}
+        style={{ transition: "margin-left 0.2s ease-in-out" }}
       >
-        {/* {!showContent ? (
-          <LandingPage />
-        ) : (
-          <>
-            <DashboardLayout />
-          </>
-        )} */}
-        <Outlet />
+        <Header />
+
+        <div
+          className={`container relative mx-auto px-4 py-8 ${
+            !showContent ? "min-h-[85vh] flex items-center justify-center" : ""
+          }`}
+        >
+          <Outlet />
+        </div>
       </div>
     </div>
   );

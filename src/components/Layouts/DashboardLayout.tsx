@@ -37,7 +37,7 @@ const DashboardLayout = () => {
         <ChatWithAgent tripData={tripData} />
       </div>
       <main className="flex-1">
-        <div className="space-y-8 animate-fade-in relative" key={uploadKey}>
+        <div className="space-y-14 animate-fade-in relative" key={uploadKey}>
           {tripData.length > 0 && <DashboardStatCards tripData={tripData} />}
           <Outlet />
         </div>
