@@ -253,16 +253,16 @@ const EcoInsights: React.FC<EcoInsightsProps> = ({ totalTrips = 0 }) => {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         {insights.map((insight, idx) => (
           <HoverCard key={idx} open={hoveredCard === insight.type}>
             <HoverCardTrigger asChild>
               <Card
-                className="flex flex-col items-center justify-center py-6 px-2 hover:shadow-lg transition-all duration-300 cursor-pointer rounded-[1rem]  border-4 border-b-2 border-l-0 !border-white"
-                style={{
-                  boxShadow:
-                    "0px 10px 12px 5px rgba(0, 0, 0, 0.1)",
-                }}
+                className="flex flex-col items-center justify-center py-6 px-2 stat-card rounded-3xl shadow-xl transform transition-all cursor-pointer hover:-translate-y-1 hover:shadow-2xl"
+                // style={{
+                //   boxShadow:
+                //     "0px 10px 12px 5px rgba(0, 0, 0, 0.1)",
+                // }}
                 onMouseEnter={() => setHoveredCard(insight.type)}
                 onMouseLeave={() => setHoveredCard(null)}
               >

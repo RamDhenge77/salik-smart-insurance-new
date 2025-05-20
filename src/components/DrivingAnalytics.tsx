@@ -416,13 +416,13 @@ const DrivingAnalytics: React.FC<DrivingAnalyticsProps> = ({
           </div>
 
           {/* Show all charts and statistics */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 px-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card
-              className="rounded-xl border-4 !border-white transition-all duration-300"
-              style={{
-                boxShadow:
-                  "inset 0px 2px 3px 2px white, 0px 10px 12px 5px rgba(0, 0, 0, 0.1)",
-              }}
+              className="stat-card rounded-3xl shadow-xl transform transition-all cursor-pointer hover:shadow-2xl"
+              // style={{
+              //   boxShadow:
+              //     "inset 0px 2px 3px 2px white, 0px 10px 12px 5px rgba(0, 0, 0, 0.1)",
+              // }}
             >
               <CardHeader>
                 <CardTitle className="text-[#2596be]">
@@ -496,13 +496,7 @@ const DrivingAnalytics: React.FC<DrivingAnalyticsProps> = ({
               </CardContent>
             </Card>
 
-            <Card
-              className="rounded-xl border-4 !border-white transition-all duration-300"
-              style={{
-                boxShadow:
-                  "inset 0px 2px 3px 2px white, 0px 10px 12px 5px rgba(0, 0, 0, 0.14)",
-              }}
-            >
+            <Card className="stat-card rounded-3xl shadow-xl transform transition-all cursor-pointer hover:shadow-2xl">
               <CardHeader>
                 <CardTitle className="text-[#2596be]">Weekly Trends</CardTitle>
               </CardHeader>
@@ -615,13 +609,7 @@ const DrivingAnalytics: React.FC<DrivingAnalyticsProps> = ({
               </CardContent>
             </Card>
 
-            <Card
-              className="rounded-xl border-4 !border-white transition-all duration-300"
-              style={{
-                boxShadow:
-                  "inset 0px 2px 3px 2px white, 0px 10px 12px 5px rgba(0, 0, 0, 0.14)",
-              }}
-            >
+            <Card className="stat-card rounded-3xl shadow-xl transform transition-all cursor-pointer hover:shadow-2xl">
               <CardHeader>
                 <CardTitle className="text-[#2596be]">
                   Weekday vs Weekend
@@ -667,13 +655,7 @@ const DrivingAnalytics: React.FC<DrivingAnalyticsProps> = ({
               </CardContent>
             </Card>
 
-            <Card
-              className="rounded-xl border-4 !border-white transition-all duration-300"
-              style={{
-                boxShadow:
-                  "inset 0px 2px 3px 2px white, 0px 10px 12px 5px rgba(0, 0, 0, 0.14)",
-              }}
-            >
+            <Card className="stat-card rounded-3xl shadow-xl transform transition-all cursor-pointer hover:shadow-2xl">
               <CardHeader>
                 <CardTitle className="text-[#2596be]">
                   Toll Gate Usage

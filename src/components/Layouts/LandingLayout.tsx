@@ -77,11 +77,7 @@ const LandingLayout = () => {
       <div>
         {showContent && (
           <Sidebar>
-            <SidebarItem
-              icon={LayoutDashboard}
-              label="Dashboard"
-              path={"/dashboard"}
-            />
+            <SidebarItem icon={LayoutDashboard} label="Dashboard" path={"/dashboard"} />
             <SidebarItem icon={Shield} label="Insurance" path="/insurance" />
             <SidebarItem icon={CarFront} label="Buy/Sell" path="/buy-sell" />
             <SidebarItem icon={CalendarCheck2} label="Renew Registration" path="/registration" />
