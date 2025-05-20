@@ -416,7 +416,7 @@ const DrivingAnalytics: React.FC<DrivingAnalyticsProps> = ({
           </div>
 
           {/* Show all charts and statistics */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 px-5">
             <Card
               className="rounded-xl border-4 !border-white transition-all duration-300"
               style={{
