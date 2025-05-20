@@ -133,10 +133,10 @@ const DashboardTabs: React.FC<DashboardTabsProps> = ({
     <Tabs
       defaultValue="analytics"
       key={`tabs-${uploadKey}`}
-      className="bg-white text-gray-700 rounded-lg border border-gray-200 shadow-sm p-4"
+      className="bg-white text-gray-700 rounded-lg p-5 mt-10 shadow-[inset_-4px_6px_13px_#d1d5db,inset_-4px_-4px_10px_#ffffff]"
       id="dashboard-tabs"
     >
-      <TabsList className="grid w-full grid-cols-8 mb-8 bg-gray-50 border border-gray-200 rounded-lg overflow-hidden p-1 h-full">
+      <TabsList className="grid w-full grid-cols-8 mt-3 mb-8 bg-gray-50 border border-gray-200 rounded-lg overflow-hidden p-1 h-full">
         <TabsTrigger
           value="analytics"
           className="text-center py-2 data-[state=active]:bg-white data-[state=active]:text-gray-700 border-r border-gray-200 hover:bg-gray-100 transition-colors font-medium"
