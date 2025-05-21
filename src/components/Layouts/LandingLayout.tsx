@@ -81,7 +81,7 @@ const LandingLayout = () => {
           <Sidebar>
             <SidebarItem icon={LayoutDashboard} label="Souq" path={"/souq"} />
             <SidebarItem icon={BarChartIcon} label="Ananlytics" path={"/analytics"} />
-            <SidebarItem icon={HandCoins} label="Orders & History" path={"/service-history"} />
+            <SidebarItem icon={HandCoins} label="Service History" path={"/service-history"} />
             {/* <SidebarItem icon={Shield} label="Insurance" path="/insurance" />
             <SidebarItem icon={CarFront} label="Buy/Sell" path="/buy-sell" />
             <SidebarItem icon={CalendarCheck2} label="Renew Registration" path="/registration" />
