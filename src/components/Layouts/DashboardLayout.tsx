@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import DashboardStatCards from "../dashboard/DashboardStatCards";
 import ChatWithAgent from "../ChatWithAgent";
+import Souq from "@/pages/Souq";
 
 const DashboardLayout = () => {
   const { uploadKey, tripData, setTripData } = useCarContext();
@@ -38,7 +39,8 @@ const DashboardLayout = () => {
       </div>
       <main className="flex-1">
         <div className="space-y-14 animate-fade-in relative" key={uploadKey}>
-          {tripData.length > 0 && <DashboardStatCards tripData={tripData} />}
+          {/* {tripData.length > 0 && <DashboardStatCards tripData={tripData} />} */}
+          <Souq />
           <Outlet />
         </div>
       </main>

@@ -1,7 +1,14 @@
 import React from "react";
 import { cn } from "@/lib/utils";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  HandCoins,
+  LogOut,
+  User,
+} from "lucide-react";
 import { useCarContext } from "@/context/Context";
+import { Link, useLocation } from "react-router-dom";
 
 interface SidebarProps {
   children: React.ReactNode;
@@ -9,6 +16,9 @@ interface SidebarProps {
 
 const Sidebar = ({ children }: SidebarProps) => {
   const { collapsed, setCollapsed } = useCarContext();
+  const location = useLocation();
+
+  const { handleLogOut } = useCarContext();
 
   return (
     <div
@@ -24,7 +34,7 @@ const Sidebar = ({ children }: SidebarProps) => {
             collapsed && "justify-center p-2"
           )}
         >
-          {!collapsed && <h1 className="text-2xl font-bold">salikGO</h1>}
+          {!collapsed && <h1 className="text-2xl font-bold">Salik Souq</h1>}
           <button
             onClick={() => setCollapsed(!collapsed)}
             className={cn(
@@ -44,6 +54,29 @@ const Sidebar = ({ children }: SidebarProps) => {
             }
             return child;
           })}
+        </div>
+
+        {/* footer */}
+        <div
+          className={`flex items-center justify-between px-2 space-x-2 mb-3 overflow-hidden ${
+            collapsed ? "flex-col space-y-2" : ""
+          }`}
+        >
+          <Link
+            to="/user-profile"
+            className={`hover:text-white duration-150 hover:bg-gray-700/50 p-[.64rem] rounded-full ${
+              location.pathname === "/user-profile" ? "bg-white/10" : ""
+            }`}
+          >
+            <User className="h-5 w-5" />
+          </Link>
+          <Link
+            to="/"
+            className="hover:text-white duration-150 hover:bg-gray-700/50 p-[.64rem] rounded-full"
+          >
+            <LogOut className="h-5 w-5" onClick={handleLogOut} />
+          </Link>
+          {/* <SettingsDialog /> */}
         </div>
       </div>
     </div>

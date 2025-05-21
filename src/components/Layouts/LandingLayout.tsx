@@ -12,6 +12,8 @@ import Sidebar from "../Sidebar";
 import SidebarItem from "../Sidebar/SidebarItem";
 import {
   LayoutDashboard,
+  BarChartIcon,
+  HandCoins,
   Shield,
   CarFront,
   CalendarCheck2,
@@ -66,7 +68,7 @@ const LandingLayout = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (showContent) {
-      navigate("/dashboard");
+      navigate("/souq");
     } else {
       navigate("/");
     }
@@ -78,14 +80,15 @@ const LandingLayout = () => {
         {showContent && (
           <Sidebar>
             <SidebarItem icon={LayoutDashboard} label="Souq" path={"/souq"} />
-            <SidebarItem icon={LayoutDashboard} label="Ananlytics" path={"/dashboard"} />
-            <SidebarItem icon={Shield} label="Insurance" path="/insurance" />
+            <SidebarItem icon={BarChartIcon} label="Ananlytics" path={"/analytics"} />
+            <SidebarItem icon={HandCoins} label="Orders & History" path={"/service-history"} />
+            {/* <SidebarItem icon={Shield} label="Insurance" path="/insurance" />
             <SidebarItem icon={CarFront} label="Buy/Sell" path="/buy-sell" />
             <SidebarItem icon={CalendarCheck2} label="Renew Registration" path="/registration" />
             <SidebarItem icon={CarFront} label="Maintenance" path="/maintenance" />
             <SidebarItem icon={CircleUserRound} label="Hire a Driver" path="/hire-driver" />
             <SidebarItem icon={CarTaxiFront} label="Car Leasing" path="/car-leasing" />
-            <SidebarItem icon={Handshake} label="Car Financing" path="/car-financing" />
+            <SidebarItem icon={Handshake} label="Car Financing" path="/car-financing" /> */}
           </Sidebar>
         )}
       </div>

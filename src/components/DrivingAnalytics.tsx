@@ -33,6 +33,7 @@ import InsuranceAdjustment from "./InsuranceAdjustment";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import { RiskThresholds } from "./RiskFactorConfig";
 import { useCarContext } from "@/context/Context";
+import DashboardStatCards from "./dashboard/DashboardStatCards";
 
 interface DrivingAnalyticsProps {
   tripData: TripData[];
@@ -373,378 +374,413 @@ const DrivingAnalytics: React.FC<DrivingAnalyticsProps> = ({
   const { tripDataAll, speedData } = useCarContext();
 
   return (
-    <Tabs defaultValue="analytics" key={`tabs-${uploadKey}`}>
-      <div className="flex items-center justify-center w-full">
-        <TabsList className="mb-6 gap-4">
-          <TabsTrigger
-            value="analytics"
-            className="text-center data-[state=active]:bg-white data-[state=active]:text-gray-700 border-r border-gray-200 hover:bg-gray-100 transition-colors font-medium"
-          >
-            <BarChartIcon className="h-4 w-4 mr-2" />
-            Driving Analytics
-          </TabsTrigger>
-          <TabsTrigger
-            value="speed"
-            className="text-center data-[state=active]:bg-white data-[state=active]:text-gray-700 border-r border-gray-200 hover:bg-gray-100 transition-colors font-medium"
-          >
-            <Gauge className="h-4 w-4 mr-2" />
-            Speed Analytics
-          </TabsTrigger>
-          <TabsTrigger
-            value="insurance"
-            className="text-center data-[state=active]:bg-white data-[state=active]:text-gray-700 border-r border-gray-200 hover:bg-gray-100 transition-colors font-medium"
-          >
-            <Calculator className="h-4 w-4 mr-2" />
-            Insurance Adjustment
-          </TabsTrigger>
-        </TabsList>
-      </div>
-      <div className="space-y-8 animate-fade-in">
-        {/* EcoInsights Component at the top */}
-        <TabsContent value="analytics">
-          <div className="mb-8">
-            <Card className="rounded-xl border-none shadow-none transition-all duration-300">
-              <CardHeader>
-                <CardTitle className="text-[#2596be]">
-                  Environmental & Cost Insights
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <EcoInsights totalTrips={tripData.length} />
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Show all charts and statistics */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card
-              className="stat-card rounded-3xl shadow-xl transform transition-all cursor-pointer hover:shadow-2xl"
-              // style={{
-              //   boxShadow:
-              //     "inset 0px 2px 3px 2px white, 0px 10px 12px 5px rgba(0, 0, 0, 0.1)",
-              // }}
+    <>
+      {tripData.length > 0 && <DashboardStatCards tripData={tripData} />}
+      <Tabs defaultValue="analytics" key={`tabs-${uploadKey}`} className="mt-10">
+        <div className="flex items-center justify-center w-full">
+          <TabsList className="mb-6 gap-4">
+            <TabsTrigger
+              value="analytics"
+              className="text-center data-[state=active]:bg-white data-[state=active]:text-gray-700 border-r border-gray-200 hover:bg-gray-100 transition-colors font-medium"
             >
-              <CardHeader>
-                <CardTitle className="text-[#2596be]">
-                  Day of Week Distribution
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={dayOfWeekData}
-                    margin={{ top: 10, right: 30, left: 10, bottom: 25 }}
-                  >
-                    <CartesianGrid
-                      strokeDasharray="3 3"
-                      stroke="rgba(107, 114, 128, 0.2)"
-                      vertical={false}
-                    />
-                    <XAxis
-                      dataKey="name"
-                      tickLine={false}
-                      axisLine={{ stroke: "rgba(107, 114, 128, 0.5)" }}
-                      tick={{ fill: "#374151", fontSize: 12, fontWeight: 500 }}
-                      height={50}
-                      padding={{ left: 10, right: 10 }}
-                    />
-                    <YAxis
-                      allowDecimals={false}
-                      tickLine={false}
-                      axisLine={{ stroke: "rgba(107, 114, 128, 0.5)" }}
-                      tick={{ fill: "#374151", fontSize: 12, fontWeight: 500 }}
-                      label={{
-                        value: "Trips",
-                        angle: -90,
-                        position: "insideLeft",
-                        fill: "#374151",
-                        fontSize: 14,
-                        fontWeight: 600,
-                      }}
-                      width={60}
-                    />
-                    <Tooltip
-                      content={<CustomTooltip />}
-                      cursor={{ fill: "rgba(107, 114, 128, 0.1)" }}
-                    />
-                    <Legend
-                      verticalAlign="top"
-                      align="right"
-                      iconType="circle"
-                      wrapperStyle={{ paddingBottom: "10px" }}
-                      formatter={(value) => (
-                        <span className="text-gray-700 font-medium">
-                          {value}
-                        </span>
-                      )}
-                    />
-                    <Bar
-                      dataKey="trips"
-                      name="Number of Trips"
-                      radius={[4, 4, 0, 0]}
-                      barSize={25}
+              <BarChartIcon className="h-4 w-4 mr-2" />
+              Driving Analytics
+            </TabsTrigger>
+            <TabsTrigger
+              value="speed"
+              className="text-center data-[state=active]:bg-white data-[state=active]:text-gray-700 border-r border-gray-200 hover:bg-gray-100 transition-colors font-medium"
+            >
+              <Gauge className="h-4 w-4 mr-2" />
+              Speed Analytics
+            </TabsTrigger>
+            <TabsTrigger
+              value="insurance"
+              className="text-center data-[state=active]:bg-white data-[state=active]:text-gray-700 border-r border-gray-200 hover:bg-gray-100 transition-colors font-medium"
+            >
+              <Calculator className="h-4 w-4 mr-2" />
+              Insurance Adjustment
+            </TabsTrigger>
+          </TabsList>
+        </div>
+        <div className="space-y-8 animate-fade-in">
+          {/* EcoInsights Component at the top */}
+          <TabsContent value="analytics">
+            <div className="mb-8">
+              <Card className="rounded-xl border-none shadow-none transition-all duration-300">
+                <CardHeader>
+                  <CardTitle className="text-[#2596be]">
+                    Environmental & Cost Insights
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <EcoInsights totalTrips={tripData.length} />
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Show all charts and statistics */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card
+                className="stat-card rounded-3xl shadow-xl transform transition-all cursor-pointer hover:shadow-2xl"
+                // style={{
+                //   boxShadow:
+                //     "inset 0px 2px 3px 2px white, 0px 10px 12px 5px rgba(0, 0, 0, 0.1)",
+                // }}
+              >
+                <CardHeader>
+                  <CardTitle className="text-[#2596be]">
+                    Day of Week Distribution
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      data={dayOfWeekData}
+                      margin={{ top: 10, right: 30, left: 10, bottom: 25 }}
                     >
-                      {dayOfWeekData.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={getBarColor(entry.isWeekend)}
-                        />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        stroke="rgba(107, 114, 128, 0.2)"
+                        vertical={false}
+                      />
+                      <XAxis
+                        dataKey="name"
+                        tickLine={false}
+                        axisLine={{ stroke: "rgba(107, 114, 128, 0.5)" }}
+                        tick={{
+                          fill: "#374151",
+                          fontSize: 12,
+                          fontWeight: 500,
+                        }}
+                        height={50}
+                        padding={{ left: 10, right: 10 }}
+                      />
+                      <YAxis
+                        allowDecimals={false}
+                        tickLine={false}
+                        axisLine={{ stroke: "rgba(107, 114, 128, 0.5)" }}
+                        tick={{
+                          fill: "#374151",
+                          fontSize: 12,
+                          fontWeight: 500,
+                        }}
+                        label={{
+                          value: "Trips",
+                          angle: -90,
+                          position: "insideLeft",
+                          fill: "#374151",
+                          fontSize: 14,
+                          fontWeight: 600,
+                        }}
+                        width={60}
+                      />
+                      <Tooltip
+                        content={<CustomTooltip />}
+                        cursor={{ fill: "rgba(107, 114, 128, 0.1)" }}
+                      />
+                      <Legend
+                        verticalAlign="top"
+                        align="right"
+                        iconType="circle"
+                        wrapperStyle={{ paddingBottom: "10px" }}
+                        formatter={(value) => (
+                          <span className="text-gray-700 font-medium">
+                            {value}
+                          </span>
+                        )}
+                      />
+                      <Bar
+                        dataKey="trips"
+                        name="Number of Trips"
+                        radius={[4, 4, 0, 0]}
+                        barSize={25}
+                      >
+                        {dayOfWeekData.map((entry, index) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={getBarColor(entry.isWeekend)}
+                          />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
 
-            <Card className="stat-card rounded-3xl shadow-xl transform transition-all cursor-pointer hover:shadow-2xl">
-              <CardHeader>
-                <CardTitle className="text-[#2596be]">Weekly Trends</CardTitle>
-              </CardHeader>
-              <CardContent className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart
-                    data={weeklyTrendsData}
-                    margin={{ top: 10, right: 30, left: 10, bottom: 25 }}
-                  >
-                    <CartesianGrid
-                      strokeDasharray="3 3"
-                      stroke="rgba(107, 114, 128, 0.2)"
-                      vertical={false}
-                    />
-                    <XAxis
-                      dataKey="week"
-                      tickLine={false}
-                      axisLine={{ stroke: "rgba(107, 114, 128, 0.5)" }}
-                      tick={{ fill: "#374151", fontSize: 12, fontWeight: 500 }}
-                      height={50}
-                      padding={{ left: 10, right: 10 }}
-                    />
-                    <YAxis
-                      yAxisId="left"
-                      allowDecimals={false}
-                      tickLine={false}
-                      axisLine={{ stroke: "rgba(107, 114, 128, 0.5)" }}
-                      tick={{ fill: "#374151", fontSize: 12, fontWeight: 500 }}
-                      label={{
-                        value: "Trips",
-                        angle: -90,
-                        position: "insideLeft",
-                        fill: "#374151",
-                        fontSize: 14,
-                        fontWeight: 600,
-                      }}
-                      width={60}
-                    />
-                    <YAxis
-                      yAxisId="right"
-                      orientation="right"
-                      allowDecimals={false}
-                      tickLine={false}
-                      axisLine={{ stroke: "rgba(107, 114, 128, 0.5)" }}
-                      tick={{ fill: "#374151", fontSize: 12, fontWeight: 500 }}
-                      label={{
-                        value: "Toll (AED)",
-                        angle: 90,
-                        position: "insideRight",
-                        fill: "#374151",
-                        fontSize: 14,
-                        fontWeight: 600,
-                      }}
-                      width={60}
-                    />
-                    <Tooltip content={<CustomTooltip />} cursor={false} />
-                    <Legend
-                      verticalAlign="top"
-                      align="right"
-                      iconType="circle"
-                      wrapperStyle={{ paddingBottom: "10px" }}
-                      formatter={(value) => (
-                        <span className="text-gray-700 font-medium">
-                          {value}
-                        </span>
-                      )}
-                    />
-                    <Line
-                      yAxisId="left"
-                      type="monotone"
-                      dataKey="trips"
-                      name="Trips"
-                      stroke="#2596be"
-                      strokeWidth={2}
-                      dot={{
-                        fill: "#ffffff",
-                        stroke: "#2596be",
-                        strokeWidth: 2,
-                        r: 4,
-                      }}
-                      activeDot={{
-                        r: 6,
-                        stroke: "#2596be",
-                        strokeWidth: 2,
-                        fill: "#ffffff",
-                      }}
-                    />
-                    <Line
-                      yAxisId="right"
-                      type="monotone"
-                      dataKey="tolls"
-                      name="Toll Amount (AED)"
-                      stroke="#fa8060"
-                      strokeWidth={2}
-                      dot={{
-                        fill: "#ffffff",
-                        stroke: "#fa8060",
-                        strokeWidth: 2,
-                        r: 4,
-                      }}
-                      activeDot={{
-                        r: 6,
-                        stroke: "#fa8060",
-                        strokeWidth: 2,
-                        fill: "#ffffff",
-                      }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-
-            <Card className="stat-card rounded-3xl shadow-xl transform transition-all cursor-pointer hover:shadow-2xl">
-              <CardHeader>
-                <CardTitle className="text-[#2596be]">
-                  Weekday vs Weekend
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
-                    <Pie
-                      data={weekdayWeekendData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={60}
-                      outerRadius={80}
-                      fill="#8884d8"
-                      paddingAngle={5}
-                      dataKey="value"
-                      label={({ name, percentage }) => `${name} ${percentage}%`}
-                      labelLine={false}
+              <Card className="stat-card rounded-3xl shadow-xl transform transition-all cursor-pointer hover:shadow-2xl">
+                <CardHeader>
+                  <CardTitle className="text-[#2596be]">
+                    Weekly Trends
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart
+                      data={weeklyTrendsData}
+                      margin={{ top: 10, right: 30, left: 10, bottom: 25 }}
                     >
-                      {weekdayWeekendData.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={index === 0 ? "#2596be" : "#36a2c9"}
-                          stroke="transparent"
-                        />
-                      ))}
-                    </Pie>
-                    <Tooltip content={<CustomTooltip />} />
-                    <Legend
-                      verticalAlign="top"
-                      align="right"
-                      iconType="circle"
-                      wrapperStyle={{ paddingBottom: "10px" }}
-                      formatter={(value) => (
-                        <span className="text-gray-700 font-medium">
-                          {value}
-                        </span>
-                      )}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        stroke="rgba(107, 114, 128, 0.2)"
+                        vertical={false}
+                      />
+                      <XAxis
+                        dataKey="week"
+                        tickLine={false}
+                        axisLine={{ stroke: "rgba(107, 114, 128, 0.5)" }}
+                        tick={{
+                          fill: "#374151",
+                          fontSize: 12,
+                          fontWeight: 500,
+                        }}
+                        height={50}
+                        padding={{ left: 10, right: 10 }}
+                      />
+                      <YAxis
+                        yAxisId="left"
+                        allowDecimals={false}
+                        tickLine={false}
+                        axisLine={{ stroke: "rgba(107, 114, 128, 0.5)" }}
+                        tick={{
+                          fill: "#374151",
+                          fontSize: 12,
+                          fontWeight: 500,
+                        }}
+                        label={{
+                          value: "Trips",
+                          angle: -90,
+                          position: "insideLeft",
+                          fill: "#374151",
+                          fontSize: 14,
+                          fontWeight: 600,
+                        }}
+                        width={60}
+                      />
+                      <YAxis
+                        yAxisId="right"
+                        orientation="right"
+                        allowDecimals={false}
+                        tickLine={false}
+                        axisLine={{ stroke: "rgba(107, 114, 128, 0.5)" }}
+                        tick={{
+                          fill: "#374151",
+                          fontSize: 12,
+                          fontWeight: 500,
+                        }}
+                        label={{
+                          value: "Toll (AED)",
+                          angle: 90,
+                          position: "insideRight",
+                          fill: "#374151",
+                          fontSize: 14,
+                          fontWeight: 600,
+                        }}
+                        width={60}
+                      />
+                      <Tooltip content={<CustomTooltip />} cursor={false} />
+                      <Legend
+                        verticalAlign="top"
+                        align="right"
+                        iconType="circle"
+                        wrapperStyle={{ paddingBottom: "10px" }}
+                        formatter={(value) => (
+                          <span className="text-gray-700 font-medium">
+                            {value}
+                          </span>
+                        )}
+                      />
+                      <Line
+                        yAxisId="left"
+                        type="monotone"
+                        dataKey="trips"
+                        name="Trips"
+                        stroke="#2596be"
+                        strokeWidth={2}
+                        dot={{
+                          fill: "#ffffff",
+                          stroke: "#2596be",
+                          strokeWidth: 2,
+                          r: 4,
+                        }}
+                        activeDot={{
+                          r: 6,
+                          stroke: "#2596be",
+                          strokeWidth: 2,
+                          fill: "#ffffff",
+                        }}
+                      />
+                      <Line
+                        yAxisId="right"
+                        type="monotone"
+                        dataKey="tolls"
+                        name="Toll Amount (AED)"
+                        stroke="#fa8060"
+                        strokeWidth={2}
+                        dot={{
+                          fill: "#ffffff",
+                          stroke: "#fa8060",
+                          strokeWidth: 2,
+                          r: 4,
+                        }}
+                        activeDot={{
+                          r: 6,
+                          stroke: "#fa8060",
+                          strokeWidth: 2,
+                          fill: "#ffffff",
+                        }}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
 
-            <Card className="stat-card rounded-3xl shadow-xl transform transition-all cursor-pointer hover:shadow-2xl">
-              <CardHeader>
-                <CardTitle className="text-[#2596be]">
-                  Toll Gate Usage
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={tollGateData}
-                    margin={{ top: 10, right: 30, left: 10, bottom: 25 }}
-                  >
-                    <CartesianGrid
-                      strokeDasharray="3 3"
-                      stroke="rgba(107, 114, 128, 0.2)"
-                      vertical={false}
-                    />
-                    <XAxis
-                      dataKey="name"
-                      tickLine={false}
-                      axisLine={{ stroke: "rgba(107, 114, 128, 0.5)" }}
-                      tick={{ fill: "#374151", fontSize: 12, fontWeight: 500 }}
-                      angle={-45}
-                      textAnchor="end"
-                      height={60}
-                      padding={{ left: 10, right: 10 }}
-                    />
-                    <YAxis
-                      allowDecimals={false}
-                      tickLine={false}
-                      axisLine={{ stroke: "rgba(107, 114, 128, 0.5)" }}
-                      tick={{ fill: "#374151", fontSize: 12, fontWeight: 500 }}
-                      label={{
-                        value: "Trips",
-                        angle: -90,
-                        position: "insideLeft",
-                        fill: "#374151",
-                        fontSize: 14,
-                        fontWeight: 600,
-                      }}
-                      width={60}
-                    />
-                    <Tooltip
-                      content={<CustomTooltip />}
-                      cursor={{ fill: "rgba(107, 114, 128, 0.1)" }}
-                    />
-                    <Legend
-                      verticalAlign="top"
-                      align="right"
-                      iconType="circle"
-                      wrapperStyle={{ paddingBottom: "10px" }}
-                      formatter={(value) => (
-                        <span className="text-gray-700 font-medium">
-                          {value}
-                        </span>
-                      )}
-                    />
-                    <Bar
-                      dataKey="trips"
-                      name="Number of Trips"
-                      radius={[4, 4, 0, 0]}
-                      barSize={25}
+              <Card className="stat-card rounded-3xl shadow-xl transform transition-all cursor-pointer hover:shadow-2xl">
+                <CardHeader>
+                  <CardTitle className="text-[#2596be]">
+                    Weekday vs Weekend
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+                      <Pie
+                        data={weekdayWeekendData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={60}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        paddingAngle={5}
+                        dataKey="value"
+                        label={({ name, percentage }) =>
+                          `${name} ${percentage}%`
+                        }
+                        labelLine={false}
+                      >
+                        {weekdayWeekendData.map((entry, index) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={index === 0 ? "#2596be" : "#36a2c9"}
+                            stroke="transparent"
+                          />
+                        ))}
+                      </Pie>
+                      <Tooltip content={<CustomTooltip />} />
+                      <Legend
+                        verticalAlign="top"
+                        align="right"
+                        iconType="circle"
+                        wrapperStyle={{ paddingBottom: "10px" }}
+                        formatter={(value) => (
+                          <span className="text-gray-700 font-medium">
+                            {value}
+                          </span>
+                        )}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+
+              <Card className="stat-card rounded-3xl shadow-xl transform transition-all cursor-pointer hover:shadow-2xl">
+                <CardHeader>
+                  <CardTitle className="text-[#2596be]">
+                    Toll Gate Usage
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      data={tollGateData}
+                      margin={{ top: 10, right: 30, left: 10, bottom: 25 }}
                     >
-                      {tollGateData.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={colors[index % colors.length]}
-                        />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        stroke="rgba(107, 114, 128, 0.2)"
+                        vertical={false}
+                      />
+                      <XAxis
+                        dataKey="name"
+                        tickLine={false}
+                        axisLine={{ stroke: "rgba(107, 114, 128, 0.5)" }}
+                        tick={{
+                          fill: "#374151",
+                          fontSize: 12,
+                          fontWeight: 500,
+                        }}
+                        angle={-45}
+                        textAnchor="end"
+                        height={60}
+                        padding={{ left: 10, right: 10 }}
+                      />
+                      <YAxis
+                        allowDecimals={false}
+                        tickLine={false}
+                        axisLine={{ stroke: "rgba(107, 114, 128, 0.5)" }}
+                        tick={{
+                          fill: "#374151",
+                          fontSize: 12,
+                          fontWeight: 500,
+                        }}
+                        label={{
+                          value: "Trips",
+                          angle: -90,
+                          position: "insideLeft",
+                          fill: "#374151",
+                          fontSize: 14,
+                          fontWeight: 600,
+                        }}
+                        width={60}
+                      />
+                      <Tooltip
+                        content={<CustomTooltip />}
+                        cursor={{ fill: "rgba(107, 114, 128, 0.1)" }}
+                      />
+                      <Legend
+                        verticalAlign="top"
+                        align="right"
+                        iconType="circle"
+                        wrapperStyle={{ paddingBottom: "10px" }}
+                        formatter={(value) => (
+                          <span className="text-gray-700 font-medium">
+                            {value}
+                          </span>
+                        )}
+                      />
+                      <Bar
+                        dataKey="trips"
+                        name="Number of Trips"
+                        radius={[4, 4, 0, 0]}
+                        barSize={25}
+                      >
+                        {tollGateData.map((entry, index) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={colors[index % colors.length]}
+                          />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
 
-        <TabsContent value="speed">
-          <TripSpeedTable tripData={speedData} key={`speed-${uploadKey}`} />
-        </TabsContent>
+          <TabsContent value="speed">
+            <TripSpeedTable tripData={speedData} key={`speed-${uploadKey}`} />
+          </TabsContent>
 
-        <TabsContent value="insurance" className="mt-6">
-          <InsuranceAdjustment
-            tripData={tripData}
-            riskThresholds={riskThresholds}
-            key={`insurance-${uploadKey}`}
-          />
-        </TabsContent>
-      </div>
-    </Tabs>
+          <TabsContent value="insurance" className="mt-6">
+            <InsuranceAdjustment
+              tripData={tripData}
+              riskThresholds={riskThresholds}
+              key={`insurance-${uploadKey}`}
+            />
+          </TabsContent>
+        </div>
+      </Tabs>
+    </>
   );
 };
 

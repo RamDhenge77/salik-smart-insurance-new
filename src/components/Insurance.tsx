@@ -11,7 +11,7 @@ const Insurance = () => {
   return (
     <Tabs defaultValue="insurance">
       <div className="flex items-center justify-center">
-        <TabsList className="mb-6 gap-4">
+        {/* <TabsList className="mb-6 gap-4">
           <TabsTrigger
             value="insurance"
             className="text-center data-[state=active]:bg-white data-[state=active]:text-gray-700 border-r border-gray-200 hover:bg-gray-100 transition-colors font-medium"
@@ -33,7 +33,7 @@ const Insurance = () => {
             <ClipboardPlus className="h-4 w-4 mr-2" />
             Roadside Assistance
           </TabsTrigger>
-        </TabsList>
+        </TabsList> */}
       </div>
       <TabsContent value="insurance">
         {!insuraanceVisible ? (

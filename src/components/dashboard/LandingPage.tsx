@@ -10,7 +10,10 @@ const LandingPage = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (showContent) {
-      navigate("/dashboard");
+      navigate("/souq");
+    }
+    else{
+      navigate("/");
     }
   }, [showContent]);
 

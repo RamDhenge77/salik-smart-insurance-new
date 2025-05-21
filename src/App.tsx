@@ -26,6 +26,8 @@ import HireDriver from "./components/HireDriver/HireDriver";
 import CarLeasing from "./components/CarLeasing";
 import CarFinancing from "./components/CarFinancing";
 import Souq from "./pages/Souq";
+import GetWarrantyPage from "./pages/GetWarrantyPage";
+import RoadsideAssitancePage from "./pages/RoadsideAssitancePage";
 
 const queryClient = new QueryClient();
 
@@ -42,19 +44,27 @@ const App = () => (
                 <Route element={<LandingLayout />}>
                   <Route path="/" element={<LandingPage />} />
                   <Route path="/user-profile" element={<UserProfilePage />} />
-                  <Route path="/service-history" element={<ServiceHistoryPage />} />
+                  <Route
+                    path="/service-history"
+                    element={<ServiceHistoryPage />}
+                  />
                   <Route path="/souq" element={<Souq />} />
+                  <Route path="/analytics" element={<DrivingAnalyticsPage />} />
 
                   <Route element={<DashboardLayout />}>
                     {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-                    <Route path="/dashboard" element={<DrivingAnalyticsPage />} />
-                    <Route path="/insurance" element={<Insurance />} />
-                    <Route path="/buy-sell" element={<BuySellCar />} />
-                    <Route path="/registration" element={<RenewRegistrationPage />} />
-                    <Route path="/maintenance" element={<Maintenance />} />
-                    <Route path="/hire-driver" element={<HireDriver />} />
-                    <Route path="/car-leasing" element={<CarLeasing />} />
-                    <Route path="/car-financing" element={<CarFinancing />} />
+                    <Route path="/souq/insurance" element={<Insurance />} />
+                    <Route path="/souq/get-warranty" element={<GetWarrantyPage />} />
+                    <Route path="/souq/roadside-assistance" element={<RoadsideAssitancePage />} />
+                    <Route path="/souq/buy-sell" element={<BuySellCar />} />
+                    <Route
+                      path="/souq/registration"
+                      element={<RenewRegistrationPage />}
+                    />
+                    <Route path="/souq/maintenance" element={<Maintenance />} />
+                    <Route path="/souq/hire-driver" element={<HireDriver />} />
+                    <Route path="/souq/car-leasing" element={<CarLeasing />} />
+                    <Route path="/souq/car-financing" element={<CarFinancing />} />
                   </Route>
                 </Route>
 

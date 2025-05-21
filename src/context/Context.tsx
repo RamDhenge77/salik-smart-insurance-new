@@ -52,6 +52,7 @@ interface CarContextType {
   setSpeedData: (data: any) => void;
   collapsed: boolean;
   setCollapsed: (collapsed: boolean) => void;
+  handleLogOut: () => void;
 }
 
 // Create the context with a default (empty) value
@@ -178,6 +179,11 @@ export const CarContextProvider: React.FC<CarProviderProps> = ({
     }
   };
 
+  const handleLogOut = () => {
+    localStorage.clear();
+    setShowContent(false);
+  };
+
   return (
     <CarContext.Provider
       value={{
@@ -222,6 +228,7 @@ export const CarContextProvider: React.FC<CarProviderProps> = ({
         setSpeedData,
         collapsed,
         setCollapsed,
+        handleLogOut,
       }}
     >
       {children}
