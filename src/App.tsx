@@ -25,6 +25,7 @@ import Maintenance from "./components/Maintenance";
 import HireDriver from "./components/HireDriver/HireDriver";
 import CarLeasing from "./components/CarLeasing";
 import CarFinancing from "./components/CarFinancing";
+import Souq from "./pages/Souq";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ const App = () => (
                   <Route path="/" element={<LandingPage />} />
                   <Route path="/user-profile" element={<UserProfilePage />} />
                   <Route path="/service-history" element={<ServiceHistoryPage />} />
+                  <Route path="/souq" element={<Souq />} />
 
                   <Route element={<DashboardLayout />}>
                     {/* <Route path="/dashboard" element={<Dashboard />} /> */}

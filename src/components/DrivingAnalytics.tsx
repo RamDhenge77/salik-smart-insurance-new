@@ -388,7 +388,7 @@ const DrivingAnalytics: React.FC<DrivingAnalyticsProps> = ({
             className="text-center data-[state=active]:bg-white data-[state=active]:text-gray-700 border-r border-gray-200 hover:bg-gray-100 transition-colors font-medium"
           >
             <Gauge className="h-4 w-4 mr-2" />
-            Speed Analysis
+            Speed Analytics
           </TabsTrigger>
           <TabsTrigger
             value="insurance"
