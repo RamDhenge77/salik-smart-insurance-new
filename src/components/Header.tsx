@@ -8,10 +8,12 @@ import {
 } from "lucide-react";
 import SettingsDialog from "./SettingsDialog";
 import { Link, useLocation } from "react-router-dom";
+import { useCarContext } from "@/context/Context";
 
 const Header: React.FC = () => {
   const location = useLocation();
   const [isLoggedin, setIsLoggedIn] = React.useState(false);
+  const { collapsed } = useCarContext();
 
   useEffect(() => {
     if (location.pathname === "/") {
@@ -32,11 +34,13 @@ const Header: React.FC = () => {
               className="w-full h-full object-contain"
             />
           </div> */}
-          <div className="relative">
-            <h1 className="text-[#2596be] font-bold text-xl">Salik Souq</h1>
-            <p className="text-gray-500 text-sm">Your Mobility Assistant</p>
-            <img src="/lovable-uploads/logo.png" className="h-6 absolute top-[-.1rem] left-[6.5rem]" alt="" />
-          </div>
+          {collapsed && (
+            <div className="relative">
+              <h1 className="text-black font-bold text-xl">Salik Souq</h1>
+              {/* <p className="text-gray-500 text-sm">Your Mobility Assistant</p> */}
+              {/* <img src="/lovable-uploads/VIP.png" className="h-6 absolute top-[.2rem] left-[6.5rem]" alt="" /> */}
+            </div>
+          )}
         </Link>
 
         {isLoggedin && (
