@@ -19,7 +19,7 @@ import { FinanceProvider } from "./context/FinanceContext";
 import ServiceHistoryPage from "./components/ServicesHistory";
 import DrivingAnalyticsPage from "./pages/DrivingAnalyticsPage";
 import Insurance from "./components/Insurance";
-import BuySellCar from "./pages/BuySellCar";
+import BuySellCar from "./pages/BuySellCar/index.tsx";
 import RenewRegistrationPage from "./pages/RenewRegistrationPage";
 import Maintenance from "./components/Maintenance";
 import HireDriver from "./components/HireDriver/HireDriver";

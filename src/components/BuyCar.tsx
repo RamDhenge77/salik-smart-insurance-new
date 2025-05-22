@@ -24,6 +24,7 @@ import { Label } from "./ui/label";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SellCar from "./SellCar";
+import Auction from "@/pages/BuySellCar/components/auction";
 
 export interface Car {
   id: string;
@@ -247,6 +248,13 @@ const BuyCar = ({ uploadKey }) => {
             <CarFront className="h-4 w-4 mr-2" />
             Sell Car
           </TabsTrigger>
+          <TabsTrigger
+            value="auction"
+            className="text-center data-[state=active]:bg-white data-[state=active]:text-gray-700 border-r border-gray-200 hover:bg-gray-100 transition-colors font-medium"
+          >
+            <CarFront className="h-4 w-4 mr-2" />
+            Auction
+          </TabsTrigger>
         </TabsList>
       </div>
 
@@ -344,7 +352,7 @@ const BuyCar = ({ uploadKey }) => {
                         Dealer
                       </Label>
                     </div>
-                    <div className="flex items-center space-x-2 border rounded-md px-3 py-2 hover:bg-[#6cd0f585] transition-colors bg-[#2595be31] from-pastel-peach to-[#6cd0f585]">
+                    {/* <div className="flex items-center space-x-2 border rounded-md px-3 py-2 hover:bg-[#6cd0f585] transition-colors bg-[#2595be31] from-pastel-peach to-[#6cd0f585]">
                       <RadioGroupItem
                         value="auction"
                         id="auction"
@@ -357,7 +365,7 @@ const BuyCar = ({ uploadKey }) => {
                         <Store className="w-5 h-5 mr-2 text-[#2596be]" />
                         Salik Auction
                       </Label>
-                    </div>
+                    </div> */}
                   </RadioGroup>
                 </Card>
               </CardTitle>
@@ -397,6 +405,9 @@ const BuyCar = ({ uploadKey }) => {
         </TabsContent>
         <TabsContent value="sellcar" className="mt-6">
           <SellCar key={`sellcar-${uploadKey}`} />
+        </TabsContent>
+        <TabsContent value="auction" className="mt-6">
+          <Auction />
         </TabsContent>
       </div>
     </Tabs>
