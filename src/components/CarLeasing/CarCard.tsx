@@ -42,9 +42,22 @@ const CarCard = ({ car }: CarCardProps) => {
             {car.seats} seats
           </div>
         </div>
-        <div className="text-xl font-bold text-primary mb-4">
-          AED {car.monthlyPrice}{" "}
-          <span className="text-sm text-gray-500 font-normal">/ month</span>
+        <div className="text-xl font-bold text-primary mb-4 flex justify-between items-center">
+          <div>
+            AED {car.monthlyPrice}{" "}
+            <span className="text-sm text-gray-500 font-normal">/ month</span>
+          </div>
+          {car?.vendor && (
+            <img
+              src={car.vendor}
+              alt=""
+              className={`w-[3.7rem] ${
+                car?.vendor?.includes("renty-ae")
+                  ? "bg-[#1359ba] py-1 px-2 rounded-lg"
+                  : ""
+              }`}
+            />
+          )}
         </div>
         {/* <Link to={`/car-details/${car.id}`}> */}
         <Button

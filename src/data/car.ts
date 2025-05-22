@@ -45,9 +45,24 @@ export interface carLeasingData {
   engineSize: string;
   transmission: 'Auto' | 'Manual';
   seats: number;
+  vendor?: string;
 }
 
 export const carLeasingData: carLeasingData[] = [
+  {
+    id: '1',
+    brand: 'Mitsubishi',
+    model: 'Mirage',
+    type: 'economy',
+    year: 2022,
+    image: '/cars/Mitsubishi-Mirage.webp',
+    monthlyPrice: 1070,
+    features: ['Cruise Control', 'Bluetooth', 'USB Connection', 'Parking Sensors'],
+    engineSize: '1.4L',
+    transmission: 'Auto',
+    seats: 5,
+    vendor:"/lovable-uploads/carasti.png"
+  },
   {
     id: '1',
     brand: 'Mitsubishi',
@@ -59,7 +74,22 @@ export const carLeasingData: carLeasingData[] = [
     features: ['Cruise Control', 'Bluetooth', 'USB Connection', 'Parking Sensors'],
     engineSize: '1.4L',
     transmission: 'Auto',
-    seats: 5
+    seats: 5,
+    vendor:"/lovable-uploads/Udrive.png"
+  },
+  {
+    id: '1',
+    brand: 'Mitsubishi',
+    model: 'Mirage',
+    type: 'economy',
+    year: 2022,
+    image: '/cars/Mitsubishi-Mirage.webp',
+    monthlyPrice: 1100,
+    features: ['Cruise Control', 'Bluetooth', 'USB Connection', 'Parking Sensors'],
+    engineSize: '1.4L',
+    transmission: 'Auto',
+    seats: 5,
+    vendor:"/lovable-uploads/renty-ae.png"
   },
   {
     id: '2',
@@ -72,7 +102,8 @@ export const carLeasingData: carLeasingData[] = [
     features: ['Cruise Control', '360 Surround Camera', 'Memory Front Seats', 'Parking Assist'],
     engineSize: '1.7L',
     transmission: 'Auto',
-    seats: 5
+    seats: 5,
+    vendor:"/lovable-uploads/renty-ae.png"
   },
   {
     id: '3',
@@ -85,7 +116,22 @@ export const carLeasingData: carLeasingData[] = [
     features: ['Cruise Control', 'Lane Assist', 'Blind Spot Detection', 'Android Auto/Apple CarPlay'],
     engineSize: '1.8L',
     transmission: 'Auto',
-    seats: 5
+    seats: 5,
+    vendor:"/lovable-uploads/carasti.png"
+  },
+    {
+    id: '2',
+    brand: 'Renault',
+    model: 'Symbol',
+    type: 'sedan',
+    year: 2020,
+    image: '/cars/Renault-Symbol.jpg',
+    monthlyPrice: 1300,
+    features: ['Cruise Control', '360 Surround Camera', 'Memory Front Seats', 'Parking Assist'],
+    engineSize: '1.7L',
+    transmission: 'Auto',
+    seats: 5,
+    vendor:"/lovable-uploads/Udrive.png"
   },
   {
     id: '4',
@@ -98,7 +144,22 @@ export const carLeasingData: carLeasingData[] = [
     features: ['360° Camera', 'Navigation System', 'Panoramic Sunroof', 'Wireless Charging'],
     engineSize: '2.0L',
     transmission: 'Auto',
-    seats: 5
+    seats: 5,
+    vendor:"/lovable-uploads/Udrive.png"
+  },
+    {
+    id: '2',
+    brand: 'Renault',
+    model: 'Symbol',
+    type: 'sedan',
+    year: 2020,
+    image: '/cars/Renault-Symbol.jpg',
+    monthlyPrice: 1300,
+    features: ['Cruise Control', '360 Surround Camera', 'Memory Front Seats', 'Parking Assist'],
+    engineSize: '1.7L',
+    transmission: 'Auto',
+    seats: 5,
+    vendor:"/lovable-uploads/carasti.png"
   },
   {
     id: '5',
@@ -111,7 +172,8 @@ export const carLeasingData: carLeasingData[] = [
     features: ['Leather Seats', 'Premium Sound', 'Navigation', 'Driver Assist Package'],
     engineSize: '2.0L',
     transmission: 'Auto',
-    seats: 5
+    seats: 5,
+    vendor:"/lovable-uploads/renty-ae.png"
   },
   {
     id: '6',
@@ -124,7 +186,8 @@ export const carLeasingData: carLeasingData[] = [
     features: ['Premium Sound System', 'Leather Interior', 'Heads-up Display', 'Virtual Cockpit'],
     engineSize: '2.5L',
     transmission: 'Auto',
-    seats: 5
+    seats: 5,
+    vendor:"/lovable-uploads/carasti.png"
   },
   {
     id: '7',
@@ -137,7 +200,8 @@ export const carLeasingData: carLeasingData[] = [
     features: ['Reverse Camera', 'Blind Spot Monitoring', 'LED Headlights', 'Push Button Start'],
     engineSize: '2.0L',
     transmission: 'Auto',
-    seats: 5
+    seats: 5,
+    vendor:"/lovable-uploads/renty-ae.png"
   },
   {
     id: '8',
@@ -150,6 +214,7 @@ export const carLeasingData: carLeasingData[] = [
     features: ['Bluetooth', 'USB Connection', 'Air Conditioning', 'Power Windows'],
     engineSize: '1.2L',
     transmission: 'Manual',
-    seats: 4
+    seats: 4,
+    vendor:"/lovable-uploads/Udrive.png"
   }
 ];

@@ -58,21 +58,19 @@ const Sidebar = ({ children }: SidebarProps) => {
 
         {/* footer */}
         <div
-          className={`flex items-center justify-between px-2 space-x-2 mb-3 overflow-hidden ${
-            collapsed ? "flex-col space-y-2" : ""
-          }`}
+          className={`flex items-center justify-end px-2 space-x-2 mb-3 overflow-hidden `}
         >
-          <Link
+          {/* <Link
             to="/user-profile"
             className={`hover:text-white duration-150 hover:bg-gray-700/50 p-[.64rem] rounded-full ${
               location.pathname === "/user-profile" ? "bg-white/10" : ""
             }`}
           >
             <User className="h-5 w-5" />
-          </Link>
+          </Link> */}
           <Link
             to="/"
-            className="hover:text-white duration-150 hover:bg-gray-700/50 p-[.64rem] rounded-full"
+            className="hover:text-white duration-150 bg-gray-700/50 hover:bg-[#ffffff2a] p-[.64rem] rounded-full"
           >
             <LogOut className="h-5 w-5" onClick={handleLogOut} />
           </Link>

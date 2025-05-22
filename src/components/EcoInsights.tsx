@@ -201,7 +201,7 @@ const EcoInsights: React.FC<EcoInsightsProps> = ({ totalTrips = 0 }) => {
           <img src="/lovable-uploads/dirham.svg" className="h-5 w-5" alt="" />
         </div>
       ),
-      label: "Saved Fuel Cost",
+      label: "Energy Saved",
       value: `${moneySaved}`,
       iconBgClass: "bg-amber-100",
       equivalents: moneyEquivalents,

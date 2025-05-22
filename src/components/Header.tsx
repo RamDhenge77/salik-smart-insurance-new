@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import {
+  Bell,
   HandCoins,
   HandHelping,
   Settings,
@@ -9,6 +10,7 @@ import {
 import SettingsDialog from "./SettingsDialog";
 import { Link, useLocation } from "react-router-dom";
 import { useCarContext } from "@/context/Context";
+import { Button } from "./ui/button";
 
 const Header: React.FC = () => {
   const location = useLocation();
@@ -45,18 +47,13 @@ const Header: React.FC = () => {
 
         {isLoggedin && (
           <div className="flex items-center space-x-2">
-            {/* <Link
-              to="/user-profile"
-              className="hover:text-white duration-150 hover:bg-[#2595be7e] p-[.64rem] rounded-full"
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full hover:bg-[#2595be7e] hover:text-white"
             >
-              <User className="h-5 w-5" />
-            </Link>
-            <Link
-              to="/service-history"
-              className="hover:text-white text-[#0000009e] duration-150 hover:bg-[#2595be7e] p-[.64rem] rounded-full"
-            >
-              <HandCoins className="h-5 w-5" />
-            </Link> */}
+              <Bell className="h-5 w-5" />
+            </Button>
             <SettingsDialog />
           </div>
         )}

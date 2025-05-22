@@ -14,6 +14,7 @@ import {
   LayoutDashboard,
   BarChartIcon,
   HandCoins,
+  User,
   Shield,
   CarFront,
   CalendarCheck2,
@@ -82,6 +83,7 @@ const LandingLayout = () => {
             <SidebarItem icon={LayoutDashboard} label="Souq" path={"/souq"} />
             <SidebarItem icon={BarChartIcon} label="Ananlytics" path={"/analytics"} />
             <SidebarItem icon={HandCoins} label="Service History" path={"/service-history"} />
+            <SidebarItem icon={User} label="Profile" path={"/user-profile"} />
             {/* <SidebarItem icon={Shield} label="Insurance" path="/insurance" />
             <SidebarItem icon={CarFront} label="Buy/Sell" path="/buy-sell" />
             <SidebarItem icon={CalendarCheck2} label="Renew Registration" path="/registration" />
