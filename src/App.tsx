@@ -29,6 +29,7 @@ import Souq from "./pages/Souq";
 import GetWarrantyPage from "./pages/GetWarrantyPage";
 import RoadsideAssitancePage from "./pages/RoadsideAssitancePage";
 import VIPMembership from "./pages/VIPMembership/index.tsx";
+import ChallengesPage from "./pages/Challenges/index.tsx";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ const App = () => (
                   <Route path="/souq" element={<Souq />} />
                   <Route path="/analytics" element={<DrivingAnalyticsPage />} />
                   <Route path="/vip-membership" element={<VIPMembership />} />
+                  <Route path="/challenges" element={<ChallengesPage />} />
 
                   <Route element={<DashboardLayout />}>
                     <Route path="/souq/insurance" element={<Insurance />} />

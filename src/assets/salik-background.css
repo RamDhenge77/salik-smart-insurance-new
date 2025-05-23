@@ -29,28 +29,28 @@
 }
 
 /* Chart styling for better visibility */
-.recharts-cartesian-axis-tick-value {
-  fill: #333333 !important;
-  font-size: 12px !important;
-  font-weight: 500 !important;
+/* .recharts-cartesian-axis-tick-value {
+  fill: #333333 ;
+  font-size: 12px ;
+  font-weight: 500 ;
 }
 
 .recharts-text.recharts-label {
-  fill: #333333 !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
+  fill: #333333 ;
+  font-size: 14px ;
+  font-weight: 600 ;
 }
 
 .recharts-legend-item-text {
-  color: #333333 !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
+  color: #333333 ;
+  font-size: 12px ;
+  font-weight: 600 ;
 }
 
 .recharts-tooltip-label {
-  color: #374151 !important;
-  font-weight: 600 !important;
-}
+  color: #374151 ;
+  font-weight: 600 ;
+} */
 
 /* Table improvements */
 .table-cell-header {
@@ -97,8 +97,8 @@
 
 /* UI Card styling */
 .ui-card {
-  background-color: #FFFFFF !important;
-  border-color: var(--salik-border) !important;
+  background-color: #FFFFFF ;
+  border-color: var(--salik-border) ;
 }
 
 /* Tab styling */
@@ -157,45 +157,45 @@
 /* Improved chart readability styles */
 .recharts-wrapper .recharts-cartesian-grid-horizontal line,
 .recharts-wrapper .recharts-cartesian-grid-vertical line {
-  stroke: rgba(107, 114, 128, 0.2) !important;
+  stroke: rgba(107, 114, 128, 0.2) ;
 }
 
 .recharts-wrapper .recharts-cartesian-axis-line {
-  stroke: rgba(107, 114, 128, 0.5) !important;
+  stroke: rgba(107, 114, 128, 0.5);
 }
 
 .recharts-wrapper .recharts-legend-item-text {
-  color: #4B5563 !important;
-  font-weight: 600 !important;
-  font-size: 13px !important;
+  color: #4B5563;
+  font-weight: 600;
+  font-size: 13px;
 }
 
 /* Enhanced tooltip styles */
 .recharts-tooltip-wrapper .recharts-default-tooltip {
-  background-color: #FFFFFF !important;
-  border: 1px solid #E5E7EB !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
-  border-radius: 6px !important;
-  padding: 8px 12px !important;
+  background-color: #FFFFFF ;
+  border: 1px solid #E5E7EB ;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) ;
+  border-radius: 6px ;
+  padding: 8px 12px ;
 }
 
 .recharts-tooltip-item-name, 
 .recharts-tooltip-item-value {
-  color: #374151 !important;
-  font-weight: 500 !important;
+  color: #374151 ;
+  font-weight: 500 ;
 }
 
 /* Make the axis labels much more visible */
 .recharts-cartesian-axis text {
-  fill: #374151 !important;
-  font-size: 12px !important;
-  font-weight: 500 !important;
+  fill: #374151 ;
+  font-size: 12px ;
+  font-weight: 500 ;
 }
 
 .recharts-pie-label-text {
-  fill: #374151 !important;
-  font-weight: 600 !important;
-  font-size: 12px !important;
+  fill: #374151 ;
+  font-weight: 600 ;
+  font-size: 12px ;
 }
 
 /* Premium stat cards style updates */

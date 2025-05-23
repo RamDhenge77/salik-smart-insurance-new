@@ -20,6 +20,18 @@ export default {
     },
     extend: {
       colors: {
+        eco: {
+					green: {
+						DEFAULT: '#10b981',
+						light: '#4ade80',
+						dark: '#059669'
+					},
+					gray: {
+						DEFAULT: '#e4e7eb',
+						light: '#f5f7fa',
+						dark: '#9ca3af'
+					}
+				},
         btn: {
           primary: "#95c7dc",
           secondary: "#e2eff9",

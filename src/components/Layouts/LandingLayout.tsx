@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Header from "../Header";
 import { TripData } from "../FileUploader";
 import { useToast } from "@/hooks/use-toast";
@@ -22,6 +22,7 @@ import {
   CarTaxiFront,
   Handshake,
   ShieldCheck,
+  Medal,
 } from "lucide-react";
 
 const LandingLayout = () => {
@@ -32,7 +33,7 @@ const LandingLayout = () => {
     setShowContent,
     collapsed,
   } = useCarContext();
-  // const [showContent, setShowContent] = useState(false);
+  const location = useLocation();
   const [uploadKey, setUploadKey] = useState(Date.now());
   const { toast } = useToast();
   const [chatOpen, setChatOpen] = useState(false);
@@ -84,15 +85,9 @@ const LandingLayout = () => {
             <SidebarItem icon={LayoutDashboard} label="Souq" path={"/souq"} />
             <SidebarItem icon={BarChartIcon} label="Ananlytics" path={"/analytics"} />
             <SidebarItem icon={HandCoins} label="Service History" path={"/service-history"} />
+            <SidebarItem icon={Medal} label="Challenges" path={"/challenges"} />
             <SidebarItem icon={ShieldCheck} label="VIP Membership" path={"/vip-membership"} />
             <SidebarItem icon={User} label="Profile" path={"/user-profile"} />
-            {/* <SidebarItem icon={Shield} label="Insurance" path="/insurance" />
-            <SidebarItem icon={CarFront} label="Buy/Sell" path="/buy-sell" />
-            <SidebarItem icon={CalendarCheck2} label="Renew Registration" path="/registration" />
-            <SidebarItem icon={CarFront} label="Maintenance" path="/maintenance" />
-            <SidebarItem icon={CircleUserRound} label="Hire a Driver" path="/hire-driver" />
-            <SidebarItem icon={CarTaxiFront} label="Car Leasing" path="/car-leasing" />
-            <SidebarItem icon={Handshake} label="Car Financing" path="/car-financing" /> */}
           </Sidebar>
         )}
       </div>
@@ -105,7 +100,7 @@ const LandingLayout = () => {
         <Header />
 
         <div
-          className={`container relative mx-auto px-4 py-8 ${
+          className={`relative  ${location.pathname === "/challenges" ? "mx-0" : "container mx-auto px-4 py-8"} ${
             !showContent ? "min-h-[85vh] flex items-center justify-center" : ""
           }`}
         >
