@@ -30,6 +30,8 @@ import GetWarrantyPage from "./pages/GetWarrantyPage";
 import RoadsideAssitancePage from "./pages/RoadsideAssitancePage";
 import VIPMembership from "./pages/VIPMembership/index.tsx";
 import ChallengesPage from "./pages/Challenges/index.tsx";
+import SalikDashboard from "./pages/SalikDashboard/index.tsx";
+import SalikCostEstimator from "./pages/SalikDashboard/components/SalikCostEstimator.tsx";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +53,8 @@ const App = () => (
                   <Route path="/analytics" element={<DrivingAnalyticsPage />} />
                   <Route path="/vip-membership" element={<VIPMembership />} />
                   <Route path="/challenges" element={<ChallengesPage />} />
+                  <Route path="/salik-dashboard" element={<SalikDashboard />} />
+                  <Route path="/cost-estimator" element={<SalikCostEstimator />} />
 
                   <Route element={<DashboardLayout />}>
                     <Route path="/souq/insurance" element={<Insurance />} />

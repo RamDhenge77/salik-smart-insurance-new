@@ -34,9 +34,7 @@ const LandingLayout = () => {
     collapsed,
   } = useCarContext();
   const location = useLocation();
-  const [uploadKey, setUploadKey] = useState(Date.now());
-  const { toast } = useToast();
-  const [chatOpen, setChatOpen] = useState(false);
+  const noMarginPages = ["/challenges", "/salik-dashboard"];
 
   useEffect(() => {
     localStorage.removeItem("tripData");
@@ -100,7 +98,7 @@ const LandingLayout = () => {
         <Header />
 
         <div
-          className={`relative  ${location.pathname === "/challenges" ? "mx-0" : "container mx-auto px-4 py-8"} ${
+          className={`relative  ${noMarginPages.includes(location.pathname) ? "mx-0" : "container mx-auto px-4 py-8"} ${
             !showContent ? "min-h-[85vh] flex items-center justify-center" : ""
           }`}
         >

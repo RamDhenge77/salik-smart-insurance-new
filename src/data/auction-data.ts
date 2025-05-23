@@ -304,7 +304,7 @@ export const mockMyCars: MyCar[] = [
 ];
 
 export const buyingSteps = [
-  'Tap "Buy" on Salik Go app',
+  'Tap "Buy" on Salik Souq app',
   "Pay AED 1,000 deposit",
   "Join daily 1-hour auction",
   "Place bid (above base or below base offer)",
@@ -313,7 +313,7 @@ export const buyingSteps = [
 ];
 
 export const sellingSteps = [
-  'Tap "Sell" on Salik Go',
+  'Tap "Sell" on Salik Souq',
   "Book 240-point inspection",
   "Get 360° photos",
   "Pay AED 599",

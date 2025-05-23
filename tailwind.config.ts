@@ -127,6 +127,10 @@ export default {
           border: "#E5E7EB",
           background: "#F9FAFB",
           foreground: "#374151",
+          beige: '#f5f5f0',
+          blue: '#1e88e5',
+					gray: '#607d8b',
+					darkblue: '#0d47a1',
         },
       },
       borderRadius: {

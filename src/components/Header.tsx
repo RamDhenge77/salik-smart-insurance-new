@@ -3,6 +3,7 @@ import {
   Bell,
   HandCoins,
   HandHelping,
+  LayoutTemplate,
   Settings,
   User,
   UserCircle,
@@ -40,7 +41,13 @@ const Header: React.FC = () => {
             <div className="relative">
               <h1 className="text-black font-bold text-xl">Salik Souq</h1>
               {/* <p className="text-gray-500 text-sm">Your Mobility Assistant</p> */}
-              {isSubscribed && <img src="/lovable-uploads/VIP.png" className="h-6 absolute top-[.2rem] left-[6.5rem]" alt="" />}
+              {isSubscribed && (
+                <img
+                  src="/lovable-uploads/VIP.png"
+                  className="h-6 absolute top-[.2rem] left-[6.5rem]"
+                  alt=""
+                />
+              )}
             </div>
           )}
         </Link>
@@ -54,6 +61,15 @@ const Header: React.FC = () => {
             >
               <Bell className="h-5 w-5" />
             </Button>
+            <Link to="/salik-dashboard">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="rounded-full hover:bg-[#2595be7e] hover:text-white"
+              >
+                <LayoutTemplate className="h-5 w-5" />
+              </Button>
+            </Link>
             <SettingsDialog />
           </div>
         )}
