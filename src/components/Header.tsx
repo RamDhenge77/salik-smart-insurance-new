@@ -61,7 +61,7 @@ const Header: React.FC = () => {
             >
               <Bell className="h-5 w-5" />
             </Button>
-            <Link to="/salik-dashboard">
+            {/* <Link to="/salik-dashboard">
               <Button
                 variant="ghost"
                 size="icon"
@@ -69,7 +69,7 @@ const Header: React.FC = () => {
               >
                 <LayoutTemplate className="h-5 w-5" />
               </Button>
-            </Link>
+            </Link> */}
             <SettingsDialog />
           </div>
         )}
