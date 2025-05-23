@@ -90,24 +90,24 @@ const VIPMembership = () => {
       : "container mx-auto px-4 pb-5 max-w-7xl min-h-screen";
 
   return (
-    <div className={containerClasses}>
+    <div className={`${containerClasses} relative`}>
+      {isSubscribed && (
+        <>
+          {/* <VIPLogo className="absolute top-0 right-4 w-20 h-20 md:w-24 md:h-24" /> */}
+          <div className="absolute -top-2 right-0 z-30">
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={handleCancelSubscription}
+              className="flex items-center gap-1"
+            >
+              <LogOut className="h-4 w-4" />
+              Cancel Subscription
+            </Button>
+          </div>
+        </>
+      )}
       <div className="space-y-8 relative">
-        {isSubscribed && (
-          <>
-            <VIPLogo className="absolute top-0 right-4 w-20 h-20 md:w-24 md:h-24" />
-            <div className="absolute top-4 left-4">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleCancelSubscription}
-                className="flex items-center gap-1 text-gray-500 hover:text-gray-700"
-              >
-                <LogOut className="h-4 w-4" />
-                Cancel Subscription
-              </Button>
-            </div>
-          </>
-        )}
         <Header />
         {isSubscribed && (
           <SavingsTracker isSubscribed={isSubscribed} savings={savings} />
@@ -131,7 +131,7 @@ const VIPMembership = () => {
           <AlertDialogFooter>
             <Button
               variant="outline"
-														className="hover:bg-bgLight"
+              className="hover:bg-bgLight"
               onClick={() => setShowCancelDialog(false)}
             >
               Keep Membership

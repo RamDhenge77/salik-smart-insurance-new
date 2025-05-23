@@ -36,7 +36,7 @@ const ChampionCards = ({ champions }: ChampionCardsProps) => {
             </div>
             
             {champion.reward && (
-              <div className="bg-gradient-to-br from-eco-green-light to-eco-green rounded-lg p-3 text-white mt-2">
+              <div className="bg-gradient-to-br from-btn-primary to-themeDark rounded-lg p-3 text-white mt-2">
                 <Badge variant="outline" className="bg-white bg-opacity-20 text-white mb-1 border-none">
                   {champion.reward.title}
                 </Badge>

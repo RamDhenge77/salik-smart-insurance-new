@@ -6,14 +6,14 @@ const Header = () => {
     <div className="flex flex-col md:flex-row justify-between items-center mb-6 pb-4 border-b border-eco-gray">
       <div className="flex items-center mb-4 md:mb-0">
         <div className="mr-3">
-          <div className="h-10 w-10 flex items-center justify-center rounded-full bg-eco-green text-white">
+          <div className="h-10 w-10 flex items-center justify-center rounded-full bg-themeDark text-white">
             <span className="text-xl">🌱</span>
           </div>
         </div>
         <div>
           <h1 className="text-2xl font-bold flex items-center">
             Green Warrior
-            <Badge className="ml-2 bg-eco-green text-white">Challenge</Badge>
+            <Badge className="ml-2 bg-themeDark hover:bg-btn-primary text-white">Challenge</Badge>
           </h1>
           <p className="text-eco-gray-dark">
             Track your eco-driving impact and compete with others

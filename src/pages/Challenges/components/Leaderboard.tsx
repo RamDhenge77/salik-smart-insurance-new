@@ -42,7 +42,7 @@ const Leaderboard = ({ warriors }: LeaderboardProps) => {
               )}
             </div>
             
-            <Avatar className="h-8 w-8 mr-3 bg-eco-green flex-shrink-0">
+            <Avatar className="h-8 w-8 mr-3 bg-themeDark flex-shrink-0">
               <AvatarImage src={warrior.avatarImg} alt={warrior.name} />
               <AvatarFallback>{warrior.avatar}</AvatarFallback>
             </Avatar>
@@ -52,7 +52,7 @@ const Leaderboard = ({ warriors }: LeaderboardProps) => {
             </div>
             
             <div className="text-right">
-              <p className="font-semibold text-eco-green">{warrior.co2Saved} kg</p>
+              <p className="font-semibold text-themeDark">{warrior.co2Saved} kg</p>
               <p className="text-xs text-eco-gray-dark">{warrior.treesPlanted} trees</p>
             </div>
           </div>

@@ -39,7 +39,7 @@ const SavingsMeters = ({
             ></div>
           </div>
           <div className="text-center">
-            <span className="text-3xl font-bold text-eco-green">
+            <span className="text-3xl font-bold text-themeDark">
               {co2Saved}
             </span>
             <span className="text-xl ml-1">kg</span>
@@ -81,7 +81,7 @@ const SavingsMeters = ({
             ></div>
           </div>
           <div className="text-center">
-            <span className="text-3xl font-bold text-eco-green">
+            <span className="text-3xl font-bold text-themeDark">
               {treesPlanted}
             </span>
             <span className="text-xl ml-1">trees</span>
