@@ -55,6 +55,8 @@ interface CarContextType {
   handleLogOut: () => void;
   isSubscribed: boolean;
   setIsSubscribed: (subscribed: boolean) => void;
+  subscriptionPeriod: number;
+  setSubscriptionPeriod: (period: number) => void;
 }
 
 // Create the context with a default (empty) value
@@ -87,6 +89,7 @@ export const CarContextProvider: React.FC<CarProviderProps> = ({
   const [speedData, setSpeedData] = useState<any>(null);
   const [collapsed, setCollapsed] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [subscriptionPeriod, setSubscriptionPeriod] = useState<number>(0);
 
   useEffect(() => {
     if (tripData.length > 0) {
@@ -182,9 +185,27 @@ export const CarContextProvider: React.FC<CarProviderProps> = ({
     }
   };
 
+  useEffect(() => {
+    if (subscriptionPeriod > 0) {
+      localStorage.setItem("subscriptionPeriod", subscriptionPeriod.toString());
+    } else {
+      localStorage.removeItem("subscriptionPeriod");
+      setIsSubscribed(false);
+    }
+  }, [subscriptionPeriod]);
+
+  useEffect(() => {
+    if (localStorage.getItem("subscriptionPeriod")) {
+      setSubscriptionPeriod(
+        parseInt(localStorage.getItem("subscriptionPeriod"))
+      );
+    }
+  }, []);
+
   const handleLogOut = () => {
     localStorage.clear();
     setShowContent(false);
+    setSubscriptionPeriod(0);
   };
 
   return (
@@ -234,6 +255,8 @@ export const CarContextProvider: React.FC<CarProviderProps> = ({
         handleLogOut,
         isSubscribed,
         setIsSubscribed,
+        subscriptionPeriod,
+        setSubscriptionPeriod,
       }}
     >
       {children}

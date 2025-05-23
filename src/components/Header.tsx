@@ -27,7 +27,7 @@ const Header: React.FC = () => {
   }, [location.pathname]);
 
   return (
-    <header className="border-b border-gray-200 bg-white shadow-sm">
+    <header className="border-b border-gray-200 bg-white shadow-sm z-20">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link to="/souq" className="flex items-center">
           {/* <div className="w-12 h-12 mr-3">

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import SubscriptionModal from "./SubscriptionModal";
 import { Star, CircleDollarSign } from "lucide-react";
+import { useCarContext } from "@/context/Context";
 
 interface SubscriptionSectionProps {
   onSubscribe: () => void;
@@ -14,10 +15,17 @@ const SubscriptionSection: React.FC<SubscriptionSectionProps> = ({
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { toast } = useToast();
+  const { setSubscriptionPeriod } = useCarContext();
 
-  const handleSubscribe = () => {
+  const handleSubscribe = (type = 1) => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
     setIsModalOpen(false);
     onSubscribe();
+    setSubscriptionPeriod(type);
     toast({
       title: "VIP Membership Activated",
       description:
