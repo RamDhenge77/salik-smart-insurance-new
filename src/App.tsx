@@ -28,6 +28,7 @@ import CarFinancing from "./components/CarFinancing";
 import Souq from "./pages/Souq";
 import GetWarrantyPage from "./pages/GetWarrantyPage";
 import RoadsideAssitancePage from "./pages/RoadsideAssitancePage";
+import VIPMembership from "./pages/VIPMembership/index.tsx";
 
 const queryClient = new QueryClient();
 
@@ -44,15 +45,12 @@ const App = () => (
                 <Route element={<LandingLayout />}>
                   <Route path="/" element={<LandingPage />} />
                   <Route path="/user-profile" element={<UserProfilePage />} />
-                  <Route
-                    path="/service-history"
-                    element={<ServiceHistoryPage />}
-                  />
+                  <Route path="/service-history" element={<ServiceHistoryPage />} />
                   <Route path="/souq" element={<Souq />} />
                   <Route path="/analytics" element={<DrivingAnalyticsPage />} />
+                  <Route path="/vip-membership" element={<VIPMembership />} />
 
                   <Route element={<DashboardLayout />}>
-                    {/* <Route path="/dashboard" element={<Dashboard />} /> */}
                     <Route path="/souq/insurance" element={<Insurance />} />
                     <Route path="/souq/get-warranty" element={<GetWarrantyPage />} />
                     <Route path="/souq/roadside-assistance" element={<RoadsideAssitancePage />} />

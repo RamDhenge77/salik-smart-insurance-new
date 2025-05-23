@@ -15,7 +15,7 @@ import { Button } from "./ui/button";
 const Header: React.FC = () => {
   const location = useLocation();
   const [isLoggedin, setIsLoggedIn] = React.useState(false);
-  const { collapsed } = useCarContext();
+  const { collapsed, isSubscribed } = useCarContext();
 
   useEffect(() => {
     if (location.pathname === "/") {
@@ -40,7 +40,7 @@ const Header: React.FC = () => {
             <div className="relative">
               <h1 className="text-black font-bold text-xl">Salik Souq</h1>
               {/* <p className="text-gray-500 text-sm">Your Mobility Assistant</p> */}
-              {/* <img src="/lovable-uploads/VIP.png" className="h-6 absolute top-[.2rem] left-[6.5rem]" alt="" /> */}
+              {isSubscribed && <img src="/lovable-uploads/VIP.png" className="h-6 absolute top-[.2rem] left-[6.5rem]" alt="" />}
             </div>
           )}
         </Link>

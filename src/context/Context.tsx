@@ -53,6 +53,8 @@ interface CarContextType {
   collapsed: boolean;
   setCollapsed: (collapsed: boolean) => void;
   handleLogOut: () => void;
+  isSubscribed: boolean;
+  setIsSubscribed: (subscribed: boolean) => void;
 }
 
 // Create the context with a default (empty) value
@@ -84,6 +86,7 @@ export const CarContextProvider: React.FC<CarProviderProps> = ({
   const [tripDataAll, setTripDataAll] = useState<TripDataAll[]>([]);
   const [speedData, setSpeedData] = useState<any>(null);
   const [collapsed, setCollapsed] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
   useEffect(() => {
     if (tripData.length > 0) {
@@ -229,6 +232,8 @@ export const CarContextProvider: React.FC<CarProviderProps> = ({
         collapsed,
         setCollapsed,
         handleLogOut,
+        isSubscribed,
+        setIsSubscribed,
       }}
     >
       {children}

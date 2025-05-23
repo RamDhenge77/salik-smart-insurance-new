@@ -15,7 +15,7 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ children }: SidebarProps) => {
-  const { collapsed, setCollapsed } = useCarContext();
+  const { collapsed, setCollapsed, isSubscribed } = useCarContext();
   const location = useLocation();
 
   const { handleLogOut } = useCarContext();
@@ -34,7 +34,18 @@ const Sidebar = ({ children }: SidebarProps) => {
             collapsed && "justify-center p-2"
           )}
         >
-          {!collapsed && <h1 className="text-2xl font-bold">Salik Souq</h1>}
+          {!collapsed && (
+            <h1 className="text-2xl font-bold relative">
+              Salik Souq
+              {isSubscribed && (
+                <img
+                  src="/lovable-uploads/VIP.png"
+                  className="h-7 absolute top-[.25rem] left-[8rem]"
+                  alt=""
+                />
+              )}
+            </h1>
+          )}
           <button
             onClick={() => setCollapsed(!collapsed)}
             className={cn(
