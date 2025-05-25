@@ -4,7 +4,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Card } from "@/components/ui/card";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { CardContent } from "@/components/ui/card";
 import {
@@ -14,23 +14,29 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Services from "./components/services";
 
 const Souq = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const images = [
     {
-      title: "Car Services Provider",
-      subtitle: "Professional car Services at your convenience",
+      title: "Premium Car Wash at Your Doorstep",
+      subtitle:
+        "Eco-friendly, waterless wash. Showroom shine, anytime, anywhere. Book in seconds!",
       src: "/cars/car-banner-1.jpg",
     },
     {
-      title: "Car Services Provider",
-      subtitle: "Professional car Services at your convenience",
+      title: "Seamless Vehicle Registration Renewal",
+      subtitle:
+        "Aviod RTA queues. Upload your documents — we handle testing, fines, and renewal, delivered to your doorstep",
       src: "/cars/car-banner-2.jpg",
     },
     {
-      title: "Car Services Provider",
-      subtitle: "Professional car Services at your convenience",
+      title: "This Week Only: 20% Off on Repairs",
+      subtitle:
+        "Save on brakes, engine tuning, and suspension. Certified garages, genuine parts — limited slots available!",
       src: "/cars/car-banner-3.jpg",
     },
   ];
@@ -82,11 +88,6 @@ const Souq = () => {
       link: "/souq/car-financing",
     },
   ];
-  const scrollTrack = window.scrollY;
-
-  useEffect(() => {
-    navigate("/souq/insurance");
-  }, []);
 
   const handleScroll = () => {
     if (window.scrollY < 100) {
@@ -99,11 +100,11 @@ const Souq = () => {
       <div className="w-full max-w-[74rem] flex items-center justify-center mx-auto px-4 overflow-x-hidden">
         <Swiper
           modules={[Autoplay, Pagination]}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: false,
-          }}
+          // autoplay={{
+          //   delay: 3000,
+          //   disableOnInteraction: false,
+          //   pauseOnMouseEnter: false,
+          // }}
           pagination={{ clickable: true }}
           loop={true}
           slidesPerView={1}
@@ -113,10 +114,10 @@ const Souq = () => {
             <SwiperSlide key={index}>
               <div className="h-[300px] flex justify-center bg-gray-100 relative">
                 <div className="absolute w-[40%] inset-0 ml-12 flex flex-col justify-center">
-                  <div className="text-[3rem] leading-tight font-bold text-white">
+                  <div className="text-[2.3rem] leading-tight font-bold text-white">
                     <span className="uppercase">{img.title}</span>
                     {img.subtitle && (
-                      <span className="block text-[1.5rem] font-normal mt-5 text-gray-300 sentence-case">
+                      <span className="block text-[1.2rem] font-normal mt-6 text-gray-300 sentence-case">
                         {img.subtitle}
                       </span>
                     )}
@@ -150,31 +151,11 @@ const Souq = () => {
         ))}
       </div>
 
-      {/* <div className="border flex justify-start pl-4 items-center mt-10 mx-auto">
-        <Carousel className="w-[100%] max-w-[100%]">
-          <CarouselContent className="-ml-[10.25rem] mr-[8rem]">
-            {insights.map((insight, index) => (
-              <CarouselItem
-                key={index}
-                className="px-[12rem] pr-[0rem] py-4 md:basis-1/2 lg:basis-1/5"
-              >
-                <Link key={index} to={insight.link} onClick={handleScroll} className="">
-                  <Card className="flex flex-col w-[10rem] items-center justify-center py-4 stat-card rounded-3xl shadow-xl transform transition-all cursor-pointer hover:-translate-y-1 hover:shadow-2xl">
-                    <div className={`mb-1 rounded-full h-[4.2rem] w-[4.2rem] `}>
-                      <img src={insight.icon} alt="" />
-                    </div>
-                    <div className="text-sm font-bold text-gray-800 flex items-center gap-1">
-                      {insight.label}
-                    </div>
-                  </Card>
-                </Link>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
-      </div> */}
+      {location.pathname === "/souq" && (
+        <div className="mt-16">
+          <Services />
+        </div>
+      )}
     </div>
   );
 };

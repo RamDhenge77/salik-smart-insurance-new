@@ -25,13 +25,13 @@ import Maintenance from "./components/Maintenance";
 import HireDriver from "./components/HireDriver/HireDriver";
 import CarLeasing from "./components/CarLeasing";
 import CarFinancing from "./components/CarFinancing";
-import Souq from "./pages/Souq";
 import GetWarrantyPage from "./pages/GetWarrantyPage";
 import RoadsideAssitancePage from "./pages/RoadsideAssitancePage";
 import VIPMembership from "./pages/VIPMembership/index.tsx";
 import ChallengesPage from "./pages/Challenges/index.tsx";
 import SalikDashboard from "./pages/SalikDashboard/index.tsx";
 import SalikCostEstimator from "./pages/SalikDashboard/components/SalikCostEstimator.tsx";
+import Souq from "./pages/Souq/index.tsx";
 
 const queryClient = new QueryClient();
 
@@ -57,6 +57,7 @@ const App = () => (
                   <Route path="/cost-estimator" element={<SalikCostEstimator />} />
 
                   <Route element={<DashboardLayout />}>
+                    <Route path="/souq" element={<Souq />} />
                     <Route path="/souq/insurance" element={<Insurance />} />
                     <Route path="/souq/get-warranty" element={<GetWarrantyPage />} />
                     <Route path="/souq/roadside-assistance" element={<RoadsideAssitancePage />} />
