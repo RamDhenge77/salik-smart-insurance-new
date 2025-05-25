@@ -71,13 +71,9 @@ const VIPMembership = () => {
     setSavings(0); // Initialize savings at 0
     localStorage.setItem("vipSavings", "0");
   };
-
-  const handleCancelSubscription = () => {
-    setShowCancelDialog(true);
-    setSubscriptionPeriod(0); // Reset subscription period
-  };
-
+  
   const confirmCancelSubscription = () => {
+    setSubscriptionPeriod(0); // Reset subscription period
     setIsSubscribed(false);
     setTheme("light");
     localStorage.removeItem("vipSubscribed");
@@ -100,7 +96,7 @@ const VIPMembership = () => {
             <Button
               variant="destructive"
               size="sm"
-              onClick={handleCancelSubscription}
+              onClick={() => setShowCancelDialog(true)}
               className="flex items-center gap-1"
             >
               <LogOut className="h-4 w-4" />
@@ -138,7 +134,7 @@ const VIPMembership = () => {
             >
               Keep Membership
             </Button>
-            <Button variant="destructive" onClick={confirmCancelSubscription}>
+            <Button variant="destructive" onClick={() => confirmCancelSubscription()}>
               Yes, Cancel
             </Button>
           </AlertDialogFooter>
