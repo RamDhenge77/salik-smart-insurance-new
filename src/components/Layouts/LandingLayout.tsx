@@ -128,7 +128,7 @@ const LandingLayout = () => {
             <SidebarItem icon={LayoutDashboard} label="Souq" path={"/souq"} />
             <SidebarItem
               icon={BarChartIcon}
-              label="Ananlytics"
+              label="Analytics"
               path={"/analytics"}
             />
             <SidebarItem
