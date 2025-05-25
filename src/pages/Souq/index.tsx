@@ -100,11 +100,11 @@ const Souq = () => {
       <div className="w-full max-w-[74rem] flex items-center justify-center mx-auto px-4 overflow-x-hidden">
         <Swiper
           modules={[Autoplay, Pagination]}
-          // autoplay={{
-          //   delay: 3000,
-          //   disableOnInteraction: false,
-          //   pauseOnMouseEnter: false,
-          // }}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: false,
+          }}
           pagination={{ clickable: true }}
           loop={true}
           slidesPerView={1}

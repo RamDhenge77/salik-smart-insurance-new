@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import Header from "../Header";
 import { TripData } from "../FileUploader";
 import { useToast } from "@/hooks/use-toast";
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -24,6 +23,7 @@ import {
   ShieldCheck,
   Medal,
 } from "lucide-react";
+import Header from "@/components/Header";
 
 const LandingLayout = () => {
   

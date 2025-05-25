@@ -8,10 +8,11 @@ import {
   User,
   UserCircle,
 } from "lucide-react";
-import SettingsDialog from "./SettingsDialog";
 import { Link, useLocation } from "react-router-dom";
 import { useCarContext } from "@/context/Context";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
+import SettingsDialog from "./components/SettingsDialog";
+import Notification from "@/pages/Souq/components/notification";
 
 const Header: React.FC = () => {
   const location = useLocation();
@@ -54,13 +55,7 @@ const Header: React.FC = () => {
 
         {isLoggedin && (
           <div className="flex items-center space-x-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full hover:bg-[#2595be7e] hover:text-white"
-            >
-              <Bell className="h-5 w-5" />
-            </Button>
+            <Notification />
             <Link to="/salik-dashboard">
               <Button
                 variant="ghost"

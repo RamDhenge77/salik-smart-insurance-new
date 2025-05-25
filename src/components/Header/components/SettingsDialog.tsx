@@ -3,8 +3,8 @@ import React from "react";
 import { Settings } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import RiskFactorConfig, { RiskThresholds } from "./RiskFactorConfig";
-import { useLocalStorage } from "./hooks/useLocalStorage";
+import RiskFactorConfig, { RiskThresholds } from "../../RiskFactorConfig";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 // Adjusted risk thresholds with lower adjustment percentages to stay within +/-8% range
 const defaultRiskThresholds: RiskThresholds = {
