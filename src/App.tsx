@@ -62,10 +62,7 @@ const App = () => (
                     <Route path="/souq/get-warranty" element={<GetWarrantyPage />} />
                     <Route path="/souq/roadside-assistance" element={<RoadsideAssitancePage />} />
                     <Route path="/souq/buy-sell" element={<BuySellCar />} />
-                    <Route
-                      path="/souq/registration"
-                      element={<RenewRegistrationPage />}
-                    />
+                    <Route path="/souq/registration" element={<RenewRegistrationPage />} />
                     <Route path="/souq/maintenance" element={<Maintenance />} />
                     <Route path="/souq/hire-driver" element={<HireDriver />} />
                     <Route path="/souq/car-leasing" element={<CarLeasing />} />

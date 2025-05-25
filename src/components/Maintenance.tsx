@@ -60,7 +60,7 @@ const Maintenance = () => {
                   </p>
                 </div>
                 <Button
-                variant="primary"
+                  variant="primary"
                   className="px-8 py-6"
                   onClick={() => setRenderServices(true)}
                 >
