@@ -18,7 +18,8 @@ import { LogOut } from "lucide-react";
 import { useCarContext } from "@/context/Context";
 
 const VIPMembership = () => {
-  const { isSubscribed, setIsSubscribed } = useCarContext();
+  const { isSubscribed, setIsSubscribed, setSubscriptionPeriod } =
+    useCarContext();
   const [savings, setSavings] = useState(0);
   const [theme, setTheme] = useState("light");
   const [showCancelDialog, setShowCancelDialog] = useState(false);
@@ -73,6 +74,7 @@ const VIPMembership = () => {
 
   const handleCancelSubscription = () => {
     setShowCancelDialog(true);
+    setSubscriptionPeriod(0); // Reset subscription period
   };
 
   const confirmCancelSubscription = () => {

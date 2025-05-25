@@ -5,6 +5,7 @@ import {
   ChevronRight,
   HandCoins,
   LogOut,
+  PanelLeft,
   User,
 } from "lucide-react";
 import { useCarContext } from "@/context/Context";
@@ -15,7 +16,7 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ children }: SidebarProps) => {
-  const { collapsed, setCollapsed, isSubscribed } = useCarContext();
+  const { collapsed, setCollapsed, isSubscribed, subscriptionPeriod } = useCarContext();
   const location = useLocation();
 
   const { handleLogOut } = useCarContext();
@@ -23,7 +24,7 @@ const Sidebar = ({ children }: SidebarProps) => {
   return (
     <div
       className={cn(
-        "fixed h-screen transition-all duration-300 bg-[#1A1F2C] text-white z-40",
+        `fixed transition-all duration-300 text-white z-40 ${subscriptionPeriod === 2 ? "!bg-[linear-gradient(to_bottom,_#5a3d25,_#2b1d13)] border border-white h-[calc(100vh-1.4rem)] rounded-2xl" : "bg-[#1A1F2C] h-screen"}`,
         collapsed ? "w-[60px]" : "w-[240px]"
       )}
     >
@@ -49,14 +50,15 @@ const Sidebar = ({ children }: SidebarProps) => {
           <button
             onClick={() => setCollapsed(!collapsed)}
             className={cn(
-              "p-2 rounded-full hover:bg-gray-700/50",
-              collapsed ? "mx-auto" : "ml-auto"
+              "p-2 rounded-full hover:bg-gray-700/50 duration-200",
+              collapsed ? "mx-auto" : "ml-auto",
+              subscriptionPeriod === 2 ? "bg-white/20 hover:bg-white/10 mt-2" : "",
             )}
           >
-            {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+            {subscriptionPeriod === 2? <PanelLeft size={subscriptionPeriod === 2 ? 16 : 20} /> :(collapsed ? <ChevronRight size={subscriptionPeriod === 2 ? 16 : 20} /> : <ChevronLeft size={subscriptionPeriod === 2 ? 16 : 20} />)}
           </button>
         </div>
-        <div className="flex-1 overflow-y-auto">
+        <div className={`flex-1 overflow-y-auto ${subscriptionPeriod === 2 ?'space-y-3 mt-3':''}`}>
           {React.Children.map(children, (child) => {
             if (React.isValidElement(child)) {
               return React.cloneElement(child as React.ReactElement<any>, {
@@ -81,11 +83,11 @@ const Sidebar = ({ children }: SidebarProps) => {
           </Link> */}
           <Link
             to="/"
-            className="hover:text-white duration-150 bg-gray-700/50 hover:bg-[#ffffff2a] p-[.64rem] rounded-full"
+            onClick={handleLogOut}
+            className={`hover:text-white duration-150 bg-gray-700/50 hover:bg-[#ffffff2a] p-[.64rem] rounded-full ${subscriptionPeriod === 2 ? "bg-white/20" : ""}`}
           >
-            <LogOut className="h-5 w-5" onClick={handleLogOut} />
+            <LogOut className={`${subscriptionPeriod === 2?'h-4 w-4':'h-5 w-5'}`} />
           </Link>
-          {/* <SettingsDialog /> */}
         </div>
       </div>
     </div>

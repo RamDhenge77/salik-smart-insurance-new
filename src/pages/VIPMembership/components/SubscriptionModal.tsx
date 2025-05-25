@@ -12,7 +12,7 @@ import { Check, X, Star, CircleDollarSign } from "lucide-react";
 interface SubscriptionModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (type: number) => void;
 }
 
 const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
@@ -123,7 +123,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
           </Button>
           <Button
             className="bg-amber-500 hover:bg-amber-600 text-white rounded-full px-8"
-            onClick={onConfirm}
+            onClick={() => onConfirm(billingPeriod === "monthly" ? 1 : 2)}
           >
             <Check className="h-4 w-4 mr-2" />
             Confirm & Subscribe
