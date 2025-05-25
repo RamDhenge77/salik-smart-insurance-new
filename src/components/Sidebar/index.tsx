@@ -5,6 +5,7 @@ import {
   ChevronRight,
   HandCoins,
   LogOut,
+  PanelLeft,
   User,
 } from "lucide-react";
 import { useCarContext } from "@/context/Context";
@@ -54,7 +55,7 @@ const Sidebar = ({ children }: SidebarProps) => {
               subscriptionPeriod === 2 ? "bg-white/20 hover:bg-white/10 mt-2" : "",
             )}
           >
-            {collapsed ? <ChevronRight size={subscriptionPeriod === 2 ? 16 : 20} /> : <ChevronLeft size={subscriptionPeriod === 2 ? 16 : 20} />}
+            {subscriptionPeriod === 2? <PanelLeft size={subscriptionPeriod === 2 ? 16 : 20} /> :(collapsed ? <ChevronRight size={subscriptionPeriod === 2 ? 16 : 20} /> : <ChevronLeft size={subscriptionPeriod === 2 ? 16 : 20} />)}
           </button>
         </div>
         <div className={`flex-1 overflow-y-auto ${subscriptionPeriod === 2 ?'space-y-3 mt-3':''}`}>
