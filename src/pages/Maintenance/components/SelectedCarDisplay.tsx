@@ -1,7 +1,7 @@
 
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import { carBrands } from "@/data/services";
 import { Edit } from "lucide-react";
-import { carBrands } from "../../data/services";
 
 interface SelectedCarDisplayProps {
   brandName: string;
@@ -48,7 +48,7 @@ const SelectedCarDisplay: React.FC<SelectedCarDisplayProps> = ({
         </div>
       </div>
       
-      <Button 
+      <Button
         variant="outline" 
         size="sm" 
         onClick={onChangeCar}

@@ -1,5 +1,5 @@
 
-import { cn } from "../../lib/utils";
+import { cn } from "@/lib/utils";
 import { CarFront, Settings, MapPin, CheckCircle } from "lucide-react";
 
 interface StepperProps {

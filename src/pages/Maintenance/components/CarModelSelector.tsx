@@ -1,12 +1,12 @@
 
-import { getModelsByBrand } from '../../data/services';
 import { 
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../ui/select';
+} from '@/components/ui/select';
+import { getModelsByBrand } from '@/data/services';
 
 interface CarModelSelectorProps {
   brandId: string | null;

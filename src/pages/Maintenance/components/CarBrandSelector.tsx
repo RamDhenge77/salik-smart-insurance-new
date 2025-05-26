@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { carBrands } from "../../data/services";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "@/components/ui/select";
 import {
   Command,
   CommandInput,
@@ -14,7 +13,8 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandItem,
-} from "../ui/command";
+} from "@/components/ui/command";
+import { carBrands } from "@/data/services";
 
 interface CarBrandSelectorProps {
   selectedBrand: string | null;

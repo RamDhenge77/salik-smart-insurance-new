@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { ServiceOption, carBrands } from "../../data/services";
-import { Button } from "../ui/button";
-import { toast } from "../ui/sonner";
+// import { toast } from "../ui/sonner";
 import { Car } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useCarContext } from "@/context/Context";
+import { toast } from "sonner";
+import { carBrands, ServiceOption } from "@/data/services";
+import { Button } from "@/components/ui/button";
 
 interface ServiceDetailProps {
   service: ServiceOption;

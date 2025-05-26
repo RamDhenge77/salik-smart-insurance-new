@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { carBrands, getModelsByBrand } from "../../../data/services";
-import ServiceCategoryList from "../../../components/ServiceSelection/ServiceCategoryList";
-import CarBrandSelector from "../../../components/ServiceSelection/CarBrandSelector";
-import CarModelSelector from "../../../components/ServiceSelection/CarModelSelector";
-import ServicesList from "../../../components/ServiceSelection/ServicesList";
-import SelectedCarDisplay from "../../../components/ServiceSelection/SelectedCarDisplay";
-import Stepper from "../../../components/ServiceSelection/Stepper";
+import ServiceCategoryList from "./ServiceCategoryList";
+import CarBrandSelector from "./CarBrandSelector";
+import CarModelSelector from "./CarModelSelector";
+import ServicesList from "./ServicesList";
+import SelectedCarDisplay from "./SelectedCarDisplay";
+import Stepper from "./Stepper";
 import { Button } from "../../../components/ui/button";
 import { toast } from "../../../components/ui/sonner";
 import { useCarContext } from "@/context/Context";

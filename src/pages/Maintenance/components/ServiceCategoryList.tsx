@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { serviceCategories } from "../../data/services";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { cn } from "../../lib/utils";
 import { useCarContext } from "@/context/Context";
+import { serviceCategories } from "@/data/services";
+import { cn } from "@/lib/utils";
 
 interface ServiceCategoryListProps {
   selectedCategory: string | null;

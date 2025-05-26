@@ -1,5 +1,5 @@
 
-import { getServicesByCategory, ServiceOption } from "../../data/services";
+import { getServicesByCategory, ServiceOption } from "@/data/services";
 import ServiceDetail from "./ServiceDetail";
 import { 
   Carousel,
@@ -7,7 +7,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious
-} from "../ui/carousel";
+} from "@/components/ui/carousel";
 
 interface ServicesListProps {
   categoryId: string;
