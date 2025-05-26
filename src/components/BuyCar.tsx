@@ -427,7 +427,7 @@ const sampleCars: Car[] = [
     transmission: "Automatic",
     location: "Dubai",
     seller: "Dealer",
-    image: "/lovable-uploads/Toyota-Camry.jpg",
+    image: "/lovable-uploads/Toyota-Camry2.jpg",
   },
   {
     id: "2",

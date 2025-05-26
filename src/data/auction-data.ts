@@ -40,17 +40,17 @@ export type MyCar = Car & {
 // High quality car image URLs - verified
 const carImages = {
   lexusGX:
-    "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=1470&auto=format&fit=crop",
+    "/lovable-uploads/lexus-2.webp",
   nissan:
     "https://images.unsplash.com/photo-1642004614576-877e9266828a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   toyota:
-    "https://images.unsplash.com/photo-1559416523-140ddc3d238c?q=80&w=1374&auto=format&fit=crop",
+    "/cars/toyota-land-cruiser.webp",
   tesla:
     "https://images.unsplash.com/photo-1561580125-028ee3bd62eb?q=80&w=1470&auto=format&fit=crop",
   mercedes:
     "https://images.unsplash.com/photo-1669234226129-8ede05b40eff?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   range:
-    "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1528&auto=format&fit=crop",
+    "/cars/range-rover-sport.png",
   bmw: "https://images.unsplash.com/photo-1556189250-72ba954cfc2b?q=80&w=1470&auto=format&fit=crop",
   audi: "https://images.unsplash.com/photo-1603386329225-868f9b1ee6c9?q=80&w=1469&auto=format&fit=crop",
   porsche:

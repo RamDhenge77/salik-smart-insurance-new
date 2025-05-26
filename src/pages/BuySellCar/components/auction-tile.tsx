@@ -43,8 +43,8 @@ const AuctionTile: React.FC<AuctionTileProps> = ({ car, onTileClick }) => {
               {car.mileage.toLocaleString()} KM
             </span>
           </div>
-          <div className="flex items-center">
-            <span className="mr-1">Inspection:</span>
+          <div className="flex items-center justify-end">
+            {/* <span className="mr-1">Inspection:</span>
             {car.inspection ? (
               <div className="flex items-center">
                 <Check size={16} className="text-green-500 mr-1" />
@@ -52,7 +52,15 @@ const AuctionTile: React.FC<AuctionTileProps> = ({ car, onTileClick }) => {
               </div>
             ) : (
               <span className="text-red-500">Pending</span>
-            )}
+            )} */}
+            <a href="/pdf/inspection.pdf" rel="noopener noreferrer" download>
+              <Button
+                variant="primary"
+                className="hover:bg-bgLight h-[1.6rem] text-[.8rem]"
+              >
+                Download
+              </Button>
+            </a>
           </div>
         </div>
 
@@ -76,7 +84,13 @@ const AuctionTile: React.FC<AuctionTileProps> = ({ car, onTileClick }) => {
             <Clock size={16} className="mr-1" />
             <span>{car.timeRemaining}</span>
           </div>
-          <Button variant="primary" size="sm" className="h-[1.7rem] rounded-[.7rem] flex justify-center items-center text-[.86rem]">Place Bid</Button>
+          <Button
+            variant="primary"
+            size="sm"
+            className="h-[1.7rem] rounded-[.7rem] flex justify-center items-center text-[.86rem]"
+          >
+            Place Bid
+          </Button>
         </div>
       </div>
     </div>

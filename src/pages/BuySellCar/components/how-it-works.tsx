@@ -19,7 +19,7 @@ const HowItWorks: React.FC<HowItWorksProps> = ({
               <div className="flex items-center justify-center w-10 h-10 rounded-full bg-themeDark text-white font-semibold z-30">
                 {index + 1}
               </div>
-              {index < steps.length - 1 && (
+              {index < steps.length && (
                 <div className="w-0.5 h-4 bg-gray-300 my-1"></div>
               )}
               <div className="text-center text-sm mt-2 font-normal text-black">{step}</div>
