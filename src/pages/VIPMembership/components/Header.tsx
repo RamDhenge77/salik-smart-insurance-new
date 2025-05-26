@@ -9,10 +9,10 @@ const Header = () => {
         </div> */}
         <img src="/lovable-uploads/VIP.png" className="h-20" alt="" />
       </div>
-      <h1 className="text-4xl md:text-5xl font-bold mb-4 text-zinc-800">
+      <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">
         Salik Souq <span className="text-amber-500">VIP</span> Membership
       </h1>
-      <p className="text-lg md:text-[1rem] text-gray-600 max-w-xl mx-auto">
+      <p className="text-lg md:text-[1rem] text-gray-300 max-w-xl mx-auto">
         Drive smarter. Earn more. Get treated like a{" "}
         <span className="font-semibold text-amber-500">VIP</span>.
       </p>

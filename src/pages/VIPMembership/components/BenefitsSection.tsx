@@ -38,7 +38,7 @@ const BenefitsSection: React.FC<BenefitsSectionProps> = ({ theme = "light" }) =>
   return (
     <div className="mb-16">
       <h2 className={headerClass}>
-        <span className={theme === "subscribed" ? "text-amber-500" : "text-blue-600"}>Exclusive</span> VIP Benefits
+        <span className={theme === "subscribed" ? "text-amber-500" : "text-blue-500"}>Exclusive</span> <span className="text-white">VIP Benefits</span>
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {benefits.map((benefit) => (

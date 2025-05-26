@@ -18,7 +18,7 @@ import { LogOut } from "lucide-react";
 import { useCarContext } from "@/context/Context";
 
 const VIPMembership = () => {
-  const { isSubscribed, setIsSubscribed, setSubscriptionPeriod } =
+  const { isSubscribed, setIsSubscribed, setSubscriptionPeriod, collapsed } =
     useCarContext();
   const [savings, setSavings] = useState(0);
   const [theme, setTheme] = useState("light");
@@ -71,7 +71,7 @@ const VIPMembership = () => {
     setSavings(0); // Initialize savings at 0
     localStorage.setItem("vipSavings", "0");
   };
-  
+
   const confirmCancelSubscription = () => {
     setSubscriptionPeriod(0); // Reset subscription period
     setIsSubscribed(false);
@@ -88,7 +88,27 @@ const VIPMembership = () => {
       : "container mx-auto px-4 pb-5 max-w-7xl min-h-screen";
 
   return (
-    <div className={`${containerClasses} relative`}>
+    <div
+      className={`${containerClasses} relative `}
+      // style={{ backgroundImage: "url('/lovable-uploads/burj-khalifa.png')" }}
+    >
+      <div className="fixed top-0 left-0 w-full h-full z-0">
+        {/* Background image */}
+        <div
+          className="w-full h-full bg-cover transition-[background-position] duration-200"
+          style={{
+            backgroundImage: "url('/lovable-uploads/burj-khalifa2.png')",
+            backgroundPosition: `${collapsed?'-2rem':'4rem'} 30%`,
+          }}
+        >
+          {/* Black overlay */}
+          <div className="absolute inset-0 bg-black bg-opacity-40" />
+
+          {/* Bottom fade */}
+          {/* <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-b from-transparent to-[#ffff]" /> */}
+        </div>
+      </div>
+      {/* <div className="absolute inset-0 bg-black bg-opacity-50 z-0" /> */}
       {isSubscribed && (
         <>
           {/* <VIPLogo className="absolute top-0 right-4 w-20 h-20 md:w-24 md:h-24" /> */}
@@ -105,7 +125,7 @@ const VIPMembership = () => {
           </div>
         </>
       )}
-      <div className="space-y-8 relative">
+      <div className="space-y-8 relative mt-2">
         <Header />
         {isSubscribed && (
           <SavingsTracker isSubscribed={isSubscribed} savings={savings} />
@@ -134,7 +154,10 @@ const VIPMembership = () => {
             >
               Keep Membership
             </Button>
-            <Button variant="destructive" onClick={() => confirmCancelSubscription()}>
+            <Button
+              variant="destructive"
+              onClick={() => confirmCancelSubscription()}
+            >
               Yes, Cancel
             </Button>
           </AlertDialogFooter>

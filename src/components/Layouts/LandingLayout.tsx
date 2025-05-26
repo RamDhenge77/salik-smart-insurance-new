@@ -28,7 +28,7 @@ const LandingLayout = () => {
     subscriptionPeriod,
   } = useCarContext();
   const location = useLocation();
-  const noMarginPages = ["/challenges", "/salik-dashboard", "/user-profile"];
+  const noMarginPages = ["/challenges", "/salik-dashboard", "/user-profile","/vip-membership"];
   const annualMembershipBG = ["/souq", "/analytics"];
 
   useEffect(() => {
