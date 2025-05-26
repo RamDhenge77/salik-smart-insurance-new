@@ -89,8 +89,12 @@ const JoinChallenge = ({ onJoin, isJoined }: JoinChallengeProps) => {
                     : "bg-eco-gray-light hover:bg-eco-gray"
                 }`}
               >
-                <span className="text-2xl mb-1">{avatar.icon}</span>
-                <span className="text-xs">{avatar.name}</span>
+                {avatar.icon.includes("/lovable-uploads") ? (
+                  <img src={avatar.icon} alt="" />
+                ) : (
+                  <span className="text-2xl mb-1">{avatar.icon}</span>
+                )}
+                {/* <span className="text-xs">{avatar.name}</span> */}
               </button>
             ))}
           </div>
@@ -98,11 +102,7 @@ const JoinChallenge = ({ onJoin, isJoined }: JoinChallengeProps) => {
 
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
-        <Button
-          variant="primary"
-          type="submit"
-          className="w-full"
-        >
+        <Button variant="primary" type="submit" className="w-full">
           Join the Green Warriors
         </Button>
       </form>

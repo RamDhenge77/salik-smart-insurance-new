@@ -63,7 +63,7 @@ const ChallengesPage = () => {
             </Tabs>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-14">
             <JoinChallenge onJoin={handleJoinChallenge} isJoined={isJoined} />
             <Leaderboard warriors={leaderboardData} />
           </div>

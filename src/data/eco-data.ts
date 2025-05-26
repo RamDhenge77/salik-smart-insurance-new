@@ -32,11 +32,11 @@ export interface ChampionCard {
 }
 
 export const avatarOptions = [
-  { id: "leaf", name: "Eco Leaf", icon: "🍃" },
+  { id: "leaf", name: "Eco Leaf", icon: "🦅" },
   { id: "bolt", name: "Charging Bolt", icon: "⚡" },
-  { id: "meter", name: "Speedometer", icon: "🔄" },
-  { id: "tree", name: "Sun & Tree", icon: "🌱" },
-  { id: "tracks", name: "Tire Tracks", icon: "🛣️" },
+  { id: "sun", name: "Sun", icon: "☀️" },
+  { id: "tree", name: "Sun & Tree", icon: "/lovable-uploads/ghaf-tree.png" },
+  { id: "camel", name: "Camel", icon: "🐪" },
 ];
 
 export const monthlyData: EcoData[] = [
@@ -100,7 +100,7 @@ export const leaderboardData: Warrior[] = [
   {
     id: "1",
     name: "@EcoRider24",
-    avatar: "🍃",
+    avatar: "🦅 ",
     avatarImg: "/avatar-1.png",
     co2Saved: 68,
     treesPlanted: 3.4,
@@ -116,7 +116,7 @@ export const leaderboardData: Warrior[] = [
   {
     id: "3",
     name: "Sarah_TreeHugger",
-    avatar: "🌱",
+    avatar: "/lovable-uploads/ghaf-tree.png",
     avatarImg: "/avatar-3.png",
     co2Saved: 58,
     treesPlanted: 2.9,
@@ -124,7 +124,7 @@ export const leaderboardData: Warrior[] = [
   {
     id: "4",
     name: "@AhmedDrive",
-    avatar: "🔄",
+    avatar: "☀️",
     avatarImg: "/avatar-4.png",
     co2Saved: 54,
     treesPlanted: 2.7,
@@ -132,7 +132,7 @@ export const leaderboardData: Warrior[] = [
   {
     id: "5",
     name: "earth.saver.22",
-    avatar: "🛣️",
+    avatar: "🐪",
     avatarImg: "/avatar-5.png",
     co2Saved: 52,
     treesPlanted: 2.6,
@@ -140,7 +140,7 @@ export const leaderboardData: Warrior[] = [
   {
     id: "6",
     name: "@EcoPilot_UAE",
-    avatar: "🍃",
+    avatar: "🦅 ",
     avatarImg: "/avatar-6.png",
     co2Saved: 48,
     treesPlanted: 2.4,
@@ -156,7 +156,7 @@ export const leaderboardData: Warrior[] = [
   {
     id: "8",
     name: "CleanCommute2023",
-    avatar: "🌱",
+    avatar: "/lovable-uploads/ghaf-tree.png",
     avatarImg: "/avatar-8.png",
     co2Saved: 42,
     treesPlanted: 2.1,
@@ -164,7 +164,7 @@ export const leaderboardData: Warrior[] = [
   {
     id: "9",
     name: "Fatima_SustainDriver",
-    avatar: "🔄",
+    avatar: "☀️",
     avatarImg: "/avatar-9.png",
     co2Saved: 38,
     treesPlanted: 1.9,
@@ -172,7 +172,7 @@ export const leaderboardData: Warrior[] = [
   {
     id: "10",
     name: "@planet_guardian",
-    avatar: "🛣️",
+    avatar: "🐪",
     avatarImg: "/avatar-10.png",
     co2Saved: 35,
     treesPlanted: 1.7,
@@ -185,7 +185,7 @@ export const championsData: ChampionCard[] = [
     warrior: {
       id: "1",
       name: "@EcoRider24",
-      avatar: "🍃",
+      avatar: "🦅 ",
       avatarImg: "/avatar-1.png",
       co2Saved: 68,
       treesPlanted: 3.4,
@@ -196,7 +196,7 @@ export const championsData: ChampionCard[] = [
       title: "Green Warrior Reward",
       description: "25 AED Off on Car Wash",
       code: "ECO25WASH",
-      validUntil: "September 30, 2023",
+      validUntil: "December 31, 2025",
     },
   },
   {
@@ -215,7 +215,7 @@ export const championsData: ChampionCard[] = [
       title: "Quarterly Champion",
       description: "50 AED Fuel Credit",
       code: "FUEL50Q2",
-      validUntil: "October 15, 2023",
+      validUntil: "December 11, 2025",
     },
   },
   {
@@ -223,7 +223,7 @@ export const championsData: ChampionCard[] = [
     warrior: {
       id: "3",
       name: "Sarah_TreeHugger",
-      avatar: "🌱",
+      avatar: "/lovable-uploads/ghaf-tree.png",
       avatarImg: "/avatar-3.png",
       co2Saved: 342,
       treesPlanted: 17.1,
@@ -234,7 +234,7 @@ export const championsData: ChampionCard[] = [
       title: "Eco Hero Bonus",
       description: "Free Car Service",
       code: "ECOSVC2023",
-      validUntil: "December 31, 2023",
+      validUntil: "December 31, 2025",
     },
   },
   {
@@ -242,7 +242,7 @@ export const championsData: ChampionCard[] = [
     warrior: {
       id: "4",
       name: "@AhmedDrive",
-      avatar: "🔄",
+      avatar: "☀️",
       avatarImg: "/avatar-4.png",
       co2Saved: 712,
       treesPlanted: 35.6,
@@ -253,7 +253,7 @@ export const championsData: ChampionCard[] = [
       title: "Sustainability Award",
       description: "100 AED Shopping Voucher",
       code: "ECOSHOPPING100",
-      validUntil: "November 30, 2023",
+      validUntil: "December 31, 2025",
     },
   },
 ];
@@ -262,5 +262,5 @@ export const couponData = {
   title: "Green Warrior Reward",
   description: "25 AED Off on Car Wash",
   code: "ECO25WASH",
-  validUntil: "September 30, 2023",
+  validUntil: "December 31, 2025",
 };

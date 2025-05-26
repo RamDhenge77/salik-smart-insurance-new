@@ -48,9 +48,15 @@ const Leaderboard = ({ warriors }: LeaderboardProps) => {
               )}
             </div>
 
-            <Avatar className="h-8 w-8 mr-3 bg-themeDark flex-shrink-0">
-              <AvatarImage src={warrior.avatarImg} alt={warrior.name} />
-              <AvatarFallback>{warrior.avatar}</AvatarFallback>
+            <Avatar className="h-8 w-8 mr-3 flex-shrink-0">
+              {warrior.avatar.includes("/lovable-uploads") ? (
+                <img src={warrior.avatar} alt={warrior.name} className="p-1" />
+              ) : (
+                <>
+                  <AvatarImage src={warrior.avatarImg} alt={warrior.name} />
+                  <AvatarFallback>{warrior.avatar}</AvatarFallback>
+                </>
+              )}
             </Avatar>
 
             <div className="flex-grow">
