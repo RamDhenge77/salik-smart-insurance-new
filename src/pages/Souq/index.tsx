@@ -87,6 +87,21 @@ const Souq = () => {
       icon: "/souq/car-financing.png",
       link: "/souq/car-financing",
     },
+    {
+      label: "Door Step Fuel",
+      icon: "/souq/doorstep-fuel.png",
+      link: "#",
+    },
+    {
+      label: "Parking Locator",
+      icon: "/souq/parking-locator2.png",
+      link: "#",
+    },
+    {
+      label: "Dubai Mall Offers",
+      icon: "/souq/mall-offer.png",
+      link: "#",
+    },
   ];
 
   const handleScroll = () => {
@@ -139,7 +154,8 @@ const Souq = () => {
         {/* <div className="mt-9 flex items-center gap-5 overflow-auto"> */}
         {insights.map((insight, index) => (
           <Link key={index} to={insight.link} onClick={handleScroll}>
-            <Card className="flex flex-col w-[10rem] items-center justify-center py-4 stat-card rounded-3xl shadow-xl transform transition-all cursor-pointer hover:-translate-y-1 hover:shadow-2xl">
+            <Card className="flex flex-col w-[10rem] items-center justify-center py-4 stat-card rounded-3xl shadow-xl transform transition-all cursor-pointer hover:-translate-y-1 hover:shadow-2xl relative overflow-hidden">
+            {insight?.link==='#' && <div className="absolute top-0 right-1 text-[.7rem] bg-[#2595be35] rounded-sm px-2">Coming Soon</div>}
               <div className={`mb-1 rounded-full h-[4.2rem] w-[4.2rem] `}>
                 <img src={insight.icon} alt="" />
               </div>
@@ -152,7 +168,7 @@ const Souq = () => {
       </div>
 
       {location.pathname === "/souq" && (
-        <div className="mt-16">
+        <div className="mt-20">
           <Services />
         </div>
       )}
