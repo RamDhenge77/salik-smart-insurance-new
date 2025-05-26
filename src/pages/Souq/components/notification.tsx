@@ -14,8 +14,8 @@ const Notification = () => {
       description: "Coverage ends in 2 weeks — extend today.",
     },
     {
-      title: "Claim Period Ending",
-      description: "Last eligible claim window closes in 7 days.",
+      title: "Your oil change should be due soon",
+      description: "your last oil change was done 5 months ago",
     },
     {
       title: "Lease Term Ending",
@@ -26,8 +26,8 @@ const Notification = () => {
       description: "You're now eligible for a new model lease.",
     },
     {
-      title: "Prepay & Save",
-      description: "Early closure offer: save AED 950 in interest.",
+      title: "Car service due soon",
+      description: "You last serviced your car 30 days ago",
     },
 
     // 2nd

@@ -26,7 +26,7 @@ const equivalents = {
   ],
   money: [
     { label: "Movie Tickets", ratio: 80, emoji: "🎬" }, // AED per ticket
-    { label: "Starbucks Coffee", ratio: 1070, emoji: "☕️" }, // AED
+    { label: "Coffee", ratio: 1070, emoji: "☕️" }, // AED
     { label: "Year of Amazon Prime", ratio: 140, emoji: "📦" }, // AED
   ],
   time: [
@@ -48,13 +48,14 @@ const getEquivalentInsights = (
   return equivalents[type]
     .map((eq) => {
       const quantity =
-        eq.label === "Starbucks Coffee"
+        eq.label === "Coffee"
           ? Math.floor(value / eq.ratio) * 20
           : Math.floor(value / eq.ratio);
-      return quantity > 0
+          
+      return quantity >= 0
         ? {
             text: `${quantity} ${eq.label}${
-              eq.label === "Starbucks Coffee" && quantity > 1 ? "s" : ""
+              eq.label === "Coffee" && quantity > 1 ? "s" : ""
             }`,
             emoji: eq.emoji,
           }

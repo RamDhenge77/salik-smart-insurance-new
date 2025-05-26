@@ -269,7 +269,7 @@ const DashboardStatCards: React.FC<DashboardStatCardsProps> = (
             </div>
           </div>
         </div>
-        <p className="absolute -bottom-11 left-8 text-[.8rem] italic">(These calculations are extrapolated based on sample data and AI interpretation. There are some percentage of error expected from AI)</p>
+        <p className="absolute -bottom-[5.5rem] left-8 text-[.8rem] italic">(<span className="font-semibold">Disclaimer: </span>The estimated valuation provided is for informational purposes only and is based on publicly available data and Al-generated insights.. It does not constitute an offer or guarantee. Salik is not liable for any decisions made based on this estimate. Users should verify independently before acting.)</p>
       </div>
     </div>
   );

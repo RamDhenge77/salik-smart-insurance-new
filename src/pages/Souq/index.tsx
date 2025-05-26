@@ -95,12 +95,12 @@ const Souq = () => {
     },
     {
       label: "Parking Locator",
-      icon: "/souq/parking-locator2.png",
+      icon: "/souq/parking-locator.jpg",
       link: "#",
     },
     {
       label: "Dubai Mall Offers",
-      icon: "/souq/mall-offer.png",
+      icon: "/souq/mall.jpg",
       link: "#",
     },
   ];
@@ -156,9 +156,19 @@ const Souq = () => {
         {insights.map((insight, index) => (
           <Link key={index} to={insight.link} onClick={handleScroll}>
             <Card className="flex flex-col w-[10rem] items-center justify-center py-4 stat-card rounded-3xl shadow-xl transform transition-all cursor-pointer hover:-translate-y-1 hover:shadow-2xl relative overflow-hidden">
-            {insight?.link==='#' && <div className="absolute top-0 right-1 text-[.7rem] bg-[#2595be35] rounded-sm px-2">Coming Soon</div>}
+              {insight?.link === "#" && (
+                <div className="absolute top-0 right-1 text-[.7rem] bg-[#2595be35] rounded-sm px-2">
+                  Coming Soon
+                </div>
+              )}
               <div className={`mb-1 rounded-full h-[4.2rem] w-[4.2rem] `}>
-                <img src={insight.icon} alt="" />
+                <img
+                  src={insight.icon}
+                  alt=""
+                  className={`${
+                    insight?.label === "Dubai Mall Offers" ? "grayscale" : ""
+                  }`}
+                />
               </div>
               <div className="text-sm font-bold text-gray-800 flex items-center gap-1">
                 {insight.label}
