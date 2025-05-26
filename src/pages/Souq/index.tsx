@@ -15,6 +15,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Services from "./components/services";
+import ServicesGrid from "./components/ServicesGrid";
 
 const Souq = () => {
   const navigate = useNavigate();
@@ -169,7 +170,8 @@ const Souq = () => {
 
       {location.pathname === "/souq" && (
         <div className="mt-20">
-          <Services />
+          {/* <Services /> */}
+          <ServicesGrid />
         </div>
       )}
     </div>

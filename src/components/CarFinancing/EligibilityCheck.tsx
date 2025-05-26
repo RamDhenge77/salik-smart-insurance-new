@@ -127,47 +127,13 @@ const EligibilityCheck = () => {
                   </div>
                 </div>
                 <CardDescription className="text-green-700 text-lg">
-                  You're eligible for auto finance!
+                  We have sent your details to top banks and they will contact you shortly with offers. 
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-6">
-                <div className="mb-6">
-                  <p className="text-lg mb-2">Your Credit Score</p>
-                  <div className="w-full bg-gray-200 h-4 rounded-full">
-                    <div
-                      className={`h-4 rounded-full ${
-                        score >= 70
-                          ? "bg-green-500"
-                          : score >= 50
-                          ? "bg-yellow-500"
-                          : "bg-red-500"
-                      }`}
-                      style={{ width: `${score}%` }}
-                    />
-                  </div>
-                  <div className="flex justify-between mt-1 text-sm text-gray-500">
-                    <span>Poor</span>
-                    <span>Fair</span>
-                    <span>Good</span>
-                    <span>Excellent</span>
-                  </div>
-                </div>
-
-                <div className="bg-finance-sand p-6 rounded-lg mb-6">
-                  <p className="text-xl mb-2">You're eligible for up to</p>
-                  <p className="text-4xl font-bold text-finance-purple">
-                    {new Intl.NumberFormat("en-AE", {
-                      style: "currency",
-                      currency: "AED",
-                      maximumFractionDigits: 0,
-                    }).format(maxFinanceAmount)}
-                  </p>
-                  <p className="text-gray-500 mt-2">in auto financing</p>
-                </div>
 
                 <p className="text-gray-600 mb-6">
-                  You can now proceed to select your dream car and we'll help
-                  you finance it.
+                  Would you like to see available cars to be bought under finance and then the current car selection page can open?
                 </p>
 
                 <Button
@@ -180,6 +146,70 @@ const EligibilityCheck = () => {
                 </Button>
               </CardContent>
             </Card>
+            // <Card className="shadow-lg border-2 border-green-500">
+            //   <CardHeader className="bg-green-50">
+            //     <div className="flex items-center justify-between">
+            //       <CardTitle className="text-2xl text-green-700">
+            //         Congratulations!
+            //       </CardTitle>
+            //       <div className="h-10 w-10 bg-green-100 rounded-full flex items-center justify-center">
+            //         <Check className="h-6 w-6 text-green-600" />
+            //       </div>
+            //     </div>
+            //     <CardDescription className="text-green-700 text-lg">
+            //       You're eligible for auto finance!
+            //     </CardDescription>
+            //   </CardHeader>
+            //   <CardContent className="pt-6">
+            //     <div className="mb-6">
+            //       <p className="text-lg mb-2">Your Credit Score</p>
+            //       <div className="w-full bg-gray-200 h-4 rounded-full">
+            //         <div
+            //           className={`h-4 rounded-full ${
+            //             score >= 70
+            //               ? "bg-green-500"
+            //               : score >= 50
+            //               ? "bg-yellow-500"
+            //               : "bg-red-500"
+            //           }`}
+            //           style={{ width: `${score}%` }}
+            //         />
+            //       </div>
+            //       <div className="flex justify-between mt-1 text-sm text-gray-500">
+            //         <span>Poor</span>
+            //         <span>Fair</span>
+            //         <span>Good</span>
+            //         <span>Excellent</span>
+            //       </div>
+            //     </div>
+
+            //     <div className="bg-finance-sand p-6 rounded-lg mb-6">
+            //       <p className="text-xl mb-2">You're eligible for up to</p>
+            //       <p className="text-4xl font-bold text-finance-purple">
+            //         {new Intl.NumberFormat("en-AE", {
+            //           style: "currency",
+            //           currency: "AED",
+            //           maximumFractionDigits: 0,
+            //         }).format(maxFinanceAmount)}
+            //       </p>
+            //       <p className="text-gray-500 mt-2">in auto financing</p>
+            //     </div>
+
+            //     <p className="text-gray-600 mb-6">
+            //       You can now proceed to select your dream car and we'll help
+            //       you finance it.
+            //     </p>
+
+            //     <Button
+            //       variant="primary"
+            //       onClick={handleContinue}
+            //       className="w-full"
+            //       size="lg"
+            //     >
+            //       Continue to Car Selection
+            //     </Button>
+            //   </CardContent>
+            // </Card>
           ) : (
             <Card className="shadow-lg border-2 border-red-500">
               <CardHeader className="bg-red-50">

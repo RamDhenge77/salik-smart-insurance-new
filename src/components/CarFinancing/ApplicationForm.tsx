@@ -366,7 +366,7 @@ const ApplicationForm = () => {
                     type="submit"
                     className="w-full py-6 text-base"
                   >
-                    Submit
+                    continue to select car
                   </Button>
                 </div>
               </form>

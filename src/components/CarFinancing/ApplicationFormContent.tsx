@@ -47,28 +47,32 @@ const ApplicationFormContent = () => {
     },
   });
 
+  const checkEligibility = ()=>{
+    handleCarFinancingNext(); // Call the function to move to the next step
+  }
+
   // Form submission handler
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
-    try {
-      // Save form data to context
-      setPersonalInfo({
-        firstName: values.fullName.split(" ")[0] || values.fullName,
-        lastName: values.fullName.split(" ").slice(1).join(" ") || "",
-        email: values.email,
-        mobile: values.phone,
-        income: 0, // Default value, will be updated in the next step
-        emirates: "", // Default value, will be updated in the next step
-      });
+    handleCarFinancingNext(); // Call the function to move to the next step
+    // try {
+    //   // Save form data to context
+    //   setPersonalInfo({
+    //     firstName: values.fullName.split(" ")[0] || values.fullName,
+    //     lastName: values.fullName.split(" ").slice(1).join(" ") || "",
+    //     email: values.email,
+    //     mobile: values.phone,
+    //     income: 0, // Default value, will be updated in the next step
+    //     emirates: "", // Default value, will be updated in the next step
+    //   });
 
-      // Navigate to the next step
-      // navigate("/apply");
-      handleCarFinancingNext(); // Call the function to move to the next step
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
+    //   // Navigate to the next step
+    //   // navigate("/apply");
+    // } catch (error) {
+    //   console.error("Error submitting form:", error);
+    // } finally {
+    //   setIsSubmitting(false);
+    // }
   };
 
   return (
@@ -76,7 +80,7 @@ const ApplicationFormContent = () => {
       <CarFinanceCalculator />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <FormField
+          {/* <FormField
             control={form.control}
             name="fullName"
             render={({ field }) => (
@@ -152,17 +156,18 @@ const ApplicationFormContent = () => {
                 </div>
               </FormItem>
             )}
-          />
+          /> */}
 
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-[#95c7dc] hover:bg-[#e2eff9] text-[#4F5063] font-semibold"
-          >
-            {isSubmitting ? "Processing..." : "Continue"}
-          </Button>
         </form>
       </Form>
+          <Button
+            type="button"
+            disabled={isSubmitting}
+            onClick={checkEligibility}
+            className="w-full bg-[#95c7dc] hover:bg-[#e2eff9] text-[#4F5063] font-semibold"
+          >
+            {isSubmitting ? "Processing..." : "Check Eligibility and Apply"}
+          </Button>
     </>
   );
 };
