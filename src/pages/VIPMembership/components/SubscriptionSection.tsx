@@ -55,7 +55,7 @@ const SubscriptionSection: React.FC<SubscriptionSectionProps> = ({
           <div className="bg-gray-50 px-6 py-4 rounded-lg border border-gray-100 hover:shadow-lg transition-all cursor-pointer flex flex-col items-center">
             <div className="text-xl mb-1 font-bold">Monthly</div>
             <div className="flex items-center">
-              <CircleDollarSign className="h-5 w-5 mr-2 text-amber-500" />
+              <img src="/lovable-uploads/dirham-orange.svg" className="h-5 mr-1" alt="" />
               <span className="font-medium text-lg">AED 29/month</span>
             </div>
           </div>
@@ -66,7 +66,7 @@ const SubscriptionSection: React.FC<SubscriptionSectionProps> = ({
             </div>
             <div className="text-xl mb-1 font-bold">Annual</div>
             <div className="flex items-center">
-              <CircleDollarSign className="h-5 w-5 mr-2 text-amber-500" />
+              <img src="/lovable-uploads/dirham-orange.svg" className="h-5 mr-1" alt="" />
               <span className="font-medium text-lg">AED 19/month</span>
             </div>
             <div className="text-xs text-gray-500">Billed as AED 228/year</div>

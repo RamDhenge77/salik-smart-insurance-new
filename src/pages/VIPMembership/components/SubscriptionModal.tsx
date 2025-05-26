@@ -57,7 +57,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
             >
               <div className="font-semibold text-gray-800 mb-1">Monthly</div>
               <div className="flex items-center justify-center text-lg">
-                <CircleDollarSign className="h-4 w-4 mr-1 text-amber-500" />
+               <img src="/lovable-uploads/dirham-orange.svg" className="h-5 mr-1" alt="" />
                 <span className="font-medium">AED 29/month</span>
               </div>
             </button>
@@ -77,7 +77,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
               )}
               <div className="font-semibold text-gray-800 mb-1">Annual</div>
               <div className="flex items-center justify-center text-lg">
-                <CircleDollarSign className="h-4 w-4 mr-1 text-amber-500" />
+               <img src="/lovable-uploads/dirham-orange.svg" className="h-5 mr-1" alt="" />
                 <span className="font-medium">AED 19/month</span>
               </div>
               <div className="text-xs text-gray-500">
