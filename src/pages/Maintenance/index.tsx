@@ -1,7 +1,7 @@
 import React from "react";
-import { Button } from "./ui/button";
 import { ArrowRight, Car } from "lucide-react";
-import Services from "./Services";
+import { Button } from "@/components/ui/button";
+import Services from "./components/Services";
 
 const Maintenance = () => {
   const [renderServices, setRenderServices] = React.useState(false);

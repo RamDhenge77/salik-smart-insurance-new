@@ -21,7 +21,6 @@ import DrivingAnalyticsPage from "./pages/DrivingAnalyticsPage";
 import Insurance from "./components/Insurance";
 import BuySellCar from "./pages/BuySellCar/index.tsx";
 import RenewRegistrationPage from "./pages/RenewRegistrationPage";
-import Maintenance from "./components/Maintenance";
 import HireDriver from "./components/HireDriver/HireDriver";
 import CarLeasing from "./components/CarLeasing";
 import CarFinancing from "./components/CarFinancing";
@@ -32,6 +31,7 @@ import ChallengesPage from "./pages/Challenges/index.tsx";
 import SalikDashboard from "./pages/SalikDashboard/index.tsx";
 import SalikCostEstimator from "./pages/SalikDashboard/components/SalikCostEstimator.tsx";
 import Souq from "./pages/Souq/index.tsx";
+import Maintenance from "./pages/Maintenance/index.tsx";
 
 const queryClient = new QueryClient();
 
