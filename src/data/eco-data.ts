@@ -215,7 +215,7 @@ export const championsData: ChampionCard[] = [
       title: "Quarterly Champion",
       description: "50 AED Fuel Credit",
       code: "FUEL50Q2",
-      validUntil: "December 11, 2025",
+      validUntil: "December 31, 2025",
     },
   },
   {
