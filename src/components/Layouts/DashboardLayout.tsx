@@ -34,9 +34,9 @@ const DashboardLayout = () => {
 
   return (
     <div className="min-h-screen flex flex-col relative">
-      <div className="fixed bottom-6 right-8 z-50">
+      {/* <div className="fixed bottom-6 right-8 z-50">
         <ChatWithAgent tripData={tripData} />
-      </div>
+      </div> */}
       <main className="flex-1">
         <div className="space-y-14 animate-fade-in relative" key={uploadKey}>
           {/* {tripData.length > 0 && <DashboardStatCards tripData={tripData} />} */}

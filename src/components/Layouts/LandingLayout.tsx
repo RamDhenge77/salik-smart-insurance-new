@@ -18,9 +18,11 @@ import {
   Medal,
 } from "lucide-react";
 import Header from "@/components/Header";
+import ChatWithAgent from "../ChatWithAgent";
 
 const LandingLayout = () => {
   const {
+    tripData,
     setTripData,
     showContent,
     setShowContent,
@@ -28,7 +30,12 @@ const LandingLayout = () => {
     subscriptionPeriod,
   } = useCarContext();
   const location = useLocation();
-  const noMarginPages = ["/challenges", "/salik-dashboard", "/user-profile","/vip-membership"];
+  const noMarginPages = [
+    "/challenges",
+    "/salik-dashboard",
+    "/user-profile",
+    "/vip-membership",
+  ];
   const annualMembershipBG = ["/souq", "/analytics"];
 
   useEffect(() => {
@@ -72,7 +79,7 @@ const LandingLayout = () => {
 
   return (
     <div
-      className={`min-h-screen flex w-full ${
+      className={`min-h-screen flex w-full relative ${
         showContent && subscriptionPeriod === 2 ? "gap-8 z-10 my-3 mr-4" : ""
       }`}
     >
@@ -122,7 +129,9 @@ const LandingLayout = () => {
           </div>
         )}
       </div>
-      <div className={`${(showContent && subscriptionPeriod === 2) ? "ml-3" : ""}`}>
+      <div
+        className={`${showContent && subscriptionPeriod === 2 ? "ml-3" : ""}`}
+      >
         {showContent && (
           <Sidebar>
             <SidebarItem icon={LayoutDashboard} label="Souq" path={"/souq"} />
@@ -150,7 +159,7 @@ const LandingLayout = () => {
         className={`min-h-screen flex flex-col w-full ${
           showContent ? (collapsed ? "ml-[3rem]" : "ml-[15rem]") : ""
         } ${
-          (showContent && subscriptionPeriod === 2)
+          showContent && subscriptionPeriod === 2
             ? "z-10 rounded-2xl overflow-hidden mr-4 bg-white/95"
             : "bg-white"
         }`}
@@ -170,6 +179,11 @@ const LandingLayout = () => {
           <Outlet />
         </div>
       </div>
+      {showContent && (
+        <div className="fixed bottom-6 right-8 z-50">
+          <ChatWithAgent tripData={tripData} />
+        </div>
+      )}
     </div>
   );
 };
