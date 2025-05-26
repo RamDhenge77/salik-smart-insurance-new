@@ -376,7 +376,7 @@ const DrivingAnalytics: React.FC<DrivingAnalyticsProps> = ({
   return (
     <>
       {tripData.length > 0 && <DashboardStatCards tripData={tripData} />}
-      <Tabs defaultValue="analytics" key={`tabs-${uploadKey}`} className="mt-10">
+      <Tabs defaultValue="analytics" key={`tabs-${uploadKey}`} className="mt-20">
         <div className="flex items-center justify-center w-full">
           <TabsList className="mb-6 gap-4">
             <TabsTrigger

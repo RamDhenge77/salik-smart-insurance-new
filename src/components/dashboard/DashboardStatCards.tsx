@@ -224,7 +224,7 @@ const DashboardStatCards: React.FC<DashboardStatCardsProps> = (
           </CardContent>
         </Card>
       </div>
-      <div className="flex items-center justify-end">
+      <div className="flex items-center justify-end relative">
         <div
           className="w-[592px] h-[324px] overflow-hidden relative stat-card rounded-3xl shadow-xl transform transition-all  hover:shadow-2xl"
             // style={{
@@ -269,6 +269,7 @@ const DashboardStatCards: React.FC<DashboardStatCardsProps> = (
             </div>
           </div>
         </div>
+        <p className="absolute -bottom-11 left-8 text-[.8rem] italic">(These calculations are extrapolated based on sample data and AI interpretation. There are some percentage of error expected from AI)</p>
       </div>
     </div>
   );
