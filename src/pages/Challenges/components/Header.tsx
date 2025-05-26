@@ -1,5 +1,6 @@
 import React from "react";
 import { Badge } from "@/components/ui/badge";
+import { format } from "date-fns";
 
 const Header = () => {
   return (
@@ -24,7 +25,7 @@ const Header = () => {
       <div className="flex items-center space-x-2">
         <div className="text-center px-4 py-2 bg-eco-gray-light rounded-lg">
           <p className="text-xs text-eco-gray-dark">Current Challenge</p>
-          <p className="font-medium">August 2023</p>
+          <p className="font-medium">{format(new Date(), "MMMM yyyy")}</p>
         </div>
         <div className="text-center px-4 py-2 bg-eco-gray-light rounded-lg">
           <p className="text-xs text-eco-gray-dark">Active Warriors</p>
