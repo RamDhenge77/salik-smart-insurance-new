@@ -14,20 +14,20 @@ import LocationPage from "../../LocationPage";
 const Services = () => {
   // State for tracking the flow
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
-  const [selectedModel, setSelectedModel] = useState<string | null>(null);
-  const [selectedYear, setSelectedYear] = useState<number | null>(null);
+  const [selectedBrand, setSelectedBrand] = useState<string | null>('lexus');
+  const [selectedModel, setSelectedModel] = useState<string | null>('gx 460');
+  const [selectedYear, setSelectedYear] = useState<number | null>(2015);
   const [carSelected, setCarSelected] = useState(false);
   const { currentStep, setCurrentStep } = useCarContext();
 
   const handleCategorySelect = (categoryId: string) => {
     setSelectedCategory(categoryId);
     // If we already have a car selected, we don't need to reset those values
-    if (!carSelected) {
-      setSelectedBrand(null);
-      setSelectedModel(null);
-      setSelectedYear(null);
-    }
+    // if (!carSelected) {
+    //   setSelectedBrand(null);
+    //   setSelectedModel(null);
+    //   setSelectedYear(null);
+    // }
     setCurrentStep(2);
   };
 

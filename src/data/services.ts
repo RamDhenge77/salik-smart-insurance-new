@@ -78,7 +78,7 @@ export const carModels: CarModel[] = [
   { id: 'elantra', brandId: 'hyundai', name: 'Elantra', years: [2018, 2019, 2020, 2021, 2022, 2023] },
   { id: 'sonata', brandId: 'hyundai', name: 'Sonata', years: [2018, 2019, 2020, 2021, 2022, 2023] },
   
-  { id: 'gx 460', brandId: 'lexus', name: 'GX 460', years: [2018, 2019, 2020, 2021, 2022, 2023] },
+  { id: 'gx 460', brandId: 'lexus', name: 'GX 460', years: [2015, 2019, 2020, 2021, 2022, 2023] },
   { id: 'is', brandId: 'lexus', name: 'IS', years: [2018, 2019, 2020, 2021, 2022, 2023] },
   { id: 'rx', brandId: 'lexus', name: 'RX', years: [2018, 2019, 2020, 2021, 2022, 2023] },
   
