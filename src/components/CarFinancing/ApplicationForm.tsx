@@ -58,6 +58,13 @@ const ApplicationForm = () => {
   const { toast } = useToast();
   const { handleCarFinancingNext } = useCarContext();
 
+  const banksImages = [
+    "/banks/emirates-NBD3.png",
+    "/banks/dubai-islamic.png",
+    "/banks/emirates-islamic.png",
+    "/banks/adcb.png",
+  ];
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -100,13 +107,13 @@ const ApplicationForm = () => {
     // <Layout fullWidth>
     <div className="flex flex-col lg:flex-row min-h-screen">
       {/* Left section with marketing content */}
-      <div className="w-full lg:w-1/2 bg-finance-sand p-8 lg:p-16">
+      <div className="w-full lg:w-1/2 bg-finance-sand px-16 pb-16">
         <div className="max-w-2xl mx-auto lg:ml-auto lg:mr-0">
           <h1 className="text-3xl md:text-4xl font-bold text-[#4F5063] mb-4">
             Make this summer memorable by driving home your dream car.
           </h1>
 
-          <p className="text-base mb-8 text-[#4F5063]">
+          {/* <p className="text-base mb-8 text-[#4F5063]">
             Own the car of your choice with our exclusive Auto Finance offers.
             Enjoy competitive profit rates, payment holidays, flexible payment
             plans and much more, to make your dream car a reality.
@@ -114,7 +121,22 @@ const ApplicationForm = () => {
 
           <h2 className="text-2xl font-bold text-[#4F5063] mb-6">
             Choose Emirates Islamic Auto Finance and enjoy exclusive benefits
-          </h2>
+          </h2> */}
+
+          <div className="grid grid-cols-2 gap-x-6 p-4 max-w-md mx-auto">
+            {banksImages.map((src, index) => (
+              <div
+                key={index}
+                className="w-full h-32 overflow-hidden rounded-lg"
+              >
+                <img
+                  src={src}
+                  alt={`Image ${index + 1}`}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            ))}
+          </div>
 
           <div className="space-y-8 mb-8">
             {/* Benefit 1 */}

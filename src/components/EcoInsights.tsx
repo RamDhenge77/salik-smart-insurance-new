@@ -21,7 +21,7 @@ interface EcoInsightsProps {
 const equivalents = {
   co2: [
     { label: "hours of A/C usage", ratio: 9.36, emoji: "❄️" }, // kg CO2
-    { label: "km of traffic avoided", ratio: 0.22, emoji: "🚗" }, // kg CO2 per km
+    { label: "hours of laptop use", ratio: 0.05, emoji: "💻" }, // kg CO2 per km
     { label: "Trees Planted", ratio: 21, emoji: "🌳" }, // kg CO2 per tree
   ],
   money: [
@@ -53,12 +53,17 @@ const getEquivalentInsights = (
           : Math.floor(value / eq.ratio);
 
       const fifa = Math.floor((value * 60) / 45);
+      const laptopHoursSaved = Math.floor((value / eq.ratio)/60);
 
       return quantity >= 0
         ? {
-            text: `${eq.label === "FIFA Matches" ? fifa : quantity} ${eq.label}${
-              eq.label === "Coffee" && quantity > 1 ? "s" : ""
-            }`,
+            text: `${
+              eq.label === "FIFA Matches"
+                ? fifa
+                : eq.label === "hours of laptop use"
+                ? laptopHoursSaved
+                : quantity
+            } ${eq.label}${eq.label === "Coffee" && quantity > 1 ? "s" : ""}`,
             emoji: eq.emoji,
           }
         : null;
@@ -201,7 +206,11 @@ const EcoInsights: React.FC<EcoInsightsProps> = ({ totalTrips = 0 }) => {
     {
       icon: (
         <div className="flex items-center justify-center w-8 h-8 text-amber-600 font-bold">
-          <img src="/lovable-uploads/energy-saved.png" className="w-10" alt="" />
+          <img
+            src="/lovable-uploads/energy-saved.png"
+            className="w-10"
+            alt=""
+          />
         </div>
       ),
       label: "Energy Saved",
