@@ -49,7 +49,7 @@ const getEquivalentInsights = (
     .map((eq) => {
       const quantity =
         eq.label === "Coffee"
-          ? Math.floor(value / eq.ratio) * 20
+          ? Math.floor((value / eq.ratio) * 20)
           : Math.floor(value / eq.ratio);
           
       return quantity >= 0
