@@ -61,7 +61,7 @@ const CarSelection = () => {
           model: "Camry",
           year: 2023,
           price: 110000,
-          image: "/lovable-uploads/Toyota-Camry.jpg",
+          image: "/lovable-uploads/Toyota-Camry2.jpg",
         },
         {
           id: 2,
@@ -78,7 +78,7 @@ const CarSelection = () => {
           year: 2023,
           price: 95000,
           image:
-            "/lovable-uploads/Mercedes-Benz-C-Class.jpg",
+            "/lovable-uploads/nissan-altima.jpg",
         },
         {
           id: 4,
