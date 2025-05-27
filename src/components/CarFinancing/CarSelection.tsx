@@ -129,7 +129,7 @@ const CarSelection = () => {
           year: 2023,
           price: 80000,
           image:
-            "/lovable-uploads/Toyota-Camry2.jpg",
+            "/lovable-uploads/hyundai-sonata.jpg",
         },
       ];
       setCars(carData);
