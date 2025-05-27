@@ -32,7 +32,7 @@ const SavingsTracker: React.FC<SavingsTrackerProps> = ({
         <div className="bg-white px-8 py-4 rounded-lg border border-gray-100 shadow-md flex items-center justify-center">
           <img src="/lovable-uploads/dirham-green.svg" className="h-7 mr-1" alt="" />
           <span className="text-green-500 text-3xl font-mono tracking-wider font-bold">
-            AED {savings.toFixed(2)}
+            {savings.toFixed(2)}
           </span>
         </div>
       </div>
