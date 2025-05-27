@@ -132,10 +132,6 @@ const EligibilityCheck = () => {
               </CardHeader>
               <CardContent className="pt-6">
 
-                <p className="text-gray-600 mb-6">
-                  Would you like to see available cars to be bought under finance and then the current car selection page can open?
-                </p>
-
                 <Button
                   variant="primary"
                   onClick={handleContinue}
