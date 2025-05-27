@@ -58,7 +58,7 @@ const AuctionTile: React.FC<AuctionTileProps> = ({ car, onTileClick }) => {
                 variant="primary"
                 className="hover:bg-bgLight h-[1.6rem] text-[.8rem]"
               >
-                Download
+                Download Inspection Report
               </Button>
             </a>
           </div>
