@@ -51,10 +51,12 @@ const getEquivalentInsights = (
         eq.label === "Coffee"
           ? Math.floor((value / eq.ratio) * 20)
           : Math.floor(value / eq.ratio);
-          
+
+      const fifa = Math.floor((value * 60) / 45);
+
       return quantity >= 0
         ? {
-            text: `${quantity} ${eq.label}${
+            text: `${eq.label === "FIFA Matches" ? fifa : quantity} ${eq.label}${
               eq.label === "Coffee" && quantity > 1 ? "s" : ""
             }`,
             emoji: eq.emoji,
@@ -199,7 +201,7 @@ const EcoInsights: React.FC<EcoInsightsProps> = ({ totalTrips = 0 }) => {
     {
       icon: (
         <div className="flex items-center justify-center w-8 h-8 text-amber-600 font-bold">
-          <img src="/lovable-uploads/dirham.svg" className="h-5 w-5" alt="" />
+          <img src="/lovable-uploads/energy-saved.png" className="w-10" alt="" />
         </div>
       ),
       label: "Energy Saved",
@@ -272,7 +274,7 @@ const EcoInsights: React.FC<EcoInsightsProps> = ({ totalTrips = 0 }) => {
                 </div>
                 <div className="text-xl font-bold text-gray-800 flex items-center gap-1">
                   {(insight.label === "Net Saving" ||
-                    insight.label === "Saved Fuel Cost") && (
+                    insight.label === "Energy Saved") && (
                     <img
                       src="/lovable-uploads/dirham.svg"
                       className="h-5 w-5"
