@@ -165,9 +165,6 @@ const Souq = () => {
                 <img
                   src={insight.icon}
                   alt=""
-                  className={`${
-                    insight?.label === "Dubai Mall Offers" ? "grayscale" : ""
-                  }`}
                 />
               </div>
               <div className="text-sm font-bold text-gray-800 flex items-center gap-1">
