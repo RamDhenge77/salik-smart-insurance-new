@@ -100,7 +100,7 @@ const Souq = () => {
     },
     {
       label: "Dubai Mall Offers",
-      icon: "/souq/mall.jpg",
+      icon: "/souq/mall.png",
       link: "#",
     },
   ];
